@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Polymedia Circles</title>
+</head>
+<body>
+
+<script>
+
+function getRandomNumber(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// Random background color
+var backgroundColor = getRandomColor();
+
+// Random number of circles
+var numCircles = Math.floor(getRandomNumber(1, 8));
+
+var circlesConfig = [];
+
+// Generate properties for each circle
+for (var i = 0; i < numCircles; i++) {
+    var radius = getRandomNumber(25, 250); // Random radius
+    circlesConfig.push({
+        color: getRandomColor(),
+        radius: radius,
+        cx: getRandomNumber(radius, 800 - radius), // Random x position, within the SVG bounds
+        cy: getRandomNumber(radius, 800 - radius) // Random y position, within the SVG bounds
+    });
+}
+
+console.log("Background color: ", backgroundColor);
+console.log("Number of circles: ", numCircles);
+console.log("Circle properties: ", JSON.stringify(circlesConfig, null, 2));
+
+// Paint the SVG
+
+// First, create the SVG and rect elements
+var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.setAttribute("width", "800px");
+svg.setAttribute("height", "800px");
+
+var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+rect.setAttribute("width", "100%");
+rect.setAttribute("height", "100%");
+rect.setAttribute("fill", backgroundColor);
+
+svg.appendChild(rect);
+
+// Sort the config array by circle radius (in descending order)
+circlesConfig.sort((a, b) => b.radius - a.radius);
+
+// Then create and append each circle
+circlesConfig.forEach(function(circleConfig) {
+    var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", circleConfig.cx);
+    circle.setAttribute("cy", circleConfig.cy);
+    circle.setAttribute("r", circleConfig.radius);
+    circle.setAttribute("fill", circleConfig.color);
+
+    svg.appendChild(circle);
+});
+
+// Append the SVG to the body (or any other container element)
+document.body.appendChild(svg);
+
+</script>
+
+</body>
+</html>
+
+<!--
+<svg width="800px" height="800px" xmlns="http://www.w3.org/2000/svg">
+   <rect width="100%" height="100%" fill="#341F79" />
+   <circle cx="466.4045423229629" cy="342.197428313869" r="177.58664979192574" fill="#557367" />
+   <circle cx="370.5292503648195" cy="379.5424851118506" r="165.57370018475444" fill="#D06D1B" />
+   <circle cx="421.68166575495815" cy="617.6651885053693" r="108.89425707070792" fill="#B441C1" />
+   <circle cx="576.0227846217238" cy="552.4665893479856" r="106.54498198811316" fill="#039DFB" />
+   <circle cx="496.31707818195844" cy="319.872749940013" r="69.35271953387377" fill="#855389" />
+</svg>
+-->
