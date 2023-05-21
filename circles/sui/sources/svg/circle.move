@@ -1,15 +1,17 @@
 module polymedia_svg::circle
 {
+    use std::string::{String};
     use std::vector::{Self};
 
     struct Circle has store, copy, drop {
-        cx: u16,
-        cy: u16,
-        r: u16,
+        color: String,
+        radius: u64,
+        x_axis: u64,
+        y_axis: u64,
     }
 
-    public fun new(cx: u16, cy: u16, r: u16): Circle {
-        Circle { cx, cy, r }
+    public fun new(color: String, radius: u64, x_axis: u64, y_axis: u64): Circle {
+        Circle { color, radius, x_axis, y_axis }
     }
 
     /// <circle cx="50" cy="100" r="200" />

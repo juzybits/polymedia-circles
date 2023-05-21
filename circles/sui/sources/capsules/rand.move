@@ -19,8 +19,6 @@ module capsules::rand {
     use sui::object;
     use sui::tx_context::{Self, TxContext};
 
-    use capsules::counter::{Self, Counter};
-
     const EBAD_RANGE: u64 = 0;
     const ETOO_FEW_BYTES: u64 = 1;
     const EDIVISOR_MUST_BE_NON_ZERO: u64 = 2;
@@ -32,32 +30,9 @@ module capsules::rand {
         value % (max - min) + min
     }
 
-    public fun rng_with_counter<T>(
-        w: &T,
-        min: u64,
-        max: u64,
-        counter: &mut Counter<T>,
-        ctx: &mut TxContext
-    ): u64 {
-        assert!(max > min, EBAD_RANGE);
-        let value = from_seed(seed_with_counter(w, counter, ctx));
-
-        value % (max - min) + min
-    }
-
     public fun from_seed(seed: vector<u8>): u64 {
         assert!(vector::length(&seed) >= 8, ETOO_FEW_BYTES);
         bcs::peel_u64(&mut bcs::new(seed))
-    }
-
-    // generates seed using the tx context (epoch, sender and a newly created uid) and a counter
-    public fun seed_with_counter<T>(w: &T, counter: &mut Counter<T>, ctx: &mut TxContext): vector<u8> {
-        let raw_seed = raw_seed(ctx);
-
-        let counter_bytes = bcs::to_bytes(&counter::increment(counter, w));
-        vector::append(&mut raw_seed, counter_bytes);
-
-        hash::sha3_256(raw_seed)
     }
 
     // generates seed using the tx context (epoch, sender and a newly created uid)

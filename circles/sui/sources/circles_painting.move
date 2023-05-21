@@ -8,6 +8,11 @@ module polymedia_circles::circles_painting
     use sui::transfer::{Self};
     use sui::tx_context::{Self, TxContext};
     use polymedia_svg::circle::{Self, Circle};
+    use capsules::rand;
+
+    const CANVAS_SIZE: u64 = 800;
+    const CIRCLE_MIN_RADIUS: u64 = 25;
+    const CIRCLE_MAX_RADIUS: u64 = 251;
 
     struct CirclesPainting has key {
         id: UID,
@@ -17,8 +22,17 @@ module polymedia_circles::circles_painting
 
     public fun mint(ctx: &mut TxContext): CirclesPainting {
         let circles = vector::empty<Circle>();
-        vector::push_back(&mut circles, circle::new(50, 100, 200));
-        vector::push_back(&mut circles, circle::new(33, 66, 111));
+        let num_circles = rand::rng(1, 8, ctx);
+        let i = 0;
+        while (i < num_circles) {
+            i = i + 1;
+            let color = utf8(b"#2288cc"); // TODO
+            let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS, ctx);
+            let x_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
+            let y_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
+            let circle = circle::new(color, radius, x_axis, y_axis);
+            vector::push_back(&mut circles, circle);
+        };
         return CirclesPainting {
             id: object::new(ctx),
             circles,
@@ -70,3 +84,29 @@ module polymedia_circles::circles_painting
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
     }
 }
+
+/*
+#[test_only]
+module polymedia_circles::circles_painting_tests
+{
+    use std::debug;
+    use sui::test_scenario;
+    use capsules::rand;
+
+    #[test]
+    fun test_foo()
+    {
+        let sender: address = @0x777;
+        let scenario = test_scenario::begin(sender);
+        let ctx = test_scenario::ctx(&mut scenario);
+        let nums = 100;
+        let i = 0;
+        while (i < nums) {
+            i = i + 1;
+            let r = rand::rng(1, 8, ctx);
+            debug::print(&r);
+        };
+        test_scenario::end(scenario);
+    }
+}
+*/
