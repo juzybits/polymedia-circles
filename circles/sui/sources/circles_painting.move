@@ -44,17 +44,10 @@ module polymedia_circles::circles_painting
             let x_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let y_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let circle = circle::new(color, radius, x_axis, y_axis);
+            // Add the `Circle` object to the painting
             vector::push_back(&mut circles, circle);
-            // Append URL-encoded <circle> to the `svg`. Example:
-            vector::append(&mut svg, b"%3Ccircle%20r%3D%22"); // <circle r="
-            vector::append(&mut svg, utils::u64_to_vector(radius));
-            vector::append(&mut svg, b"%22%20cx%3D%22"); // " cx="
-            vector::append(&mut svg, utils::u64_to_vector(x_axis));
-            vector::append(&mut svg, b"%22%20cy%3D%22"); // " cy="
-            vector::append(&mut svg, utils::u64_to_vector(y_axis));
-            vector::append(&mut svg, b"%22%20fill%3D%22"); // " fill="
-            vector::append(&mut svg, color);
-            vector::append(&mut svg, b"%22%3E%3C%2Fcircle%3E"); // "></circle>
+            // Add a URL-encoded <circle> shape to the `svg`
+            vector::append(&mut svg, circle::to_svg(&circle));
         };
         return CirclesPainting {
             id: object::new(ctx),
