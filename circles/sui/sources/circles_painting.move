@@ -1,3 +1,9 @@
+/// <svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
+///     <rect width="100%" height="100%" fill="rgb(205,152,229)"></rect>
+///     <circle r="248" cx="450" cy="397" fill="rgb(55,193,100)"></circle>
+///     <circle r="197" cx="244" cy="284" fill="rgb(12,210,161)"></circle>
+///     <circle r="195" cx="393" cy="282" fill="rgb(116,240,81)"></circle>
+/// </svg>
 module polymedia_circles::circles_painting
 {
     use std::string::{String, utf8};
@@ -19,54 +25,40 @@ module polymedia_circles::circles_painting
 
     struct CirclesPainting has key {
         id: UID,
+        background_color: String,
         circles: vector<Circle>,
         image_url: String,
     }
 
-    /// <svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
-    ///     <rect width="100%" height="100%" fill="rgb(205,152,229)"></rect>
-    ///     <circle cx="450" cy="397" r="248" fill="rgb(55,193,100)"></circle>
-    ///     <circle cx="244" cy="284" r="197" fill="rgb(12,210,161)"></circle>
-    ///     <circle cx="393" cy="282" r="195" fill="rgb(116,240,81)"></circle>
-    /// </svg>
     public fun mint(ctx: &mut TxContext): CirclesPainting
     {
-        // Note how CANVAS_SIZE is hardcoded here to save computation
-        // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="
-        let svg = b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22";
-        // background color
-        vector::append(&mut svg, utils::random_color(ctx));
-        // "></rect>
-        vector::append(&mut svg, b"%22%3E%3C%2Frect%3E");
-
+        let svg = b"";
         let circles = vector::empty<Circle>();
         let num_circles = rand::rng(MIN_CIRCLES, MAX_CIRCLES+1, ctx);
         let i = 0;
         while (i < num_circles) { // TODO: sort circles by size
             i = i + 1;
+            // Create a `Circle` with random values
             let color = utils::random_color(ctx);
             let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
             let x_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let y_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let circle = circle::new(color, radius, x_axis, y_axis);
             vector::push_back(&mut circles, circle);
-
-            let radius_bytes = utils::u64_to_vector(radius);
-            let x_axis_bytes = utils::u64_to_vector(x_axis);
-            let y_axis_bytes = utils::u64_to_vector(y_axis);
+            // Append URL-encoded <circle> to the `svg`. Example:
             vector::append(&mut svg, b"%3Ccircle%20r%3D%22"); // <circle r="
-            vector::append(&mut svg, radius_bytes);
+            vector::append(&mut svg, utils::u64_to_vector(radius));
             vector::append(&mut svg, b"%22%20cx%3D%22"); // " cx="
-            vector::append(&mut svg, x_axis_bytes);
+            vector::append(&mut svg, utils::u64_to_vector(x_axis));
             vector::append(&mut svg, b"%22%20cy%3D%22"); // " cy="
-            vector::append(&mut svg, y_axis_bytes);
+            vector::append(&mut svg, utils::u64_to_vector(y_axis));
             vector::append(&mut svg, b"%22%20fill%3D%22"); // " fill="
             vector::append(&mut svg, color);
             vector::append(&mut svg, b"%22%3E%3C%2Fcircle%3E"); // "></circle>
         };
-        vector::append(&mut svg, b"%3C%2Fsvg%3E"); // </svg>
         return CirclesPainting {
             id: object::new(ctx),
+            background_color: utf8(utils::random_color(ctx)),
             circles,
             image_url: utf8(svg),
         }
@@ -78,7 +70,7 @@ module polymedia_circles::circles_painting
     }
 
     public fun destroy(painting: CirclesPainting) {
-        let CirclesPainting {id, circles: _, image_url: _} = painting;
+        let CirclesPainting {id, background_color: _, circles: _, image_url: _} = painting;
         object::delete(id);
     }
 
@@ -104,7 +96,9 @@ module polymedia_circles::circles_painting
                 utf8(b"project_image_url"),
             ], vector[
                 utf8(b"Polymedia Circles v1 - {id}"), // name
-                utf8(b"{image_url}"), // image_url
+                // Note that CANVAS_SIZE is hardcoded here.
+                // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{image_url}</svg>
+                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{image_url}%3C%2Fsvg%3E"), // image_url
                 utf8(b"Generative art by Polymedia"), // description
                 utf8(b"https://circles.polymedia.app/view/{id}"), // link // TODO
                 utf8(b"https://polymedia.app"), // creator
