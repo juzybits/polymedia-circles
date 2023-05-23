@@ -7,35 +7,41 @@
 
 <script>
 
+const CANVAS_SIZE = 1000;
+const CIRCLE_MIN_RADIUS = 25;
+const CIRCLE_MAX_RADIUS = 450;
+const MIN_CIRCLES = 2;
+const MAX_CIRCLES = 7;
+
+// Generate a random integer between `min` (inclusive) and `max` (exclusive)
 function getRandomNumber(min, max) {
-    return Math.random() * (max - min) + min;
+    return Math.floor(Math.random() * (max - min) + min);
 }
 
+// Generate a random CSS color like "rgb(35,123,207)"
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    const red = getRandomNumber(0, 256);
+    const green = getRandomNumber(0, 256);
+    const blue = getRandomNumber(0, 256);
+    return `rgb(${red},${green},${blue})`;
 }
 
 // Random background color
-var backgroundColor = getRandomColor();
+const backgroundColor = getRandomColor();
 
 // Random number of circles
-var numCircles = Math.floor(getRandomNumber(1, 8));
+const numCircles = getRandomNumber(MIN_CIRCLES, MAX_CIRCLES+1);
 
-var circlesConfig = [];
+const circlesConfig = [];
 
 // Generate properties for each circle
-for (var i = 0; i < numCircles; i++) {
-    var radius = getRandomNumber(25, 250); // Random radius
+for (let i = 0; i < numCircles; i++) {
+    const radius = getRandomNumber(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1); // Random radius
     circlesConfig.push({
         color: getRandomColor(),
         radius: radius,
-        cx: getRandomNumber(radius, 800 - radius), // Random x position, within the SVG bounds
-        cy: getRandomNumber(radius, 800 - radius) // Random y position, within the SVG bounds
+        cx: getRandomNumber(radius, CANVAS_SIZE - radius), // Random x position, within the SVG bounds
+        cy: getRandomNumber(radius, CANVAS_SIZE - radius) // Random y position, within the SVG bounds
     });
 }
 
@@ -46,11 +52,11 @@ console.log("Circle properties: ", JSON.stringify(circlesConfig, null, 2));
 // Paint the SVG
 
 // First, create the SVG and rect elements
-var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svg.setAttribute("width", "800px");
-svg.setAttribute("height", "800px");
+const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svg.setAttribute("width", CANVAS_SIZE);
+svg.setAttribute("height", CANVAS_SIZE);
 
-var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 rect.setAttribute("width", "100%");
 rect.setAttribute("height", "100%");
 rect.setAttribute("fill", backgroundColor);
@@ -62,7 +68,7 @@ circlesConfig.sort((a, b) => b.radius - a.radius);
 
 // Then create and append each circle
 circlesConfig.forEach(function(circleConfig) {
-    var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", circleConfig.cx);
     circle.setAttribute("cy", circleConfig.cy);
     circle.setAttribute("r", circleConfig.radius);
@@ -80,7 +86,7 @@ document.body.appendChild(svg);
 </html>
 
 <!--
-<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
    <rect width="100%" height="100%" fill="#341F79" />
    <circle cx="466.4045423229629" cy="342.197428313869" r="177.58664979192574" fill="#557367" />
    <circle cx="370.5292503648195" cy="379.5424851118506" r="165.57370018475444" fill="#D06D1B" />

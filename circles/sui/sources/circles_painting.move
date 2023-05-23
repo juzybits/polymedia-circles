@@ -11,10 +11,10 @@ module polymedia_circles::circles_painting
     use polymedia_svg::circle::{Self, Circle};
     use polymedia_svg::utils;
 
-    const CANVAS_SIZE: u64 = 800;
+    const CANVAS_SIZE: u64 = 1000;
     const CIRCLE_MIN_RADIUS: u64 = 25;
-    const CIRCLE_MAX_RADIUS: u64 = 251;
-    const MIN_CIRCLES: u64 = 1;
+    const CIRCLE_MAX_RADIUS: u64 = 450;
+    const MIN_CIRCLES: u64 = 2;
     const MAX_CIRCLES: u64 = 7;
 
     struct CirclesPainting has key {
@@ -23,7 +23,7 @@ module polymedia_circles::circles_painting
         image_url: String,
     }
 
-    /// <svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+    /// <svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
     ///     <rect width="100%" height="100%" fill="rgb(205,152,229)"></rect>
     ///     <circle cx="450" cy="397" r="248" fill="rgb(55,193,100)"></circle>
     ///     <circle cx="244" cy="284" r="197" fill="rgb(12,210,161)"></circle>
@@ -32,8 +32,8 @@ module polymedia_circles::circles_painting
     public fun mint(ctx: &mut TxContext): CirclesPainting
     {
         // Note how CANVAS_SIZE is hardcoded here to save computation
-        // data:image/svg+xml,<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="
-        let svg = b"data:image/svg+xml,%3Csvg%20width%3D%22800%22%20height%3D%22800%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22";
+        // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="
+        let svg = b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22";
         // background color
         vector::append(&mut svg, utils::random_color(ctx));
         // "></rect>
@@ -45,7 +45,7 @@ module polymedia_circles::circles_painting
         while (i < num_circles) { // TODO: sort circles by size
             i = i + 1;
             let color = utils::random_color(ctx);
-            let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS, ctx);
+            let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
             let x_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let y_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let circle = circle::new(color, radius, x_axis, y_axis);
