@@ -29,4 +29,78 @@ module polymedia_svg::circle
         vector::append(&mut svg, b"%22%3E%3C%2Fcircle%3E"); // "></circle>
         return svg
     }
+
+    /// Sort a vector<Circle> from biggest to smallest using selection sort
+    public fun sort_by_radius_desc(v: &mut vector<Circle>) {
+        let n = vector::length(v);
+        let i = 0;
+        while (i < n) {
+            let biggest = i;
+            let j = i + 1;
+            while (j < n) {
+                if ((*vector::borrow(v, j)).radius > (*vector::borrow(v, biggest)).radius) {
+                    biggest = j;
+                };
+                j = j + 1;
+            };
+            if (biggest != i) {
+                vector::swap(v, i, biggest);
+            };
+            i = i + 1;
+        }
+    }
+
+    /* Accessors */
+    public fun color(circle: &Circle): String {
+        circle.color
+    }
+    public fun radius(circle: &Circle): u64 {
+        circle.radius
+    }
+    public fun x_axis(circle: &Circle): u64 {
+        circle.x_axis
+    }
+    public fun y_axis(circle: &Circle): u64 {
+        circle.y_axis
+    }
+}
+
+#[test_only]
+module polymedia_svg::circle_tests {
+    use std::vector;
+    use sui::test_scenario;
+    use polymedia_svg::circle::{Self, Circle};
+
+    fun make_circles(radii: &vector<u64>): vector<Circle>
+    {
+        let circles = vector::empty<Circle>();
+        let i = 0;
+        let len = vector::length(radii);
+        while (i < len) {
+            let radius = *vector::borrow(radii, i);
+            let circle = circle::new(b"rgb(50,100,200)", radius, 150, 150);
+            vector::push_back(&mut circles, circle);
+            i = i + 1
+        };
+        return circles
+    }
+
+    #[test]
+    fun test_sort_by_radius_desc()
+    {
+        let sender: address = @0x777;
+        let scenario = test_scenario::begin(sender);
+
+        let circles = make_circles(&vector[30,50,40,60,30,70,10]);
+        circle::sort_by_radius_desc(&mut circles);
+        assert!( circle::radius(vector::borrow(&circles, 0)) == 70, 0 );
+        assert!( circle::radius(vector::borrow(&circles, 1)) == 60, 0 );
+        assert!( circle::radius(vector::borrow(&circles, 2)) == 50, 0 );
+        assert!( circle::radius(vector::borrow(&circles, 3)) == 40, 0 );
+        assert!( circle::radius(vector::borrow(&circles, 4)) == 30, 0 );
+        assert!( circle::radius(vector::borrow(&circles, 5)) == 30, 0 );
+        assert!( circle::radius(vector::borrow(&circles, 6)) == 10, 0 );
+
+        test_scenario::end(scenario);
+    }
 }

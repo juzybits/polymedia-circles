@@ -32,23 +32,31 @@ module polymedia_circles::circles_painting
 
     public fun mint(ctx: &mut TxContext): CirclesPainting
     {
-        let svg = b"";
+        // Create `num_circles` `Circle` objects with random values
         let circles = vector::empty<Circle>();
         let num_circles = rand::rng(MIN_CIRCLES, MAX_CIRCLES+1, ctx);
         let i = 0;
-        while (i < num_circles) { // TODO: sort circles by size
-            i = i + 1;
-            // Create a `Circle` with random values
+        while (i < num_circles) {
             let color = utils::random_color(ctx);
             let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
             let x_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let y_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
             let circle = circle::new(color, radius, x_axis, y_axis);
-            // Add the `Circle` object to the painting
             vector::push_back(&mut circles, circle);
-            // Add a URL-encoded <circle> shape to the `svg`
-            vector::append(&mut svg, circle::to_svg(&circle));
+            i = i + 1;
         };
+
+        // Sort `circles` from biggest to smallest
+        circle::sort_by_radius_desc(&mut circles);
+
+        // Build the SVG representation of `circles` (URL-encoded)
+        let svg = b"";
+        let i = 0;
+        while (i < num_circles) {
+            vector::append(&mut svg, circle::to_svg(vector::borrow(&circles, i)));
+            i = i + 1;
+        };
+
         return CirclesPainting {
             id: object::new(ctx),
             background_color: utf8(utils::random_color(ctx)),
