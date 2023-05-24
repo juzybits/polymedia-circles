@@ -30,7 +30,7 @@ module polymedia_circles::circles_painting
         image_url: String,
     }
 
-    public fun mint(ctx: &mut TxContext): CirclesPainting
+    public fun mint(ctx: &mut TxContext): CirclesPainting // TODO add payment
     {
         // Create `num_circles` `Circle` objects with random values
         let circles = vector::empty<Circle>();
@@ -75,8 +75,8 @@ module polymedia_circles::circles_painting
         object::delete(id);
     }
 
-    // public fun recycle(old: CirclesPainting): CirclesPainting { ... } // TODO
-    // public fun merge(a: CirclesPainting, b: CirclesPainting, a_keep: vector<u64>, b_keep: vector<u64>): CirclesPainting { ... } // TODO
+    // public fun recycle(old: CirclesPainting): CirclesPainting { ... } // MAYBE
+    // public fun blend(a: CirclesPainting, b: CirclesPainting, a_swap: vector<u64>, b_swap: vector<u64>): CirclesPainting { ... } // TODO
 
     // One-Time-Witness
     struct CIRCLES_PAINTING has drop {}
@@ -93,19 +93,15 @@ module polymedia_circles::circles_painting
                 utf8(b"link"),
                 utf8(b"creator"),
                 utf8(b"project_name"),
-                utf8(b"project_url"),
-                utf8(b"project_image_url"),
             ], vector[
-                utf8(b"Polymedia Circles v1 - {id}"), // name
+                utf8(b"Polymedia Circles #{id}"), // name
                 // Note that CANVAS_SIZE is hardcoded here.
-                // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{image_url}</svg>
-                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{image_url}%3C%2Fsvg%3E"), // image_url
+                // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{image_url}<text x="992" y="990" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #{id}</text></svg>
+                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{image_url}%3Ctext%20x%3D%22992%22%20y%3D%22990%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{id}%3C%2Ftext%3E%3C%2Fsvg%3E"), // image_url // TODO use N instead of id
                 utf8(b"Generative art by Polymedia"), // description
                 utf8(b"https://circles.polymedia.app/view/{id}"), // link // TODO
                 utf8(b"https://polymedia.app"), // creator
-                utf8(b"Polymedia Circles v1"), // project_name
-                utf8(b"https://circles.polymedia.app"), // project_url
-                utf8(b"https://circles.polymedia.app/img/project_image.png"), // project_image_url // TODO
+                utf8(b"Polymedia Circles"), // project_name
             ], ctx
         );
         display::update_version(&mut profile_display);

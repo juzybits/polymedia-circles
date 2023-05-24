@@ -60,7 +60,6 @@ const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 rect.setAttribute("width", "100%");
 rect.setAttribute("height", "100%");
 rect.setAttribute("fill", backgroundColor);
-
 svg.appendChild(rect);
 
 // Sort the config array by circle radius (in descending order)
@@ -73,9 +72,28 @@ circlesConfig.forEach(function(circleConfig) {
     circle.setAttribute("cy", circleConfig.cy);
     circle.setAttribute("r", circleConfig.radius);
     circle.setAttribute("fill", circleConfig.color);
-
     svg.appendChild(circle);
 });
+
+const footer = document.createElementNS("http://www.w3.org/2000/svg", "text");
+footer.setAttribute("x", CANVAS_SIZE - 8); // Near the right edge
+footer.setAttribute("y", CANVAS_SIZE - 10); // Near the bottom edge
+footer.setAttribute("font-family", "monospace");
+footer.setAttribute("font-size", "20");
+footer.setAttribute("fill", "white");
+footer.setAttribute("text-anchor", "end");
+footer.textContent = "Polymedia Circles #1234";
+svg.appendChild(footer);
+
+/*
+// Create an anchor element and set its href attribute
+const link = document.createElementNS("http://www.w3.org/2000/svg", "a");
+link.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "https://circles.polymedia.app/view/1234");
+// Append the text element to the anchor element
+link.appendChild(footer);
+// Append the anchor element to the svg element
+svg.appendChild(link);
+*/
 
 // Append the SVG to the body (or any other container element)
 document.body.appendChild(svg);
@@ -88,10 +106,11 @@ document.body.appendChild(svg);
 <!--
 <svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
    <rect width="100%" height="100%" fill="#341F79" />
-   <circle cx="466.4045423229629" cy="342.197428313869" r="177.58664979192574" fill="#557367" />
-   <circle cx="370.5292503648195" cy="379.5424851118506" r="165.57370018475444" fill="#D06D1B" />
-   <circle cx="421.68166575495815" cy="617.6651885053693" r="108.89425707070792" fill="#B441C1" />
-   <circle cx="576.0227846217238" cy="552.4665893479856" r="106.54498198811316" fill="#039DFB" />
-   <circle cx="496.31707818195844" cy="319.872749940013" r="69.35271953387377" fill="#855389" />
+   <circle r="177" cx="466" cy="342" fill="#557367" />
+   <circle r="165" cx="370" cy="379" fill="#D06D1B" />
+   <circle r="108" cx="421" cy="617" fill="#B441C1" />
+   <circle r="106" cx="576" cy="552" fill="#039DFB" />
+   <circle r="69" cx="496" cy="319" fill="#855389" />
+   <text x="992" y="990" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #1234</text>
 </svg>
 -->
