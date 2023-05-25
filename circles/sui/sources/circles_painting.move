@@ -8,30 +8,67 @@ module polymedia_circles::circles_painting
 {
     use std::string::{String, utf8};
     use std::vector;
+    use sui::coin::{Self, Coin};
     use sui::display;
     use sui::object::{Self, UID};
     use sui::package;
+    use sui::sui::{SUI};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
     use capsules::rand;
     use polymedia_svg::circle::{Self, Circle};
     use polymedia_svg::utils;
 
+    /* Painting settings */
     const CANVAS_SIZE: u64 = 1000;
     const CIRCLE_MIN_RADIUS: u64 = 25;
     const CIRCLE_MAX_RADIUS: u64 = 450;
     const MIN_CIRCLES: u64 = 2;
     const MAX_CIRCLES: u64 = 7;
 
-    struct CirclesPainting has key {
+    /* Mint settings */
+    const INITIAL_NUMBER: u64 = 0; // number of the first painting
+    const INITIAL_PRICE: u64 = 10_000_000_000; // price of the first painting (10 SUI)
+    const PRICE_INCREASE_BPS: u64 = 10; // basis points (0.1%)
+
+    /* Errors */
+    const E_WRONG_AMOUNT: u64 = 1000;
+
+    /* Structs */
+
+    struct CirclesPainting has key, store {
         id: UID,
+        number: u64,
         background_color: String,
         circles: vector<Circle>,
         image_url: String,
     }
 
-    public fun mint(ctx: &mut TxContext): CirclesPainting // TODO add payment
+    struct MintConfig has key {
+        id: UID,
+        next_number: u64,
+        next_price: u64,
+        pay_address: address,
+    }
+
+    public fun mint(
+        conf: &mut MintConfig,
+        pay_coin: Coin<SUI>,
+        ctx: &mut TxContext
+    ): CirclesPainting
     {
+        // Pay for the painting
+        let exact_coin = coin::split(&mut pay_coin, conf.next_price, ctx);
+        if (coin::value(&pay_coin) > 0) { // return change to sender
+            transfer::public_transfer(pay_coin, tx_context::sender(ctx));
+        } else { // destroy empty coin
+            coin::destroy_zero(pay_coin);
+        };
+        transfer::public_transfer(
+            exact_coin,
+            conf.pay_address,
+        );
+
         // Create `num_circles` `Circle` objects with random values
         let circles = vector::empty<Circle>();
         let num_circles = rand::rng(MIN_CIRCLES, MAX_CIRCLES+1, ctx);
@@ -57,26 +94,38 @@ module polymedia_circles::circles_painting
             i = i + 1;
         };
 
+        // Update MintConfig
+        let current_number = conf.next_number;
+        conf.next_number = conf.next_number + 1;
+        conf.next_price = conf.next_price + ((conf.next_price * PRICE_INCREASE_BPS) / 10000);
+
         return CirclesPainting {
             id: object::new(ctx),
+            number: current_number,
             background_color: utf8(utils::random_color(ctx)),
             circles,
             image_url: utf8(svg),
         }
     }
 
-    public entry fun mint_and_transfer(recipient: address, ctx: &mut TxContext) {
-        let painting = mint(ctx);
+    public entry fun mint_and_transfer(
+        conf: &mut MintConfig,
+        recipient: address,
+        pay_coin: Coin<SUI>,
+        ctx: &mut TxContext
+        )
+    {
+        let painting = mint(conf, pay_coin, ctx);
         transfer::transfer(painting, recipient);
     }
 
     public fun destroy(painting: CirclesPainting) {
-        let CirclesPainting {id, background_color: _, circles: _, image_url: _} = painting;
+        let CirclesPainting {id, number: _, background_color: _, circles: _, image_url: _} = painting;
         object::delete(id);
     }
 
     // public fun recycle(old: CirclesPainting): CirclesPainting { ... } // MAYBE
-    // public fun blend(a: CirclesPainting, b: CirclesPainting, a_swap: vector<u64>, b_swap: vector<u64>): CirclesPainting { ... } // TODO
+    // public fun swap_circles(a: CirclesPainting, b: CirclesPainting, a_swap: vector<u64>, b_swap: vector<u64>): CirclesPainting { ... } // MAYBE
 
     // One-Time-Witness
     struct CIRCLES_PAINTING has drop {}
@@ -94,10 +143,10 @@ module polymedia_circles::circles_painting
                 utf8(b"creator"),
                 utf8(b"project_name"),
             ], vector[
-                utf8(b"Polymedia Circles #{id}"), // name
+                utf8(b"Polymedia Circles #{number}"), // name
                 // Note that CANVAS_SIZE is hardcoded here.
                 // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{image_url}<text x="992" y="990" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #{id}</text></svg>
-                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{image_url}%3Ctext%20x%3D%22992%22%20y%3D%22990%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{id}%3C%2Ftext%3E%3C%2Fsvg%3E"), // image_url // TODO use N instead of id
+                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{image_url}%3Ctext%20x%3D%22992%22%20y%3D%22990%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{number}%3C%2Ftext%3E%3C%2Fsvg%3E"), // image_url
                 utf8(b"Generative art by Polymedia"), // description
                 utf8(b"https://circles.polymedia.app/view/{id}"), // link // TODO
                 utf8(b"https://polymedia.app"), // creator
@@ -107,6 +156,12 @@ module polymedia_circles::circles_painting
         display::update_version(&mut profile_display);
         transfer::public_transfer(publisher, tx_context::sender(ctx));
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
+        transfer::share_object(MintConfig { // TODO: test whether we need Witness to protect this
+            id: object::new(ctx),
+            next_number: INITIAL_NUMBER,
+            next_price: INITIAL_PRICE,
+            pay_address: tx_context::sender(ctx),
+        });
     }
 }
 

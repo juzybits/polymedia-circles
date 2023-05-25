@@ -9,5 +9,9 @@ sui client publish --gas-budget 100000000 | grep packageId
 
 ### mint_and_transfer()
 ```
-sui client call --gas-budget 10000000 --package $PACKAGE_ID --module circles_painting --function mint_and_transfer --args $RECIPIENT_ID
+PACKAGE=
+CONFIG=
+RECIPIENT=
+PAY_COIN=
+sui client call --gas-budget 1000000000 --package $PACKAGE --module circles_painting --function mint_and_transfer --args $CONFIG $RECIPIENT $PAY_COIN
 ```
