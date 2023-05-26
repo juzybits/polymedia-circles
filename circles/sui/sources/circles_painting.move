@@ -16,6 +16,7 @@ module polymedia_circles::circles_painting
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
     use capsules::rand;
+    use polymedia_circles::mint_config::{Self, MintConfig};
     use polymedia_svg::circle::{Self, Circle};
     use polymedia_svg::utils;
 
@@ -44,13 +45,6 @@ module polymedia_circles::circles_painting
         image_url: String,
     }
 
-    struct MintConfig has key {
-        id: UID,
-        next_number: u64,
-        next_price: u64,
-        pay_address: address,
-    }
-
     public fun mint(
         conf: &mut MintConfig,
         pay_coin: Coin<SUI>,
@@ -58,7 +52,7 @@ module polymedia_circles::circles_painting
     ): CirclesPainting
     {
         // Pay for the painting
-        let exact_coin = coin::split(&mut pay_coin, conf.next_price, ctx);
+        let exact_coin = coin::split(&mut pay_coin, mint_config::next_price(conf), ctx);
         if (coin::value(&pay_coin) > 0) { // return change to sender
             transfer::public_transfer(pay_coin, tx_context::sender(ctx));
         } else { // destroy empty coin
@@ -66,7 +60,7 @@ module polymedia_circles::circles_painting
         };
         transfer::public_transfer(
             exact_coin,
-            conf.pay_address,
+            mint_config::pay_address(conf),
         );
 
         // Create `num_circles` `Circle` objects with random values
@@ -95,9 +89,8 @@ module polymedia_circles::circles_painting
         };
 
         // Update MintConfig
-        let current_number = conf.next_number;
-        conf.next_number = conf.next_number + 1;
-        conf.next_price = conf.next_price + ((conf.next_price * PRICE_INCREASE_BPS) / 10000);
+        let current_number = mint_config::next_number(conf);
+        mint_config::increase(conf);
 
         return CirclesPainting {
             id: object::new(ctx),
@@ -125,7 +118,7 @@ module polymedia_circles::circles_painting
     }
 
     // public fun recycle(old: CirclesPainting): CirclesPainting { ... } // MAYBE
-    // public fun swap_circles(a: CirclesPainting, b: CirclesPainting, a_swap: vector<u64>, b_swap: vector<u64>): CirclesPainting { ... } // MAYBE
+    // public fun swap(a: CirclesPainting, b: CirclesPainting, a_swap: vector<u64>, b_swap: vector<u64>): CirclesPainting { ... } // MAYBE
 
     // One-Time-Witness
     struct CIRCLES_PAINTING has drop {}
@@ -154,14 +147,15 @@ module polymedia_circles::circles_painting
             ], ctx
         );
         display::update_version(&mut profile_display);
-        transfer::public_transfer(publisher, tx_context::sender(ctx));
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
-        transfer::share_object(MintConfig { // TODO: test whether we need Witness to protect this
-            id: object::new(ctx),
-            next_number: INITIAL_NUMBER,
-            next_price: INITIAL_PRICE,
-            pay_address: tx_context::sender(ctx),
-        });
+        transfer::public_transfer(publisher, tx_context::sender(ctx));
+        transfer::public_share_object(mint_config::new(
+            INITIAL_NUMBER,
+            INITIAL_PRICE,
+            PRICE_INCREASE_BPS,
+            tx_context::sender(ctx),
+            ctx
+        ));
     }
 }
 

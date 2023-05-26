@@ -5,7 +5,7 @@ module polymedia_svg::circle
     use polymedia_svg::utils;
 
     struct Circle has store, copy, drop {
-        color: String,
+        color: String, // MAYBE store red/green/blue as u64s, to support dynamic features
         radius: u64,
         x_axis: u64,
         y_axis: u64,
