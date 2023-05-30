@@ -1,4 +1,4 @@
-module polymedia_svg::utils
+module polymedia_circles::utils
 {
     use std::vector::{Self};
 

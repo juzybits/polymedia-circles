@@ -1,8 +1,8 @@
-module polymedia_svg::circle
+module polymedia_circles::circle
 {
     use std::vector::{Self};
-    use polymedia_svg::color;
-    use polymedia_svg::utils;
+    use polymedia_circles::color;
+    use polymedia_circles::utils;
 
     friend polymedia_circles::art;
     #[test_only]
@@ -81,10 +81,10 @@ module polymedia_svg::circle
 }
 
 #[test_only]
-module polymedia_svg::circle_tests {
+module polymedia_circles::circle_tests {
     use std::vector;
     use sui::test_scenario;
-    use polymedia_svg::circle::{Self, Circle};
+    use polymedia_circles::circle::{Self, Circle};
 
     fun make_circles(radii: &vector<u64>): vector<Circle>
     {

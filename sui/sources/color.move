@@ -1,9 +1,9 @@
-module polymedia_svg::color
+module polymedia_circles::color
 {
     use std::vector::{Self};
     use sui::tx_context::{TxContext};
     use capsules::rand;
-    use polymedia_svg::utils::{u8_to_bytes};
+    use polymedia_circles::utils::{u8_to_bytes};
 
     /// Return a random RGB color like `vector[0, 100, 250]`
     public fun random_rgb(ctx: &mut TxContext): vector<u8>

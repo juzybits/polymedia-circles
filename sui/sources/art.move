@@ -16,9 +16,9 @@ module polymedia_circles::art
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
     use capsules::rand;
-    use polymedia_circles::config::{Self, Config};
-    use polymedia_svg::circle::{Self, Circle};
-    use polymedia_svg::color;
+    use polymedia_circles::circle::{Self, Circle};
+    use polymedia_circles::collection::{Self, Collection};
+    use polymedia_circles::color;
 
     /* Art settings */
     const CANVAS_SIZE: u64 = 1000;
@@ -41,13 +41,13 @@ module polymedia_circles::art
     }
 
     public fun mint(
-        conf: &mut Config,
+        conf: &mut Collection,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
     ): Art
     {
         // Pay for the painting
-        let exact_coin = coin::split(&mut pay_coin, config::next_price(conf), ctx);
+        let exact_coin = coin::split(&mut pay_coin, collection::next_price(conf), ctx);
         if (coin::value(&pay_coin) > 0) { // return change to sender
             transfer::public_transfer(pay_coin, tx_context::sender(ctx));
         } else { // destroy empty coin
@@ -55,8 +55,12 @@ module polymedia_circles::art
         };
         transfer::public_transfer(
             exact_coin,
-            config::pay_address(conf),
+            collection::pay_address(conf),
         );
+
+        // Update Collection
+        let current_number = collection::next_number(conf);
+        collection::increase(conf);
 
         // Create `num_circles` `Circle` objects with random values
         let circles = vector::empty<Circle>();
@@ -83,10 +87,6 @@ module polymedia_circles::art
             i = i + 1;
         };
 
-        // Update Config
-        let current_number = config::next_number(conf);
-        config::increase(conf);
-
         return Art {
             id: object::new(ctx),
             number: current_number,
@@ -97,7 +97,7 @@ module polymedia_circles::art
     }
 
     public entry fun mint_and_transfer(
-        conf: &mut Config,
+        conf: &mut Collection,
         recipient: address,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
