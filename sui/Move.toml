@@ -6,7 +6,7 @@ license = "CC-BY-NC-SA-4.0"
 published-at = "0x0"
 
 [dependencies]
-Sui = { local = "../../../sui/crates/sui-framework/packages/sui-framework" }
+Sui = { local = "../../sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
 polymedia_circles = "0x0"
