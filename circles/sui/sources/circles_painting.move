@@ -4,7 +4,7 @@
 ///     <circle r="197" cx="244" cy="284" fill="rgb(12,210,161)"></circle>
 ///     <circle r="195" cx="393" cy="282" fill="rgb(116,240,81)"></circle>
 /// </svg>
-module polymedia_circles::circles_painting
+module polymedia_circles::circles_art
 {
     use std::string::{String, utf8};
     use std::vector;
@@ -16,28 +16,23 @@ module polymedia_circles::circles_painting
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
     use capsules::rand;
-    use polymedia_circles::mint_config::{Self, MintConfig};
+    use polymedia_circles::circles_conf::{Self, CirclesConf};
     use polymedia_svg::circle::{Self, Circle};
     use polymedia_svg::utils;
 
-    /* Painting settings */
+    /* Art settings */
     const CANVAS_SIZE: u64 = 1000;
     const CIRCLE_MIN_RADIUS: u64 = 25;
     const CIRCLE_MAX_RADIUS: u64 = 450;
     const MIN_CIRCLES: u64 = 2;
     const MAX_CIRCLES: u64 = 7;
 
-    /* Mint settings */
-    const INITIAL_NUMBER: u64 = 0; // number of the first painting
-    const INITIAL_PRICE: u64 = 10_000_000_000; // price of the first painting (10 SUI)
-    const PRICE_INCREASE_BPS: u64 = 10; // basis points (0.1%)
-
     /* Errors */
     const E_WRONG_AMOUNT: u64 = 1000;
 
     /* Structs */
 
-    struct CirclesPainting has key, store {
+    struct CirclesArt has key, store {
         id: UID,
         number: u64,
         background_color: String,
@@ -46,13 +41,13 @@ module polymedia_circles::circles_painting
     }
 
     public fun mint(
-        conf: &mut MintConfig,
+        conf: &mut CirclesConf,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
-    ): CirclesPainting
+    ): CirclesArt
     {
         // Pay for the painting
-        let exact_coin = coin::split(&mut pay_coin, mint_config::next_price(conf), ctx);
+        let exact_coin = coin::split(&mut pay_coin, circles_conf::next_price(conf), ctx);
         if (coin::value(&pay_coin) > 0) { // return change to sender
             transfer::public_transfer(pay_coin, tx_context::sender(ctx));
         } else { // destroy empty coin
@@ -60,7 +55,7 @@ module polymedia_circles::circles_painting
         };
         transfer::public_transfer(
             exact_coin,
-            mint_config::pay_address(conf),
+            circles_conf::pay_address(conf),
         );
 
         // Create `num_circles` `Circle` objects with random values
@@ -88,11 +83,11 @@ module polymedia_circles::circles_painting
             i = i + 1;
         };
 
-        // Update MintConfig
-        let current_number = mint_config::next_number(conf);
-        mint_config::increase(conf);
+        // Update CirclesConf
+        let current_number = circles_conf::next_number(conf);
+        circles_conf::increase(conf);
 
-        return CirclesPainting {
+        return CirclesArt {
             id: object::new(ctx),
             number: current_number,
             background_color: utf8(utils::random_color(ctx)),
@@ -102,7 +97,7 @@ module polymedia_circles::circles_painting
     }
 
     public entry fun mint_and_transfer(
-        conf: &mut MintConfig,
+        conf: &mut CirclesConf,
         recipient: address,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
@@ -112,21 +107,21 @@ module polymedia_circles::circles_painting
         transfer::transfer(painting, recipient);
     }
 
-    public fun destroy(painting: CirclesPainting) {
-        let CirclesPainting {id, number: _, background_color: _, circles: _, image_url: _} = painting;
+    public fun destroy(painting: CirclesArt) {
+        let CirclesArt {id, number: _, background_color: _, circles: _, image_url: _} = painting;
         object::delete(id);
     }
 
-    // public fun recycle(old: CirclesPainting): CirclesPainting { ... } // MAYBE
-    // public fun swap(a: CirclesPainting, b: CirclesPainting, a_swap: vector<u64>, b_swap: vector<u64>): CirclesPainting { ... } // MAYBE
+    // public fun recycle(old: CirclesArt): CirclesArt { ... } // MAYBE
+    // public fun swap(a: CirclesArt, b: CirclesArt, a_swap: vector<u64>, b_swap: vector<u64>): CirclesArt { ... } // MAYBE
 
     // One-Time-Witness
-    struct CIRCLES_PAINTING has drop {}
+    struct CIRCLES_ART has drop {}
 
-    fun init(otw: CIRCLES_PAINTING, ctx: &mut TxContext)
+    fun init(otw: CIRCLES_ART, ctx: &mut TxContext)
     {
         let publisher = package::claim(otw, ctx);
-        let profile_display = display::new_with_fields<CirclesPainting>(
+        let profile_display = display::new_with_fields<CirclesArt>(
             &publisher,
             vector[
                 utf8(b"name"),
@@ -149,19 +144,12 @@ module polymedia_circles::circles_painting
         display::update_version(&mut profile_display);
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
         transfer::public_transfer(publisher, tx_context::sender(ctx));
-        transfer::public_share_object(mint_config::new(
-            INITIAL_NUMBER,
-            INITIAL_PRICE,
-            PRICE_INCREASE_BPS,
-            tx_context::sender(ctx),
-            ctx
-        ));
     }
 }
 
 /*
 #[test_only]
-module polymedia_circles::circles_painting_tests
+module polymedia_circles::circles_art_tests
 {
     use std::debug;
     use sui::test_scenario;
