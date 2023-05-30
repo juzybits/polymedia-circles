@@ -13,5 +13,5 @@ PACKAGE=
 CONFIG=
 RECIPIENT=
 PAY_COIN=
-sui client call --gas-budget 1000000000 --package $PACKAGE --module circles_art --function mint_and_transfer --args $CONFIG $RECIPIENT $PAY_COIN
+sui client call --gas-budget 1000000000 --package $PACKAGE --module art --function mint_and_transfer --args $CONFIG $RECIPIENT $PAY_COIN
 ```

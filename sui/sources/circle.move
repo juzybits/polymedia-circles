@@ -4,6 +4,10 @@ module polymedia_svg::circle
     use polymedia_svg::color;
     use polymedia_svg::utils;
 
+    friend polymedia_circles::art;
+    #[test_only]
+    friend polymedia_circles::circle_tests;
+
     struct Circle has store, copy, drop {
         red: u8,
         green: u8,
@@ -13,7 +17,7 @@ module polymedia_svg::circle
         y_axis: u64,
     }
 
-    public fun new(rgb_color: &vector<u8>, radius: u64, x_axis: u64, y_axis: u64): Circle {
+    public(friend) fun new(rgb_color: &vector<u8>, radius: u64, x_axis: u64, y_axis: u64): Circle {
         let red = *vector::borrow(rgb_color, 0);
         let green = *vector::borrow(rgb_color, 1);
         let blue = *vector::borrow(rgb_color, 2);

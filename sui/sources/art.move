@@ -37,7 +37,7 @@ module polymedia_circles::art
         number: u64,
         background_color: String,
         circles: vector<Circle>,
-        image_url: String,
+        circles_svg: String,
     }
 
     public fun mint(
@@ -92,7 +92,7 @@ module polymedia_circles::art
             number: current_number,
             background_color: utf8(color::rgb_to_svg(&color::random_rgb(ctx))),
             circles,
-            image_url: utf8(svg),
+            circles_svg: utf8(svg),
         }
     }
 
@@ -108,7 +108,7 @@ module polymedia_circles::art
     }
 
     public fun destroy(painting: Art) {
-        let Art {id, number: _, background_color: _, circles: _, image_url: _} = painting;
+        let Art {id, number: _, background_color: _, circles: _, circles_svg: _} = painting;
         object::delete(id);
     }
 
@@ -133,8 +133,8 @@ module polymedia_circles::art
             ], vector[
                 utf8(b"Polymedia Circles #{number}"), // name
                 // Note that CANVAS_SIZE is hardcoded here.
-                // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{image_url}<text x="992" y="990" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #{id}</text></svg>
-                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{image_url}%3Ctext%20x%3D%22992%22%20y%3D%22990%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{number}%3C%2Ftext%3E%3C%2Fsvg%3E"), // image_url
+                // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{circles_svg}<text x="992" y="990" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #{number}</text></svg>
+                utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{circles_svg}%3Ctext%20x%3D%22992%22%20y%3D%22990%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{number}%3C%2Ftext%3E%3C%2Fsvg%3E"), // image_url
                 utf8(b"Generative art by Polymedia"), // description
                 utf8(b"https://circles.polymedia.app/view/{id}"), // link // TODO
                 utf8(b"https://polymedia.app"), // creator
