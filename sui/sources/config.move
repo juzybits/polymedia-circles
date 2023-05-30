@@ -1,17 +1,17 @@
-module polymedia_circles::circles_conf
+module polymedia_circles::config
 {
     use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
-    friend polymedia_circles::circles_art;
+    friend polymedia_circles::art;
 
     /* Mint settings */
     const INITIAL_NUMBER: u64 = 1; // number of the first painting
     const INITIAL_PRICE: u64 = 1_000_000_000; // price of the first painting (1 SUI)
     const PRICE_INCREASE_BPS: u64 = 50; // basis points (0.5%)
 
-    struct CirclesConf has key, store {
+    struct Config has key, store {
         id: UID,
         next_number: u64,
         next_price: u64,
@@ -25,9 +25,9 @@ module polymedia_circles::circles_conf
         price_increase_bps: u64,
         pay_address: address,
         ctx: &mut TxContext,
-    ): CirclesConf
+    ): Config
     {
-        return CirclesConf {
+        return Config {
             id: object::new(ctx),
             next_number: initial_number,
             next_price: initial_price,
@@ -38,22 +38,22 @@ module polymedia_circles::circles_conf
 
     // public entry fun mess_up(new_price: u64, ctx: &mut TxContext) {} // TODO test upgrade
 
-    public(friend) fun increase(conf: &mut CirclesConf) {
+    public(friend) fun increase(conf: &mut Config) {
         conf.next_number = conf.next_number + 1;
         conf.next_price = conf.next_price + ((conf.next_price * conf.price_increase_bps) / 10000);
     }
 
     /* Accessors */
-    public(friend) fun next_number(conf: &CirclesConf): u64 {
+    public(friend) fun next_number(conf: &Config): u64 {
         conf.next_number
     }
-    public(friend) fun next_price(conf: &CirclesConf): u64 {
+    public(friend) fun next_price(conf: &Config): u64 {
         conf.next_price
     }
-    public(friend) fun price_increase_bps(conf: &CirclesConf): u64 {
+    public(friend) fun price_increase_bps(conf: &Config): u64 {
         conf.price_increase_bps
     }
-    public(friend) fun pay_address(conf: &CirclesConf): address {
+    public(friend) fun pay_address(conf: &Config): address {
         conf.pay_address
     }
 
