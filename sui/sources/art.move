@@ -40,14 +40,14 @@ module polymedia_circles::art
         circles_svg: String,
     }
 
-    public fun mint(
-        conf: &mut Collection,
+    public fun create(
+        collection: &mut Collection,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
     ): Art
     {
         // Pay for the painting
-        let exact_coin = coin::split(&mut pay_coin, collection::next_price(conf), ctx);
+        let exact_coin = coin::split(&mut pay_coin, collection::next_price(collection), ctx);
         if (coin::value(&pay_coin) > 0) { // return change to sender
             transfer::public_transfer(pay_coin, tx_context::sender(ctx));
         } else { // destroy empty coin
@@ -55,12 +55,12 @@ module polymedia_circles::art
         };
         transfer::public_transfer(
             exact_coin,
-            collection::pay_address(conf),
+            collection::pay_address(collection),
         );
 
         // Update Collection
-        let current_number = collection::next_number(conf);
-        collection::increase(conf);
+        let current_number = collection::next_number(collection);
+        collection::add_one(collection);
 
         // Create `num_circles` `Circle` objects with random values
         let circles = vector::empty<Circle>();
@@ -96,20 +96,21 @@ module polymedia_circles::art
         }
     }
 
-    public entry fun mint_and_transfer(
-        conf: &mut Collection,
+    public entry fun create_and_transfer(
+        collection: &mut Collection,
         recipient: address,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
         )
     {
-        let painting = mint(conf, pay_coin, ctx);
+        let painting = create(collection, pay_coin, ctx);
         transfer::transfer(painting, recipient);
     }
 
-    public fun destroy(painting: Art) {
+    public fun destroy(collection: &mut Collection, painting: Art) {
         let Art {id, number: _, background_color: _, circles: _, circles_svg: _} = painting;
         object::delete(id);
+        collection::delete_one(collection);
     }
 
     // public fun recycle(old: Art): Art { ... } // MAYBE

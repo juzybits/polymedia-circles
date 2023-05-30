@@ -13,35 +13,42 @@ module polymedia_circles::collection
 
     struct Collection has key, store {
         id: UID,
+        supply: u64,
         next_number: u64,
         next_price: u64,
         price_increase_bps: u64,
         pay_address: address, // TODO: multisig vault
     }
 
-    public(friend) fun increase(conf: &mut Collection) {
-        conf.next_number = conf.next_number + 1;
-        conf.next_price = conf.next_price + ((conf.next_price * conf.price_increase_bps) / 10000);
+    public(friend) fun add_one(self: &mut Collection) {
+        self.supply = self.supply + 1;
+        self.next_number = self.next_number + 1;
+        self.next_price = self.next_price + ((self.next_price * self.price_increase_bps) / 10000);
+    }
+
+    public(friend) fun delete_one(self: &mut Collection) {
+        self.supply = self.supply - 1;
     }
 
     /* Accessors */
-    public fun next_number(conf: &Collection): u64 {
-        conf.next_number
+    public fun next_number(self: &Collection): u64 {
+        self.next_number
     }
-    public fun next_price(conf: &Collection): u64 {
-        conf.next_price
+    public fun next_price(self: &Collection): u64 {
+        self.next_price
     }
-    public fun price_increase_bps(conf: &Collection): u64 {
-        conf.price_increase_bps
+    public fun price_increase_bps(self: &Collection): u64 {
+        self.price_increase_bps
     }
-    public fun pay_address(conf: &Collection): address {
-        conf.pay_address
+    public fun pay_address(self: &Collection): address {
+        self.pay_address
     }
 
     fun init(ctx: &mut TxContext)
     {
         transfer::public_share_object(Collection {
             id: object::new(ctx),
+            supply: 0,
             next_number: INITIAL_NUMBER,
             next_price: INITIAL_PRICE,
             price_increase_bps: PRICE_INCREASE_BPS,

@@ -7,11 +7,17 @@ sui client publish --gas-budget 100000000
 
 ## Command line usage
 
-### mint_and_transfer()
+### create_and_transfer()
 ```
 PACKAGE=
-CONFIG=
+COLLECTION=
 RECIPIENT=
 PAY_COIN=
-sui client call --gas-budget 1000000000 --package $PACKAGE --module art --function mint_and_transfer --args $CONFIG $RECIPIENT $PAY_COIN
+sui client call --gas-budget 1000000000 --package $PACKAGE --module art --function create_and_transfer --args $COLLECTION $RECIPIENT $PAY_COIN
+```
+
+### destroy()
+```
+ART_ID=
+sui client call --gas-budget 1000000000 --package $PACKAGE --module art --function destroy --args $COLLECTION $ART_ID
 ```
