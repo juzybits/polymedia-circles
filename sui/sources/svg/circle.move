@@ -1,31 +1,35 @@
 module polymedia_svg::circle
 {
-    use std::string::{Self, String, utf8};
     use std::vector::{Self};
     use polymedia_svg::utils;
 
     struct Circle has store, copy, drop {
-        color: String, // MAYBE store red/green/blue as u64s, to support dynamic features
+        red: u64,
+        green: u64,
+        blue: u64,
         radius: u64,
         x_axis: u64,
         y_axis: u64,
     }
 
-    public fun new(color: vector<u8>, radius: u64, x_axis: u64, y_axis: u64): Circle {
-        Circle { color:utf8(color), radius, x_axis, y_axis }
+    public fun new(rgb_color: vector<u64>, radius: u64, x_axis: u64, y_axis: u64): Circle {
+        let red = *vector::borrow(&rgb_color, 0);
+        let green = *vector::borrow(&rgb_color, 1);
+        let blue = *vector::borrow(&rgb_color, 2);
+        return Circle { red, green, blue, radius, x_axis, y_axis }
     }
 
     /// Represent a Circle as an SVG <circle> (URL-encoded).
     /// <circle r="200" cx="50" cy="100" />
     public fun to_svg(circle: &Circle): vector<u8> {
         let svg = b"%3Ccircle%20r%3D%22"; // <circle r="
-        vector::append(&mut svg, utils::u64_to_vector(circle.radius));
+        vector::append(&mut svg, utils::u64_to_bytes(circle.radius));
         vector::append(&mut svg, b"%22%20cx%3D%22"); // " cx="
-        vector::append(&mut svg, utils::u64_to_vector(circle.x_axis));
+        vector::append(&mut svg, utils::u64_to_bytes(circle.x_axis));
         vector::append(&mut svg, b"%22%20cy%3D%22"); // " cy="
-        vector::append(&mut svg, utils::u64_to_vector(circle.y_axis));
+        vector::append(&mut svg, utils::u64_to_bytes(circle.y_axis));
         vector::append(&mut svg, b"%22%20fill%3D%22"); // " fill="
-        vector::append(&mut svg, *string::bytes(&circle.color));
+        vector::append(&mut svg, utils::rgb_to_svg(&vector[circle.red, circle.green, circle.blue]));
         vector::append(&mut svg, b"%22%3E%3C%2Fcircle%3E"); // "></circle>
         return svg
     }
@@ -51,8 +55,8 @@ module polymedia_svg::circle
     }
 
     /* Accessors */
-    public fun color(circle: &Circle): String {
-        circle.color
+    public fun rgb_color(circle: &Circle): vector<u64> {
+        vector[circle.red, circle.green, circle.blue]
     }
     public fun radius(circle: &Circle): u64 {
         circle.radius
@@ -78,7 +82,7 @@ module polymedia_svg::circle_tests {
         let len = vector::length(radii);
         while (i < len) {
             let radius = *vector::borrow(radii, i);
-            let circle = circle::new(b"rgb(50,100,200)", radius, 150, 150);
+            let circle = circle::new(vector[50,100,200], radius, 150, 150);
             vector::push_back(&mut circles, circle);
             i = i + 1
         };

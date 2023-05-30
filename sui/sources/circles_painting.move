@@ -63,11 +63,11 @@ module polymedia_circles::circles_art
         let num_circles = rand::rng(MIN_CIRCLES, MAX_CIRCLES+1, ctx);
         let i = 0;
         while (i < num_circles) {
-            let color = utils::random_color(ctx);
+            let rgb_color = utils::random_color(ctx);
             let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
             let x_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
             let y_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
-            let circle = circle::new(color, radius, x_axis, y_axis);
+            let circle = circle::new(rgb_color, radius, x_axis, y_axis);
             vector::push_back(&mut circles, circle);
             i = i + 1;
         };
@@ -90,7 +90,7 @@ module polymedia_circles::circles_art
         return CirclesArt {
             id: object::new(ctx),
             number: current_number,
-            background_color: utf8(utils::random_color(ctx)),
+            background_color: utf8(utils::rgb_to_svg(&utils::random_color(ctx))),
             circles,
             image_url: utf8(svg),
         }
