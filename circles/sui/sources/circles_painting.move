@@ -22,10 +22,10 @@ module polymedia_circles::circles_art
 
     /* Art settings */
     const CANVAS_SIZE: u64 = 1000;
-    const CIRCLE_MIN_RADIUS: u64 = 25;
-    const CIRCLE_MAX_RADIUS: u64 = 450;
+    const CIRCLE_MIN_RADIUS: u64 = 42;
+    const CIRCLE_MAX_RADIUS: u64 = 420;
     const MIN_CIRCLES: u64 = 2;
-    const MAX_CIRCLES: u64 = 7;
+    const MAX_CIRCLES: u64 = 5;
 
     /* Errors */
     const E_WRONG_AMOUNT: u64 = 1000;
@@ -65,8 +65,8 @@ module polymedia_circles::circles_art
         while (i < num_circles) {
             let color = utils::random_color(ctx);
             let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
-            let x_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
-            let y_axis = rand::rng(radius, CANVAS_SIZE - radius, ctx);
+            let x_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
+            let y_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
             let circle = circle::new(color, radius, x_axis, y_axis);
             vector::push_back(&mut circles, circle);
             i = i + 1;

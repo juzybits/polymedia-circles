@@ -8,10 +8,10 @@
 <script>
 
 const CANVAS_SIZE = 1000;
-const CIRCLE_MIN_RADIUS = 25;
-const CIRCLE_MAX_RADIUS = 450;
+const CIRCLE_MIN_RADIUS = 42;
+const CIRCLE_MAX_RADIUS = 420
 const MIN_CIRCLES = 2;
-const MAX_CIRCLES = 7;
+const MAX_CIRCLES = 5;
 
 // Generate a random integer between `min` (inclusive) and `max` (exclusive)
 function getRandomNumber(min, max) {
@@ -20,9 +20,18 @@ function getRandomNumber(min, max) {
 
 // Generate a random CSS color like "rgb(35,123,207)"
 function getRandomColor() {
-    const red = getRandomNumber(0, 256);
-    const green = getRandomNumber(0, 256);
-    const blue = getRandomNumber(0, 256);
+    // const red = getRandomNumber(0, 256);
+    // const red = getRandomNumber(0, 26) * 10;
+    // const red = getRandomNumber(0, 11) * 25;
+    const red = getRandomNumber(0, 6) * 50;
+    // const green = getRandomNumber(0, 256);
+    // const green = getRandomNumber(0, 26) * 10;
+    // const green = getRandomNumber(0, 11) * 25;
+    const green = getRandomNumber(0, 6) * 50;
+    // const blue = getRandomNumber(0, 256);
+    // const blue = getRandomNumber(0, 26) * 10;
+    // const blue = getRandomNumber(0, 11) * 25;
+    const blue = getRandomNumber(0, 6) * 50;
     return `rgb(${red},${green},${blue})`;
 }
 
@@ -40,8 +49,8 @@ for (let i = 0; i < numCircles; i++) {
     circlesConfig.push({
         color: getRandomColor(),
         radius: radius,
-        cx: getRandomNumber(radius, CANVAS_SIZE - radius), // Random x position, within the SVG bounds
-        cy: getRandomNumber(radius, CANVAS_SIZE - radius) // Random y position, within the SVG bounds
+        cx: getRandomNumber(radius/2, CANVAS_SIZE - radius/2), // Random x position
+        cy: getRandomNumber(radius/2, CANVAS_SIZE - radius/2) // Random y position
     });
 }
 
@@ -82,7 +91,7 @@ footer.setAttribute("font-family", "monospace");
 footer.setAttribute("font-size", "20");
 footer.setAttribute("fill", "white");
 footer.setAttribute("text-anchor", "end");
-footer.textContent = "Polymedia Circles #1234";
+footer.textContent = "Polymedia Circles #" + getRandomNumber(0, 10000);
 svg.appendChild(footer);
 
 /*

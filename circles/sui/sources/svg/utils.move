@@ -17,12 +17,12 @@ module polymedia_svg::utils
         return bytes
     }
 
-    /// Return a random CSS color like "rgb(35,123,207)", URL-encoded
+    /// Return a random CSS color like "rgb(0,100,250)", URL-encoded
     public fun random_color(ctx: &mut TxContext): vector<u8>
     {
-        let red_u64 = rand::rng(0, 256, ctx);
-        let green_u64 = rand::rng(0, 256, ctx);
-        let blue_u64 = rand::rng(0, 256, ctx);
+        let red_u64 = rand::rng(0, 6, ctx) * 50;
+        let green_u64 = rand::rng(0, 6, ctx) * 50;
+        let blue_u64 = rand::rng(0, 6, ctx) * 50;
         let red_bytes = u64_to_vector(red_u64);
         let green_bytes = u64_to_vector(green_u64);
         let blue_bytes = u64_to_vector(blue_u64);
