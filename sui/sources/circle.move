@@ -26,21 +26,21 @@ module polymedia_circles::circle
 
     /// Represent a Circle as an SVG <circle> (URL-encoded).
     /// <circle r="200" cx="50" cy="100" />
-    public fun to_svg(circle: &Circle): vector<u8> {
+    public(friend) fun to_svg(self: &Circle): vector<u8> {
         let svg = b"%3Ccircle%20r%3D%22"; // <circle r="
-        vector::append(&mut svg, utils::u64_to_bytes(circle.radius));
+        vector::append(&mut svg, utils::u64_to_bytes(self.radius));
         vector::append(&mut svg, b"%22%20cx%3D%22"); // " cx="
-        vector::append(&mut svg, utils::u64_to_bytes(circle.x_axis));
+        vector::append(&mut svg, utils::u64_to_bytes(self.x_axis));
         vector::append(&mut svg, b"%22%20cy%3D%22"); // " cy="
-        vector::append(&mut svg, utils::u64_to_bytes(circle.y_axis));
+        vector::append(&mut svg, utils::u64_to_bytes(self.y_axis));
         vector::append(&mut svg, b"%22%20fill%3D%22"); // " fill="
-        vector::append(&mut svg, color::rgb_to_svg(&vector[circle.red, circle.green, circle.blue]));
+        vector::append(&mut svg, color::rgb_to_svg(&vector[self.red, self.green, self.blue]));
         vector::append(&mut svg, b"%22%3E%3C%2Fcircle%3E"); // "></circle>
         return svg
     }
 
     /// Sort a vector<Circle> from biggest to smallest using selection sort
-    public fun sort_by_radius_desc(v: &mut vector<Circle>) {
+    public(friend) fun sort_by_radius_desc(v: &mut vector<Circle>) {
         let n = vector::length(v);
         let i = 0;
         while (i < n) {
@@ -60,23 +60,23 @@ module polymedia_circles::circle
     }
 
     /* Accessors */
-    public fun red(circle: &Circle): u8 {
-        circle.red
+    public fun red(self: &Circle): u8 {
+        self.red
     }
-    public fun green(circle: &Circle): u8 {
-        circle.green
+    public fun green(self: &Circle): u8 {
+        self.green
     }
-    public fun blue(circle: &Circle): u8 {
-        circle.blue
+    public fun blue(self: &Circle): u8 {
+        self.blue
     }
-    public fun radius(circle: &Circle): u64 {
-        circle.radius
+    public fun radius(self: &Circle): u64 {
+        self.radius
     }
-    public fun x_axis(circle: &Circle): u64 {
-        circle.x_axis
+    public fun x_axis(self: &Circle): u64 {
+        self.x_axis
     }
-    public fun y_axis(circle: &Circle): u64 {
-        circle.y_axis
+    public fun y_axis(self: &Circle): u64 {
+        self.y_axis
     }
 }
 

@@ -8,17 +8,16 @@ module polymedia_circles::artwork
 {
     use std::string::{String, utf8};
     use std::vector;
-    use sui::coin::{Self, Coin};
     use sui::display;
     use sui::object::{Self, UID};
     use sui::package;
-    use sui::sui::{SUI};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
     use capsules::rand;
     use polymedia_circles::circle::{Self, Circle};
-    use polymedia_circles::collection::{Self, Collection};
     use polymedia_circles::color;
+
+    friend polymedia_circles::mint;
 
     /* Artwork settings */
     const CANVAS_SIZE: u64 = 1000;
@@ -40,25 +39,7 @@ module polymedia_circles::artwork
         circles_svg: String,
     }
 
-    fun take_payment(
-        pay_coin: Coin<SUI>,
-        price: u64,
-        pay_address: address,
-        ctx: &mut TxContext,
-    ) {
-        let exact_coin = coin::split(&mut pay_coin, price, ctx);
-        if (coin::value(&pay_coin) > 0) { // return change to sender
-            transfer::public_transfer(pay_coin, tx_context::sender(ctx));
-        } else { // destroy empty coin
-            coin::destroy_zero(pay_coin);
-        };
-        transfer::public_transfer(
-            exact_coin,
-            pay_address,
-        );
-    }
-
-    fun make_artwork(
+    public(friend) fun create(
         number: u64,
         ctx: &mut TxContext,
     ): Artwork {
@@ -96,63 +77,12 @@ module polymedia_circles::artwork
         }
     }
 
-    public fun create(
-        collection: &mut Collection,
-        pay_coin: Coin<SUI>,
-        ctx: &mut TxContext
-    ): Artwork
-    {
-        take_payment(
-            pay_coin,
-            collection::next_price(collection), // full price
-            collection::pay_address(collection),
-            ctx
-        );
-        let artwork = make_artwork(collection::next_number(collection), ctx);
-        collection::add_one(collection);
-        return artwork
-    }
-
-    /// Destroy an existing `Artwork` and create a new one at a discounted price (10%)
-    public fun recycle(
-        collection: &mut Collection,
-        artwork: Artwork,
-        pay_coin: Coin<SUI>,
-        ctx: &mut TxContext,
-    ): Artwork {
-        take_payment(
-            pay_coin,
-            collection::next_price(collection) / 10, // discounted price
-            collection::pay_address(collection),
-            ctx
-        );
-        destroy(collection, artwork);
-        let artwork = make_artwork(collection::next_number(collection), ctx);
-        collection::add_one(collection);
-        return artwork
-    }
-
-    public fun destroy(
-        collection: &mut Collection,
+    public(friend) fun destroy(
         artwork: Artwork
     ) {
         let Artwork {id, number: _, background_color: _, circles: _, circles_svg: _} = artwork;
         object::delete(id);
-        collection::delete_one(collection);
     }
-
-    public entry fun create_and_transfer(
-        collection: &mut Collection,
-        recipient: address,
-        pay_coin: Coin<SUI>,
-        ctx: &mut TxContext,
-        )
-    {
-        let artwork = create(collection, pay_coin, ctx);
-        transfer::transfer(artwork, recipient);
-    }
-
-    // public fun swap(a: Artwork, b: Artwork, a_swap: vector<u64>, b_swap: vector<u64>): Artwork { ... } // MAYBE
 
     // One-Time-Witness
     struct ARTWORK has drop {}
