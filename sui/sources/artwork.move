@@ -40,14 +40,13 @@ module polymedia_circles::artwork
         circles_svg: String,
     }
 
-    public fun create(
-        collection: &mut Collection,
+    fun take_payment(
         pay_coin: Coin<SUI>,
-        ctx: &mut TxContext
-    ): Artwork
-    {
-        // Pay for the artwork
-        let exact_coin = coin::split(&mut pay_coin, collection::next_price(collection), ctx);
+        price: u64,
+        pay_address: address,
+        ctx: &mut TxContext,
+    ) {
+        let exact_coin = coin::split(&mut pay_coin, price, ctx);
         if (coin::value(&pay_coin) > 0) { // return change to sender
             transfer::public_transfer(pay_coin, tx_context::sender(ctx));
         } else { // destroy empty coin
@@ -55,13 +54,14 @@ module polymedia_circles::artwork
         };
         transfer::public_transfer(
             exact_coin,
-            collection::pay_address(collection),
+            pay_address,
         );
+    }
 
-        // Update Collection
-        let current_number = collection::next_number(collection);
-        collection::add_one(collection);
-
+    fun make_artwork(
+        number: u64,
+        ctx: &mut TxContext,
+    ): Artwork {
         // Create `num_circles` `Circle` objects with random values
         let circles = vector::empty<Circle>();
         let num_circles = rand::rng(MIN_CIRCLES, MAX_CIRCLES+1, ctx);
@@ -89,31 +89,68 @@ module polymedia_circles::artwork
 
         return Artwork {
             id: object::new(ctx),
-            number: current_number,
+            number,
             background_color: utf8(color::rgb_to_svg(&color::random_rgb(ctx))),
             circles,
             circles_svg: utf8(svg),
         }
     }
 
-    public entry fun create_and_transfer(
+    public fun create(
         collection: &mut Collection,
-        recipient: address,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
-        )
+    ): Artwork
     {
-        let artwork = create(collection, pay_coin, ctx);
-        transfer::transfer(artwork, recipient);
+        take_payment(
+            pay_coin,
+            collection::next_price(collection), // full price
+            collection::pay_address(collection),
+            ctx
+        );
+        let artwork = make_artwork(collection::next_number(collection), ctx);
+        collection::add_one(collection);
+        return artwork
     }
 
-    public fun destroy(collection: &mut Collection, artwork: Artwork) {
+    /// Destroy an existing `Artwork` and create a new one at a discounted price (10%)
+    public fun recycle(
+        collection: &mut Collection,
+        artwork: Artwork,
+        pay_coin: Coin<SUI>,
+        ctx: &mut TxContext,
+    ): Artwork {
+        take_payment(
+            pay_coin,
+            collection::next_price(collection) / 10, // discounted price
+            collection::pay_address(collection),
+            ctx
+        );
+        destroy(collection, artwork);
+        let artwork = make_artwork(collection::next_number(collection), ctx);
+        collection::add_one(collection);
+        return artwork
+    }
+
+    public fun destroy(
+        collection: &mut Collection,
+        artwork: Artwork
+    ) {
         let Artwork {id, number: _, background_color: _, circles: _, circles_svg: _} = artwork;
         object::delete(id);
         collection::delete_one(collection);
     }
 
-    // public fun recycle(collection: &Collection, artwork: Artwork): Artwork { } // TODO
+    public entry fun create_and_transfer(
+        collection: &mut Collection,
+        recipient: address,
+        pay_coin: Coin<SUI>,
+        ctx: &mut TxContext,
+        )
+    {
+        let artwork = create(collection, pay_coin, ctx);
+        transfer::transfer(artwork, recipient);
+    }
 
     // public fun swap(a: Artwork, b: Artwork, a_swap: vector<u64>, b_swap: vector<u64>): Artwork { ... } // MAYBE
 
