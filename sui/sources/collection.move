@@ -4,11 +4,11 @@ module polymedia_circles::collection
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
-    friend polymedia_circles::art;
+    friend polymedia_circles::artwork;
 
     /* Mint settings */
-    const INITIAL_NUMBER: u64 = 1; // number of the first painting
-    const INITIAL_PRICE: u64 = 1_000_000_000; // price of the first painting (1 SUI)
+    const INITIAL_NUMBER: u64 = 1; // number of the first artwork
+    const INITIAL_PRICE: u64 = 1_000_000_000; // price of the first artwork (1 SUI)
     const PRICE_INCREASE_BPS: u64 = 50; // basis points (0.5%)
 
     struct Collection has key, store {

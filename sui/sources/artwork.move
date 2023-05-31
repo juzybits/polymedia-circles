@@ -4,7 +4,7 @@
 ///     <circle r="197" cx="244" cy="284" fill="rgb(12,210,161)"></circle>
 ///     <circle r="195" cx="393" cy="282" fill="rgb(116,240,81)"></circle>
 /// </svg>
-module polymedia_circles::art
+module polymedia_circles::artwork
 {
     use std::string::{String, utf8};
     use std::vector;
@@ -20,7 +20,7 @@ module polymedia_circles::art
     use polymedia_circles::collection::{Self, Collection};
     use polymedia_circles::color;
 
-    /* Art settings */
+    /* Artwork settings */
     const CANVAS_SIZE: u64 = 1000;
     const CIRCLE_MIN_RADIUS: u64 = 42;
     const CIRCLE_MAX_RADIUS: u64 = 420;
@@ -32,7 +32,7 @@ module polymedia_circles::art
 
     /* Structs */
 
-    struct Art has key, store {
+    struct Artwork has key, store {
         id: UID,
         number: u64,
         background_color: String,
@@ -44,9 +44,9 @@ module polymedia_circles::art
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
-    ): Art
+    ): Artwork
     {
-        // Pay for the painting
+        // Pay for the artwork
         let exact_coin = coin::split(&mut pay_coin, collection::next_price(collection), ctx);
         if (coin::value(&pay_coin) > 0) { // return change to sender
             transfer::public_transfer(pay_coin, tx_context::sender(ctx));
@@ -87,7 +87,7 @@ module polymedia_circles::art
             i = i + 1;
         };
 
-        return Art {
+        return Artwork {
             id: object::new(ctx),
             number: current_number,
             background_color: utf8(color::rgb_to_svg(&color::random_rgb(ctx))),
@@ -103,26 +103,27 @@ module polymedia_circles::art
         ctx: &mut TxContext
         )
     {
-        let painting = create(collection, pay_coin, ctx);
-        transfer::transfer(painting, recipient);
+        let artwork = create(collection, pay_coin, ctx);
+        transfer::transfer(artwork, recipient);
     }
 
-    public fun destroy(collection: &mut Collection, painting: Art) {
-        let Art {id, number: _, background_color: _, circles: _, circles_svg: _} = painting;
+    public fun destroy(collection: &mut Collection, artwork: Artwork) {
+        let Artwork {id, number: _, background_color: _, circles: _, circles_svg: _} = artwork;
         object::delete(id);
         collection::delete_one(collection);
     }
 
-    // public fun recycle(old: Art): Art { ... } // MAYBE
-    // public fun swap(a: Art, b: Art, a_swap: vector<u64>, b_swap: vector<u64>): Art { ... } // MAYBE
+    // public fun recycle(collection: &Collection, artwork: Artwork): Artwork { } // TODO
+
+    // public fun swap(a: Artwork, b: Artwork, a_swap: vector<u64>, b_swap: vector<u64>): Artwork { ... } // MAYBE
 
     // One-Time-Witness
-    struct ART has drop {}
+    struct ARTWORK has drop {}
 
-    fun init(otw: ART, ctx: &mut TxContext)
+    fun init(otw: ARTWORK, ctx: &mut TxContext)
     {
         let publisher = package::claim(otw, ctx);
-        let profile_display = display::new_with_fields<Art>(
+        let profile_display = display::new_with_fields<Artwork>(
             &publisher,
             vector[
                 utf8(b"name"),

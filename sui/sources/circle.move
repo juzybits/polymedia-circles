@@ -4,7 +4,7 @@ module polymedia_circles::circle
     use polymedia_circles::color;
     use polymedia_circles::utils;
 
-    friend polymedia_circles::art;
+    friend polymedia_circles::artwork;
     #[test_only]
     friend polymedia_circles::circle_tests;
 
