@@ -20,13 +20,19 @@ module polymedia_circles::collection
         pay_address: address, // TODO: multisig vault
     }
 
-    public(friend) fun add_one(self: &mut Collection) {
-        self.supply = self.supply + 1;
+    public(friend) fun increase_number(self: &mut Collection) {
         self.next_number = self.next_number + 1;
+    }
+
+    public(friend) fun increase_price(self: &mut Collection) {
         self.next_price = self.next_price + ((self.next_price * self.price_increase_bps) / 10000);
     }
 
-    public(friend) fun delete_one(self: &mut Collection) {
+    public(friend) fun increase_supply(self: &mut Collection) {
+        self.supply = self.supply + 1;
+    }
+
+    public(friend) fun decrease_supply(self: &mut Collection) {
         self.supply = self.supply - 1;
     }
 

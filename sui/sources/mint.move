@@ -38,15 +38,17 @@ module polymedia_circles::mint
             ctx
         );
         let artwork = artwork::create(collection::next_number(collection), ctx);
-        collection::add_one(collection);
+        collection::increase_supply(collection);
+        collection::increase_number(collection);
+        collection::increase_price(collection);
         return artwork
     }
 
     /// Burn an existing `Artwork` and mint a new one at a discounted price (10%)
     public fun recycle(
         collection: &mut Collection,
-        artwork: Artwork,
         pay_coin: Coin<SUI>,
+        artwork: Artwork,
         ctx: &mut TxContext,
     ): Artwork {
         take_payment(
@@ -57,7 +59,8 @@ module polymedia_circles::mint
         );
         burn(collection, artwork);
         let artwork = artwork::create(collection::next_number(collection), ctx);
-        collection::add_one(collection);
+        collection::increase_number(collection);
+        collection::increase_price(collection);
         return artwork
     }
 
@@ -66,7 +69,7 @@ module polymedia_circles::mint
         artwork: Artwork
     ) {
         artwork::destroy(artwork);
-        collection::delete_one(collection);
+        collection::decrease_supply(collection);
     }
 
     public entry fun mint_and_transfer(
@@ -77,6 +80,17 @@ module polymedia_circles::mint
         )
     {
         let artwork = mint(collection, pay_coin, ctx);
+        transfer::public_transfer(artwork, recipient);
+    }
+
+    public entry fun recycle_and_transfer(
+        collection: &mut Collection,
+        recipient: address,
+        pay_coin: Coin<SUI>,
+        recycle: Artwork,
+        ctx: &mut TxContext,
+    ) {
+        let artwork = recycle(collection, pay_coin, recycle, ctx);
         transfer::public_transfer(artwork, recipient);
     }
 
