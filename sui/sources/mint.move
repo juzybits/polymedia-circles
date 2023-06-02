@@ -1,4 +1,4 @@
-module polymedia_circles::mint
+module polymedia_circles::mint // TODO: emit events. TODO: write tests.
 {
     use sui::coin::{Self, Coin};
     use sui::sui::{SUI};
