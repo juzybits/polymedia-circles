@@ -1,4 +1,4 @@
-module polymedia_circles::mint // TODO: emit events. TODO: write tests.
+module polymedia_circles::controller // TODO: emit events. TODO: write tests.
 {
     use std::vector;
     use sui::coin::{Self, Coin};

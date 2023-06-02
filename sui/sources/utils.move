@@ -2,8 +2,11 @@ module polymedia_circles::utils
 {
     use std::vector::{Self};
 
+    friend polymedia_circles::circle;
+    friend polymedia_circles::color;
+
     /// Represent a number as a string (vector of u8 characters)
-    public fun u64_to_bytes(num: u64): vector<u8>
+    public(friend) fun u64_to_bytes(num: u64): vector<u8>
     {
         if (num == 0) {
             return b"0"
@@ -17,7 +20,7 @@ module polymedia_circles::utils
         vector::reverse(&mut bytes);
         return bytes
     }
-    public fun u8_to_bytes(num: u8): vector<u8> {
+    public(friend) fun u8_to_bytes(num: u8): vector<u8> {
         return u64_to_bytes((num as u64))
     }
 }

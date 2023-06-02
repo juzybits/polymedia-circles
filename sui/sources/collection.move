@@ -4,7 +4,7 @@ module polymedia_circles::collection
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
-    friend polymedia_circles::mint;
+    friend polymedia_circles::controller;
 
     /* Mint settings */
     const INITIAL_NUMBER: u64 = 1; // number of the first artwork
