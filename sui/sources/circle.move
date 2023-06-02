@@ -39,6 +39,18 @@ module polymedia_circles::circle
         return svg
     }
 
+    // Build the SVG representation of `circles` (URL-encoded)
+    public(friend) fun vector_to_svg(circles: &vector<Circle>): vector<u8> {
+        let svg = b"";
+        let num_circles = vector::length(circles);
+        let i = 0;
+        while (i < num_circles) {
+            vector::append(&mut svg, to_svg(vector::borrow(circles, i)));
+            i = i + 1;
+        };
+        return svg
+    }
+
     /// Sort a vector<Circle> from biggest to smallest using selection sort
     public(friend) fun sort_by_radius_desc(v: &mut vector<Circle>) {
         let n = vector::length(v);

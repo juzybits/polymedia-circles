@@ -60,28 +60,46 @@ module polymedia_circles::artwork
         // Sort `circles` from biggest to smallest
         circle::sort_by_radius_desc(&mut circles);
 
-        // Build the SVG representation of `circles` (URL-encoded)
-        let svg = b"";
-        let i = 0;
-        while (i < num_circles) {
-            vector::append(&mut svg, circle::to_svg(vector::borrow(&circles, i)));
-            i = i + 1;
-        };
-
         return Artwork {
             id: object::new(ctx),
             number,
             background_color: utf8(color::rgb_to_svg(&color::random_rgb(ctx))),
             circles,
-            circles_svg: utf8(svg),
+            circles_svg: utf8(circle::vector_to_svg(&circles)),
         }
     }
 
     public(friend) fun destroy(
-        artwork: Artwork
+        self: Artwork,
     ) {
-        let Artwork {id, number: _, background_color: _, circles: _, circles_svg: _} = artwork;
+        let Artwork {id, number: _, background_color: _, circles: _, circles_svg: _} = self;
         object::delete(id);
+    }
+
+    public(friend) fun set_circles(
+        self: &mut Artwork,
+        circles: vector<Circle>,
+    ) {
+        // Sort `circles` from biggest to smallest
+        circle::sort_by_radius_desc(&mut circles);
+        // Replace Artwork.circles
+        self.circles = circles;
+        // Update SVG representation
+        self.circles_svg = utf8(circle::vector_to_svg(&circles));
+    }
+
+    /* Accessors */
+    public fun number(self: &Artwork): u64 {
+        self.number
+    }
+    public fun background_color(self: &Artwork): &String {
+        &self.background_color
+    }
+    public fun circles(self: &Artwork): &vector<Circle> {
+        &self.circles
+    }
+    public fun circles_svg(self: &Artwork): &String {
+        &self.circles_svg
     }
 
     // One-Time-Witness
