@@ -8,7 +8,7 @@ module polymedia_circles::color
     friend polymedia_circles::artwork;
     friend polymedia_circles::circle;
 
-    /// Return a random RGB color like `vector[0, 100, 250]`
+    /// Return a random RGB color like `vector[100, 193, 255]`
     public(friend) fun random_rgb(ctx: &mut TxContext): vector<u8>
     {
         let red = 7 + (rand::rng(3, 9, ctx) * 31 as u8);
@@ -17,7 +17,7 @@ module polymedia_circles::color
         return vector[red, green, blue]
     }
 
-    /// Convert `vector[0, 100, 250]` to "rgb(0,100,250)", URL-encoded
+    /// Convert `vector[100, 193, 255]` to "rgb(100,193,255)", URL-encoded
     public(friend) fun rgb_to_svg(rgb_color: &vector<u8>): vector<u8>
     {
         let red_bytes = u8_to_bytes(*vector::borrow(rgb_color, 0));

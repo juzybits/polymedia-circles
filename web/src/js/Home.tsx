@@ -1,14 +1,8 @@
-import { useEffect } from 'react';
+import { Intro } from './Intro';
 
 export const Home: React.FC = () =>
 {
-    useEffect(() => {
-        document.title = 'Polymedia Circles - Home';
-    }, []);
-
     return <>
-        <h1>
-            Circles.
-        </h1>
+        <Intro />
     </>;
 }
