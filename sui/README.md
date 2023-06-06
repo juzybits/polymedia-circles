@@ -5,6 +5,13 @@
 sui client publish --gas-budget 100000000
 ```
 
+## Run unit tests
+```
+clear && sui move test --coverage && sui move coverage summary
+sui move coverage source --module circle
+sui move coverage bytecode --module circle
+```
+
 ## Command line usage
 
 ### mint::create_and_transfer()

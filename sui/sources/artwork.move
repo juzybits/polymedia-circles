@@ -132,7 +132,45 @@ module polymedia_circles::artwork
         transfer::public_transfer(profile_display, tx_context::sender(ctx));
         transfer::public_transfer(publisher, tx_context::sender(ctx));
     }
+
+    /* Testing */
+
+    #[test_only]
+    use sui::test_scenario::{Self as ts};
+    #[test_only]
+    use std::string;
+
+    #[test_only]
+    fun assert_starts_with(search: vector<u8>, str: &String)
+    {
+        let len = vector::length(&search);
+        assert!( utf8(search) == string::sub_string(str, 0, len) , 0 );
+    }
+
+    #[test]
+    fun test_end_to_end()
+    {
+        let sender: address = @0x777;
+        let scen = ts::begin(sender);
+        let ctx = ts::ctx(&mut scen);
+
+        let artw = create(55, ctx);
+
+        assert!( 55 == number(&artw), 0 );
+
+        assert_starts_with( b"rgb%28", background_color(&artw) );
+
+        let circles_len = vector::length( circles(&artw) );
+        assert!( circles_len >= MIN_CIRCLES && circles_len <= MAX_CIRCLES , 0 );
+
+        assert_starts_with( b"%3Ccircle%20", svg(&artw) );
+
+        destroy(artw);
+
+        ts::end(scen);
+    }
 }
+
 
 /*
 #[test_only]
