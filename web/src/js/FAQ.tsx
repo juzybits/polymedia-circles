@@ -4,11 +4,7 @@ export const FAQ: React.FC = () =>
 {
     return <>
     <div id='faq-page'>
-        <div id='title'>
-            <h1>Circles.</h1>
-            <h2>by <a id='by_polymedia' href='https://polymedia.app/' target='_blank'>Polymedia</a></h2>
-        </div>
-        <div id='faq'>
+        <div id='faq-faq'>
             <h1>F.A.Q.</h1>
 
             <div id='note'>
@@ -101,7 +97,7 @@ export const FAQ: React.FC = () =>
 
             <div className='question'>
                 <h2>Is there a whitelist?</h2>
-                <p>There can be a whitelist if there is interest. If you are a Polymedia supporter and want to be included, please reach out on Twitter. If I (<Link text='@juzybits' href='https://twitter.com/juzybits' />) follow you, or we've had a positive interaction in the past, there's a good chance you are eligible for the whitelist.</p>
+                <p>There can be a whitelist if there is interest. If you are a Polymedia supporter and want to be included, please reach out on Twitter. If I follow you on Twitter, or we've had a positive interaction in the past, there's a good chance you are eligible for the whitelist.</p>
             </div>
 
             <div className='question'>
