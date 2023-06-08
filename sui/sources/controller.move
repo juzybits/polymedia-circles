@@ -77,7 +77,7 @@ module polymedia_circles::controller // TODO: emit events
 
     const E_WRONG_SWAP_LENGTH: u64 = 1000;
     const E_WRONG_SWAP_INDEX: u64 = 1001;
-    public fun swap(
+    public fun blend(
         a: &mut Artwork,
         b: &mut Artwork,
         swaps: vector<vector<u64>>,
@@ -333,7 +333,7 @@ module polymedia_circles::controller_tests
             assert!( expected_price == collection::next_price(&mut coll), 0 );
         };
 
-        /* swap() */
+        /* blend() */
 
         ts::next_tx(&mut scen, addr_minter);
 
@@ -366,7 +366,7 @@ module polymedia_circles::controller_tests
                 vector[0, 0], // 1st Circle of each Artwork
                 vector[1, 1] //  2nd Circle of each Artwork
             ];
-            controller::swap(&mut artw_1, &mut artw_3, swaps);
+            controller::blend(&mut artw_1, &mut artw_3, swaps);
 
             ts::return_to_sender(&scen, artw_1);
             ts::return_to_sender(&scen, artw_3);
