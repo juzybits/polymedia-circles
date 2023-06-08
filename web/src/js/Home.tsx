@@ -1,8 +1,8 @@
-import { Intro } from './Intro';
-
 export const Home: React.FC = () =>
 {
     return <>
-        <Intro />
+    <div id='faq-page'>
+        Hello.
+    </div>
     </>;
 }

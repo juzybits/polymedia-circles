@@ -1,9 +1,9 @@
-import '../css/Intro.less';
+import '../css/FAQ.less';
 
-export const Intro: React.FC = () =>
+export const FAQ: React.FC = () =>
 {
     return <>
-    <div id='intro'>
+    <div id='faq-page'>
         <div id='title'>
             <h1>Circles.</h1>
             <h2>by <a id='by_polymedia' href='https://polymedia.app/' target='_blank'>Polymedia</a></h2>
