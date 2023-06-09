@@ -7,6 +7,7 @@ import { Mint } from './js/Mint';
 import { View } from './js/View';
 import { Blend } from './js/Blend';
 import { Recycle } from './js/Recycle';
+import { Demo } from './js/Demo';
 import { NotFound } from './js/NotFound';
 
 ReactDOM
@@ -21,6 +22,7 @@ ReactDOM
                 <Route path='view/:artId' element={<View />} />
                 <Route path='blend/:artId' element={<Blend />} />
                 <Route path='recycle/:artId' element={<Recycle />} />
+                <Route path='demo' element={<Demo />} />
                 <Route path='*' element={<NotFound />} />
             </Route>
         </Routes>
