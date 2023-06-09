@@ -3,7 +3,10 @@ import { newArtworkSvg } from './lib/svg_builder';
 
 const CANVAS_SIZE = 1000;
 const CIRCLE_MIN_RADIUS = 42;
-const CIRCLE_MAX_RADIUS = 420
+const CIRCLE_MAX_RADIUS = 420;
+const MIN_CIRCLES = 2;
+const MAX_CIRCLES = 5;
+const STROKE_WIDTH = 6;
 
 export const Demo: React.FC = () => {
     const pageRef = useRef<HTMLDivElement | null>(null);
@@ -12,8 +15,11 @@ export const Demo: React.FC = () => {
         const svg = newArtworkSvg({
             canvasWidth: CANVAS_SIZE,
             canvasHeight: CANVAS_SIZE,
+            minCircles: MIN_CIRCLES,
+            maxCircles: MAX_CIRCLES,
             minRadius: CIRCLE_MIN_RADIUS,
             maxRadius: CIRCLE_MAX_RADIUS,
+            strokeWidth: STROKE_WIDTH,
             withFrame: true,
             withFooter: true,
         });

@@ -1,17 +1,15 @@
-const MIN_CIRCLES = 2;
-const MAX_CIRCLES = 5;
-const STROKE_WIDTH = 6;
-
 function newCircle({
     canvasWidth,
     canvasHeight,
     minRadius,
     maxRadius,
+    strokeWidth,
 }: {
     canvasWidth: number,
     canvasHeight: number,
     minRadius: number,
     maxRadius: number,
+    strokeWidth: number,
 }): SVGCircleElement
 {
     const radius = getRandomNumber(minRadius, maxRadius+1);
@@ -25,7 +23,7 @@ function newCircle({
     circle.setAttribute('r', String(radius));
     circle.setAttribute('fill', color);
     circle.setAttribute('stroke', 'black');
-    circle.setAttribute('stroke-width', String(STROKE_WIDTH));
+    circle.setAttribute('stroke-width', String(strokeWidth));
 
     return circle;
 }
@@ -44,15 +42,21 @@ function newCircle({
 export function newArtworkSvg({
     canvasWidth,
     canvasHeight,
+    minCircles,
+    maxCircles,
     minRadius,
     maxRadius,
+    strokeWidth,
     withFrame,
     withFooter,
 }: {
     canvasWidth: number,
     canvasHeight: number,
+    minCircles: number,
+    maxCircles: number,
     minRadius: number,
     maxRadius: number,
+    strokeWidth: number,
     withFrame: boolean,
     withFooter: boolean,
 }): SVGSVGElement
@@ -73,10 +77,10 @@ export function newArtworkSvg({
     svg.appendChild(rect);
 
     // <circle>
-    const numCircles = getRandomNumber(MIN_CIRCLES, MAX_CIRCLES+1);
+    const numCircles = getRandomNumber(minCircles, maxCircles+1);
     const circles = new Array<SVGCircleElement>();
     for (let i = 0; i < numCircles; i++) {
-        circles.push(newCircle({ canvasWidth, canvasHeight, minRadius, maxRadius }));
+        circles.push(newCircle({ canvasWidth, canvasHeight, minRadius, maxRadius, strokeWidth }));
     }
     // sort the circles by radius in descending order
     circles.sort((a, b) => Number(b.getAttribute('r')) - Number(a.getAttribute('r')));
@@ -88,8 +92,8 @@ export function newArtworkSvg({
     // <text> footer
     if (withFooter) {
         const footer = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        footer.setAttribute('x', String(canvasWidth - STROKE_WIDTH - 5)); // Near the right edge
-        footer.setAttribute('y', String(canvasHeight - STROKE_WIDTH - 7)); // Near the bottom edge
+        footer.setAttribute('x', String(canvasWidth - strokeWidth - 5)); // Near the right edge
+        footer.setAttribute('y', String(canvasHeight - strokeWidth - 7)); // Near the bottom edge
         footer.setAttribute('font-family', 'monospace');
         footer.setAttribute('font-size', '20');
         footer.setAttribute('fill', 'white');
@@ -105,7 +109,7 @@ export function newArtworkSvg({
         frame.setAttribute('height', '100%');
         frame.setAttribute('fill', 'none');
         frame.setAttribute('stroke', 'black');
-        frame.setAttribute('stroke-width', String(STROKE_WIDTH * 2));
+        frame.setAttribute('stroke-width', String(strokeWidth * 2));
         svg.appendChild(frame);
     }
 

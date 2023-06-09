@@ -6,7 +6,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        opacity: 0.75;
+        opacity: 0.3;
         z-index: -1;
     }
 }
@@ -19,8 +19,16 @@
     flex-direction: column;
 }
 
+@shadow-offset: 1.5px;
+@shadow-blur: 1px;
+@shadow-color: rgb(255 255 255 / 40%);
 #home-title {
     margin: 1em 0;
+    text-shadow:
+        0 -@shadow-offset @shadow-blur @shadow-color,
+        @shadow-offset 0 @shadow-blur @shadow-color,
+        0 @shadow-offset @shadow-blur @shadow-color,
+        -@shadow-offset 0 @shadow-blur @shadow-color;
     h1 {
         font-size: 4.5em;
     }

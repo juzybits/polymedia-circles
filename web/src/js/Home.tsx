@@ -18,7 +18,7 @@ export const Home: React.FC = () =>
         }
 
         // Get window dimensions
-        const windowWitdth = window.innerWidth
+        const windowWidth = window.innerWidth
         || document.documentElement.clientWidth
         || document.body.clientWidth;
         const windowHeight = window.innerHeight
@@ -26,12 +26,15 @@ export const Home: React.FC = () =>
         || document.body.clientHeight;
 
         // Append a new svg to the page
-        const maxRadius = Math.min(windowWitdth, windowHeight) / 4;
+        const maxRadius = Math.min(windowWidth, windowHeight) / 4;
         page.appendChild(newArtworkSvg({
-            canvasWidth: windowWitdth,
+            canvasWidth: windowWidth,
             canvasHeight: windowHeight,
+            minCircles: 3,
+            maxCircles: 5,
             minRadius: maxRadius/8,
             maxRadius,
+            strokeWidth: 5,
             withFrame: false,
             withFooter: false,
         }));
