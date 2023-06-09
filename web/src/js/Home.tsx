@@ -30,7 +30,7 @@ export const Home: React.FC = () =>
         page.appendChild(newArtworkSvg({
             canvasWidth: windowWitdth,
             canvasHeight: windowHeight,
-            minRadius: maxRadius/10,
+            minRadius: maxRadius/8,
             maxRadius,
             withFrame: false,
             withFooter: false,

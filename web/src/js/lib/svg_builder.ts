@@ -1,6 +1,6 @@
 const MIN_CIRCLES = 2;
 const MAX_CIRCLES = 5;
-const STROKE_WIDTH = 8;
+const STROKE_WIDTH = 6;
 
 function newCircle({
     canvasWidth,
@@ -32,13 +32,13 @@ function newCircle({
 
 /**
  * Example output:
-<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
-   <rect width="100%" height="100%" fill="rgb(162,224,193)" />
-   <circle cx="624" cy="377" r="313" fill="rgb(100,255,255)" stroke="black" stroke-width="8" />
-   <circle cx="523" cy="742" r="221" fill="rgb(255,255,224)" stroke="black" stroke-width="8" />
-   <circle cx="369" cy="314" r="197" fill="rgb(255,224,100)" stroke="black" stroke-width="8" />
-   <text x="987" y="985" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #855</text>
-   <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="16" />
+<svg class="svg-artwork" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
+   <rect width="100%" height="100%" fill="rgb(255,131,193)" />
+   <circle cx="788" cy="813" r="324" fill="rgb(131,193,255)" stroke="black" stroke-width="6" />
+   <circle cx="671" cy="592" r="143" fill="rgb(255,131,224)" stroke="black" stroke-width="6" />
+   <circle cx="155" cy="852" r="89" fill="rgb(224,100,193)" stroke="black" stroke-width="6" />
+   <text x="989" y="987" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #000</text>
+   <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="12" />
 </svg>
  */
 export function newArtworkSvg({
@@ -88,13 +88,13 @@ export function newArtworkSvg({
     // <text> footer
     if (withFooter) {
         const footer = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        footer.setAttribute('x', String(canvasWidth - 13)); // Near the right edge
-        footer.setAttribute('y', String(canvasHeight - 15)); // Near the bottom edge
+        footer.setAttribute('x', String(canvasWidth - STROKE_WIDTH - 5)); // Near the right edge
+        footer.setAttribute('y', String(canvasHeight - STROKE_WIDTH - 7)); // Near the bottom edge
         footer.setAttribute('font-family', 'monospace');
         footer.setAttribute('font-size', '20');
         footer.setAttribute('fill', 'white');
         footer.setAttribute('text-anchor', 'end');
-        footer.textContent = 'Polymedia Circles #' + getRandomNumber(0, 1000);
+        footer.textContent = 'Polymedia Circles #000';
         svg.appendChild(footer);
     }
 
