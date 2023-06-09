@@ -1,15 +1,23 @@
-const CANVAS_SIZE = 1000;
-const CIRCLE_MIN_RADIUS = 42;
-const CIRCLE_MAX_RADIUS = 420
 const MIN_CIRCLES = 2;
 const MAX_CIRCLES = 5;
+const STROKE_WIDTH = 8;
 
-function newCircle(): SVGCircleElement
+function newCircle({
+    canvasWidth,
+    canvasHeight,
+    minRadius,
+    maxRadius,
+}: {
+    canvasWidth: number,
+    canvasHeight: number,
+    minRadius: number,
+    maxRadius: number,
+}): SVGCircleElement
 {
-    const radius = getRandomNumber(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1);
+    const radius = getRandomNumber(minRadius, maxRadius+1);
     const color = getRandomColor();
-    const cx = getRandomNumber(radius/2, CANVAS_SIZE - radius/2); // x position
-    const cy = getRandomNumber(radius/2, CANVAS_SIZE - radius/2); // y position
+    const cx = getRandomNumber(radius/2, canvasWidth - radius/2); // x position
+    const cy = getRandomNumber(radius/2, canvasHeight - radius/2); // y position
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', String(cx));
@@ -17,7 +25,7 @@ function newCircle(): SVGCircleElement
     circle.setAttribute('r', String(radius));
     circle.setAttribute('fill', color);
     circle.setAttribute('stroke', 'black');
-    circle.setAttribute('stroke-width', '8');
+    circle.setAttribute('stroke-width', String(STROKE_WIDTH));
 
     return circle;
 }
@@ -33,14 +41,29 @@ function newCircle(): SVGCircleElement
    <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="16" />
 </svg>
  */
-export function newArtworkSvg(): SVGSVGElement
+export function newArtworkSvg({
+    canvasWidth,
+    canvasHeight,
+    minRadius,
+    maxRadius,
+    withFrame,
+    withFooter,
+}: {
+    canvasWidth: number,
+    canvasHeight: number,
+    minRadius: number,
+    maxRadius: number,
+    withFrame: boolean,
+    withFooter: boolean,
+}): SVGSVGElement
 {
     const backgroundColor = getRandomColor();
 
     // <svg>
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', String(CANVAS_SIZE));
-    svg.setAttribute('height', String(CANVAS_SIZE));
+    svg.setAttribute('class', 'svg-artwork');
+    svg.setAttribute('width', String(canvasWidth));
+    svg.setAttribute('height', String(canvasHeight));
 
     // <rect>
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -53,7 +76,7 @@ export function newArtworkSvg(): SVGSVGElement
     const numCircles = getRandomNumber(MIN_CIRCLES, MAX_CIRCLES+1);
     const circles = new Array<SVGCircleElement>();
     for (let i = 0; i < numCircles; i++) {
-        circles.push( newCircle() );
+        circles.push(newCircle({ canvasWidth, canvasHeight, minRadius, maxRadius }));
     }
     // sort the circles by radius in descending order
     circles.sort((a, b) => Number(b.getAttribute('r')) - Number(a.getAttribute('r')));
@@ -63,24 +86,28 @@ export function newArtworkSvg(): SVGSVGElement
     });
 
     // <text> footer
-    const footer = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    footer.setAttribute('x', String(CANVAS_SIZE - 13)); // Near the right edge
-    footer.setAttribute('y', String(CANVAS_SIZE - 15)); // Near the bottom edge
-    footer.setAttribute('font-family', 'monospace');
-    footer.setAttribute('font-size', '20');
-    footer.setAttribute('fill', 'white');
-    footer.setAttribute('text-anchor', 'end');
-    footer.textContent = 'Polymedia Circles #' + getRandomNumber(0, 1000);
-    svg.appendChild(footer);
+    if (withFooter) {
+        const footer = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        footer.setAttribute('x', String(canvasWidth - 13)); // Near the right edge
+        footer.setAttribute('y', String(canvasHeight - 15)); // Near the bottom edge
+        footer.setAttribute('font-family', 'monospace');
+        footer.setAttribute('font-size', '20');
+        footer.setAttribute('fill', 'white');
+        footer.setAttribute('text-anchor', 'end');
+        footer.textContent = 'Polymedia Circles #' + getRandomNumber(0, 1000);
+        svg.appendChild(footer);
+    }
 
     // <rect> black frame
-    const frame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    frame.setAttribute('width', '100%');
-    frame.setAttribute('height', '100%');
-    frame.setAttribute('fill', 'none');
-    frame.setAttribute('stroke', 'black');
-    frame.setAttribute('stroke-width', '16');
-    svg.appendChild(frame);
+    if (withFrame) {
+        const frame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        frame.setAttribute('width', '100%');
+        frame.setAttribute('height', '100%');
+        frame.setAttribute('fill', 'none');
+        frame.setAttribute('stroke', 'black');
+        frame.setAttribute('stroke-width', String(STROKE_WIDTH * 2));
+        svg.appendChild(frame);
+    }
 
     return svg;
 }
