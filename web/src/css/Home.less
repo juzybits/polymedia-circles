@@ -21,9 +21,12 @@
         font-size: 1.2em;
         margin-top: -1em;
     }
-    #by_polymedia {
-        color: @text-color;
-    }
+}
+body.light #by_polymedia {
+    color: @text-color-dark;
+}
+body.dark #by_polymedia {
+    color: @text-color-light;
 }
 #home-buttons {
     margin-top: 1em;
