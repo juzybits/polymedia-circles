@@ -11,33 +11,41 @@ export const Home: React.FC = () =>
         const page = pageRef.current;
         if (!page) return;
 
-        // Remove old svg if it exists
-        const oldSvg = page.querySelector('.svg-artwork');
-        if (oldSvg) {
-            page.removeChild(oldSvg);
-        }
+        const repaintCircles = (canvasWidth: number, canvasHeight: number) => {
+            // Generate a new artwork svg
+            const maxRadius = Math.min(canvasWidth, canvasHeight) / 4;
+            const newArtwork = newArtworkSvg({
+                canvasWidth,
+                canvasHeight,
+                minCircles: 3,
+                maxCircles: 5,
+                minRadius: maxRadius / 8,
+                maxRadius,
+                strokeWidth: 5,
+                withFrame: false,
+                withFooter: false,
+            });
+            // Remove old svg if it exists
+            const oldSvg = page.querySelector('.svg-artwork');
+            if (oldSvg) {
+                page.removeChild(oldSvg);
+            }
+            // Append a new svg to the page
+            page.appendChild(newArtwork);
+        };
 
-        // Get window dimensions
-        const windowWidth = window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
-        const windowHeight = window.innerHeight
-        || document.documentElement.clientHeight
-        || document.body.clientHeight;
-
-        // Append a new svg to the page
-        const maxRadius = Math.min(windowWidth, windowHeight) / 4;
-        page.appendChild(newArtworkSvg({
-            canvasWidth: windowWidth,
-            canvasHeight: windowHeight,
-            minCircles: 3,
-            maxCircles: 5,
-            minRadius: maxRadius/8,
-            maxRadius,
-            strokeWidth: 5,
-            withFrame: false,
-            withFooter: false,
-        }));
+        // Callback to handle resizing of the #home-page div
+        const observer = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                repaintCircles(entry.contentRect.width, entry.contentRect.height);
+            }
+        });
+        // Start observing the div
+        observer.observe(page);
+        // Cleanup function
+        return () => {
+            observer.unobserve(page);
+        };
     }, []);
 
     return <>
@@ -45,7 +53,7 @@ export const Home: React.FC = () =>
         <div id='home-container'>
             <div id='home-title'>
                 <h1>Circles.</h1>
-                <h2>by <a id='by_polymedia' href='https://polymedia.app/' target='_blank'>Polymedia</a></h2>
+                <h2>by <a id='by_polymedia' href='https://polymedia.app/' target='_blank' rel="noopener">Polymedia</a></h2>
             </div>
             <div id='home-buttons'>
                 <Link to='/faq' className='btn'>Read F.A.Q.</Link>
