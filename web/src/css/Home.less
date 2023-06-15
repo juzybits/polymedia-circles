@@ -2,13 +2,6 @@
 
 #home-page
 {
-    .svg-artwork {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.6;
-        z-index: -1;
-    }
 }
 
 #home-container {
@@ -23,7 +16,7 @@
 @shadow-blur: 1px;
 @shadow-color: rgb(255 255 255 / 30%);
 #home-title {
-    margin: 1em 0;
+    margin: 1em 0 0.5em;
     text-shadow:
         0 -@shadow-offset @shadow-blur @shadow-color,
         @shadow-offset 0 @shadow-blur @shadow-color,
@@ -43,6 +36,18 @@ body.light #by_polymedia {
 body.dark #by_polymedia {
     color: @text-color-light;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@duration: 0.15s;
 #home-buttons {
     margin-top: 1em;
+    .btn {
+        // fadeIn:
+        opacity: 0;
+        animation: fadeIn 1.5s forwards 1s;
+        transition: box-shadow @duration ease, background-color @duration ease;
+    }
 }

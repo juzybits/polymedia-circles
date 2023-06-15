@@ -1,55 +1,42 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { newArtworkSvg } from './lib/svg_builder';
+import { useEffect } from 'react';
+import { Link, useOutletContext } from 'react-router-dom';
+import { AppContext } from './App';
+import { addArtworkToContainer } from './lib/addArtworkToContainer';
 import '../css/Home.less';
 
 export const Home: React.FC = () =>
 {
-    const pageRef = useRef<HTMLDivElement | null>(null);
+    const { layoutRef } = useOutletContext<AppContext>();
 
     useEffect(() => {
-        const page = pageRef.current;
-        if (!page) return;
-
-        const repaintCircles = (canvasWidth: number, canvasHeight: number) => {
-            // Generate a new artwork svg
-            const maxRadius = Math.min(canvasWidth, canvasHeight) / 4;
-            const newArtwork = newArtworkSvg({
-                canvasWidth,
-                canvasHeight,
-                minCircles: 3,
-                maxCircles: 5,
-                minRadius: maxRadius / 8,
-                maxRadius,
-                strokeWidth: 5,
-                withFrame: false,
-                withFooter: false,
-            });
-            // Remove old svg if it exists
-            const oldSvg = page.querySelector('.svg-artwork');
-            if (oldSvg) {
-                page.removeChild(oldSvg);
-            }
-            // Append a new svg to the page
-            page.appendChild(newArtwork);
-        };
-
         // Callback to handle resizing of the #home-page div
         const observer = new ResizeObserver((entries) => {
+            if (!layoutRef.current)
+                return;
             for (let entry of entries) {
-                repaintCircles(entry.contentRect.width, entry.contentRect.height);
+                addArtworkToContainer({
+                    container: layoutRef.current,
+                    canvasWidth: entry.contentRect.width,
+                    canvasHeight: entry.contentRect.height,
+                    minCircles: 5,
+                    maxCircles: 5,
+                });
             }
         });
+
         // Start observing the div
-        observer.observe(page);
+        if (layoutRef.current)
+            observer.observe(layoutRef.current);
+
         // Cleanup function
         return () => {
-            observer.unobserve(page);
+            if (layoutRef.current)
+                observer.unobserve(layoutRef.current);
         };
     }, []);
 
     return <>
-    <div ref={pageRef} id='home-page'>
+    <div id='home-page'>
         <div id='home-container'>
             <div id='home-title'>
                 <h1>Circles.</h1>

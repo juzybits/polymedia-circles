@@ -1,7 +1,40 @@
+import { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import { AppContext } from './App';
+import { addArtworkToContainer } from './lib/addArtworkToContainer';
 import '../css/FAQ.less';
 
 export const FAQ: React.FC = () =>
 {
+    const { layoutRef } = useOutletContext<AppContext>();
+
+    useEffect(() => {
+        // Callback to handle resizing of the #home-page div
+        const observer = new ResizeObserver((entries) => {
+            if (!layoutRef.current)
+                return;
+            for (let entry of entries) {
+                addArtworkToContainer({
+                    container: layoutRef.current,
+                    canvasWidth: entry.contentRect.width,
+                    canvasHeight: entry.contentRect.height,
+                    minCircles: 30,
+                    maxCircles: 30,
+                });
+            }
+        });
+
+        // Start observing the div
+        if (layoutRef.current)
+            observer.observe(layoutRef.current);
+
+        // Cleanup function
+        return () => {
+            if (layoutRef.current)
+                observer.unobserve(layoutRef.current);
+        };
+    }, []);
+
     return <>
     <div id='faq-page'>
         <div id='faq-faq'>

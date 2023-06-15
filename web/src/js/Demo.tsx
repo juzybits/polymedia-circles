@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { newArtworkSvg } from './lib/svg_builder';
+import { newArtworkSvg } from './lib/newArtworkSvg';
 
 const CANVAS_SIZE = 1000;
 const CIRCLE_MIN_RADIUS = 42;

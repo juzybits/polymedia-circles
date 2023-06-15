@@ -1,33 +1,3 @@
-function newCircle({
-    canvasWidth,
-    canvasHeight,
-    minRadius,
-    maxRadius,
-    strokeWidth,
-}: {
-    canvasWidth: number,
-    canvasHeight: number,
-    minRadius: number,
-    maxRadius: number,
-    strokeWidth: number,
-}): SVGCircleElement
-{
-    const radius = getRandomNumber(minRadius, maxRadius+1);
-    const color = getRandomColor();
-    const cx = getRandomNumber(radius/2, canvasWidth - radius/2); // x position
-    const cy = getRandomNumber(radius/2, canvasHeight - radius/2); // y position
-
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', String(cx));
-    circle.setAttribute('cy', String(cy));
-    circle.setAttribute('r', String(radius));
-    circle.setAttribute('fill', color);
-    circle.setAttribute('stroke', 'black');
-    circle.setAttribute('stroke-width', String(strokeWidth));
-
-    return circle;
-}
-
 /**
  * Example output:
 <svg class="svg-artwork" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
@@ -61,20 +31,6 @@ export function newArtworkSvg({
     withFooter: boolean,
 }): SVGSVGElement
 {
-/* Open Graph image
-const svgString = `
-<svg class="svg-artwork" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
-   <rect width="100%" height="100%" fill="rgb(255,162,255)" />
-   <circle cx="82" cy="340" r="120" fill="rgb(100,224,255)" stroke="black" stroke-width="5" />
-   <circle cx="160" cy="110" r="75" fill="rgb(255,255,100)" stroke="black" stroke-width="5" />
-   <circle cx="690" cy="266" r="90" fill="rgb(100,255,100)" stroke="black" stroke-width="5" />
-   <circle cx="610" cy="315" r="50" fill="rgb(255,100,100)" stroke="black" stroke-width="5" />
-   <circle cx="660" cy="90" r="35" fill="rgb(100,100,255)" stroke="black" stroke-width="5" />
-</svg>`;
-const parser = new DOMParser();
-const doc = parser.parseFromString(svgString, "image/svg+xml");
-return doc.documentElement as unknown as SVGSVGElement;
-*/
     // <svg>
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('class', 'svg-artwork');
@@ -128,6 +84,36 @@ return doc.documentElement as unknown as SVGSVGElement;
     return svg;
 }
 
+function newCircle({
+    canvasWidth,
+    canvasHeight,
+    minRadius,
+    maxRadius,
+    strokeWidth,
+}: {
+    canvasWidth: number,
+    canvasHeight: number,
+    minRadius: number,
+    maxRadius: number,
+    strokeWidth: number,
+}): SVGCircleElement
+{
+    const radius = getRandomNumber(minRadius, maxRadius+1);
+    const color = getRandomColor();
+    const cx = getRandomNumber(radius/2, canvasWidth - radius/2); // x position
+    const cy = getRandomNumber(radius/2, canvasHeight - radius/2); // y position
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', String(cx));
+    circle.setAttribute('cy', String(cy));
+    circle.setAttribute('r', String(radius));
+    circle.setAttribute('fill', color);
+    circle.setAttribute('stroke', 'black');
+    circle.setAttribute('stroke-width', String(strokeWidth));
+
+    return circle;
+}
+
 // Generate a random integer between `min` (inclusive) and `max` (exclusive)
 function getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min) + min);
@@ -135,20 +121,23 @@ function getRandomNumber(min: number, max: number): number {
 
 // Generate a random CSS color like 'rgb(35,123,207)'
 function getRandomColor(): string {
-    // const red = getRandomNumber(0, 256);
-    // const red = getRandomNumber(0, 26) * 10;
-    // const red = getRandomNumber(0, 11) * 25;
-    // const red = getRandomNumber(4, 11) * 25;
-    const red = 7 + getRandomNumber(3, 9) * 31;
-    // const green = getRandomNumber(0, 256);
-    // const green = getRandomNumber(0, 26) * 10;
-    // const green = getRandomNumber(0, 11) * 25;
-    // const green = getRandomNumber(4, 11) * 25;
+    const red   = 7 + getRandomNumber(3, 9) * 31;
     const green = 7 + getRandomNumber(3, 9) * 31;
-    // const blue = getRandomNumber(0, 256);
-    // const blue = getRandomNumber(0, 26) * 10;
-    // const blue = getRandomNumber(0, 11) * 25;
-    // const blue = getRandomNumber(4, 11) * 25;
-    const blue = 7 + getRandomNumber(3, 9) * 31;
+    const blue  = 7 + getRandomNumber(3, 9) * 31;
     return `rgb(${red},${green},${blue})`;
 }
+
+/* Open Graph image
+const svgString = `
+<svg class="svg-artwork" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="rgb(255,162,255)" />
+<circle cx="82" cy="340" r="120" fill="rgb(100,224,255)" stroke="black" stroke-width="5" />
+<circle cx="160" cy="110" r="75" fill="rgb(255,255,100)" stroke="black" stroke-width="5" />
+<circle cx="690" cy="266" r="90" fill="rgb(100,255,100)" stroke="black" stroke-width="5" />
+<circle cx="610" cy="315" r="50" fill="rgb(255,100,100)" stroke="black" stroke-width="5" />
+<circle cx="660" cy="90" r="35" fill="rgb(100,100,255)" stroke="black" stroke-width="5" />
+</svg>`;
+const parser = new DOMParser();
+const doc = parser.parseFromString(svgString, "image/svg+xml");
+return doc.documentElement as unknown as SVGSVGElement;
+*/
