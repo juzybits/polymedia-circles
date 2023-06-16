@@ -1,18 +1,21 @@
 import { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
-import { addArtworkToContainer } from './lib/addArtworkToContainer';
+import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
 import '../css/Home.less';
 
 export const Home: React.FC = () =>
 {
     const { layoutRef } = useOutletContext<AppContext>();
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         // Callback to handle resizing of the #home-page div
-        const observer = new ResizeObserver((entries) => {
-            if (!layoutRef.current)
+        const observer = new ResizeObserver((entries) =>
+        {
+            if (!layoutRef.current) {
                 return;
+            }
             for (let entry of entries) {
                 addArtworkToContainer({
                     container: layoutRef.current,
@@ -30,8 +33,10 @@ export const Home: React.FC = () =>
 
         // Cleanup function
         return () => {
-            if (layoutRef.current)
+            if (layoutRef.current) {
                 observer.unobserve(layoutRef.current);
+                removeArtworkFromContainer(layoutRef.current);
+            }
         };
     }, []);
 

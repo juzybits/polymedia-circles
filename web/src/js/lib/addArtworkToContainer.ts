@@ -30,10 +30,14 @@ export function addArtworkToContainer({
         withFooter: false,
     });
     // Remove old svg if it exists
+    removeArtworkFromContainer(container);
+    // Append a new svg to the container
+    container.appendChild(newArtwork);
+}
+
+export function removeArtworkFromContainer(container: HTMLElement): void {
     const oldSvg = container.querySelector('.svg-artwork');
     if (oldSvg) {
         container.removeChild(oldSvg);
     }
-    // Append a new svg to the container
-    container.appendChild(newArtwork);
 }

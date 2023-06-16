@@ -111,21 +111,23 @@ module polymedia_circles::artwork
         let profile_display = display::new_with_fields<Artwork>(
             &publisher,
             vector[
-                utf8(b"name"),
                 utf8(b"image_url"),
+                utf8(b"name"),
                 utf8(b"description"),
                 utf8(b"link"),
-                utf8(b"creator"),
                 utf8(b"project_name"),
+                utf8(b"project_url"),
+                utf8(b"creator"),
             ], vector[
-                utf8(b"Polymedia Circles #{number}"), // name
                 // Note that CANVAS_SIZE is hardcoded here.
                 // data:image/svg+xml,<svg width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="{background_color}"></rect>{svg}<text x="989" y="987" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #{number}</text><rect width="100%" height="100%" fill="none" stroke="black" stroke-width="12" /></svg>
                 utf8(b"data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{svg}%3Ctext%20x%3D%22989%22%20y%3D%22987%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{number}%3C%2Ftext%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%2212%22%20%2F%3E%3C%2Fsvg%3E"), // image_url
+                utf8(b"Polymedia Circles #{number}"), // name
                 utf8(b"Generative art by Polymedia"), // description
                 utf8(b"https://circles.polymedia.app/view/{id}"), // link
-                utf8(b"https://polymedia.app"), // creator
                 utf8(b"Polymedia Circles"), // project_name
+                utf8(b"https://circles.polymedia.app"), // project_url
+                utf8(b"https://polymedia.app"), // creator
             ], ctx
         );
         display::update_version(&mut profile_display);
