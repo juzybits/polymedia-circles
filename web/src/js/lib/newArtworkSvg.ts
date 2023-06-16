@@ -1,10 +1,10 @@
 /**
  * Example output:
-<svg class="svg-artwork" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg">
-   <rect width="100%" height="100%" fill="rgb(255,131,193)" />
-   <circle cx="788" cy="813" r="324" fill="rgb(131,193,255)" stroke="black" stroke-width="6" />
-   <circle cx="671" cy="592" r="143" fill="rgb(255,131,224)" stroke="black" stroke-width="6" />
-   <circle cx="155" cy="852" r="89" fill="rgb(224,100,193)" stroke="black" stroke-width="6" />
+<svg class="svg-artwork" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+   <rect width="100%" height="100%" fill="rgb(100,224,100)" />
+   <circle cx="232" cy="286" r="360" fill="rgb(131,193,224)" stroke="black" stroke-width="6" />
+   <circle cx="624" cy="689" r="207" fill="rgb(131,162,131)" stroke="black" stroke-width="6" />
+   <circle cx="898" cy="769" r="131" fill="rgb(162,100,162)" stroke="black" stroke-width="6" />
    <text x="989" y="987" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #000</text>
    <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="12" />
 </svg>
@@ -34,8 +34,7 @@ export function newArtworkSvg({
     // <svg>
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('class', 'svg-artwork');
-    svg.setAttribute('width', String(canvasWidth));
-    svg.setAttribute('height', String(canvasHeight));
+    svg.setAttribute('viewBox', `0 0 ${canvasWidth} ${canvasHeight}`);
 
     // <rect>
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { newArtworkSvg } from './lib/newArtworkSvg';
+import '../css/Demo.less';
 
 const CANVAS_SIZE = 1000;
 const CIRCLE_MIN_RADIUS = 42;
