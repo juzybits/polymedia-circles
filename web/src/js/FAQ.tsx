@@ -90,6 +90,34 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
+                <h2>Are some artworks rarer than others?</h2>
+                <p>While all artwork combinations are equally likely to be produced by the algorithm, some arrangements may be more popular than others. For example:</p>
+                <div id='faq-artwork-showcase'>
+                    <div className='faq-artwork-item'>
+                        <div className='faq-artwork-description'>Nested:</div>
+                        <svg className="faq-artwork-svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="rgb(100,193,193)" />
+                            {/* blue */} <circle cx="500" cy="500" r="420" fill="rgb(131,224,255)" stroke="black" stroke-width="5" />
+                            {/* yellow */} <circle cx="525" cy="475" r="300" fill="rgb(224,255,100)" stroke="black" stroke-width="5" />
+                            {/* green */} <circle cx="550" cy="450" r="180" fill="rgb(131,255,131)" stroke="black" stroke-width="5" />
+                            {/* red */} <circle cx="575" cy="425" r="80" fill="rgb(224,131,100)" stroke="black" stroke-width="5" />
+                        </svg>
+                    </div>
+
+                    <div className='faq-artwork-item'>
+                        <div className='faq-artwork-description'>Lookalike:</div>
+                        <svg className="faq-artwork-svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="rgb(255,131,131)" />
+                            {/* left */}  <circle cx="292" cy="362" r="117" />
+                            {/* right */} <circle cx="708" cy="362" r="117" />
+                            {/* head */}  <circle cx="500" cy="580" r="200" fill="rgb(251 217 194)"  />
+                            {/* nose */} <circle cx="500" cy="600" r="50" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div className='question'>
                 <h2>Is the code open source?</h2>
                 <p>It will be.</p>
             </div>

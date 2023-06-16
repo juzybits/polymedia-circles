@@ -127,17 +127,20 @@ function getRandomColor(): string {
     return `rgb(${red},${green},${blue})`;
 }
 
-/* Open Graph image
+/*
 const svgString = `
-<svg class="svg-artwork" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
-<rect width="100%" height="100%" fill="rgb(255,162,255)" />
-<circle cx="82" cy="340" r="120" fill="rgb(100,224,255)" stroke="black" stroke-width="5" />
-<circle cx="160" cy="110" r="75" fill="rgb(255,255,100)" stroke="black" stroke-width="5" />
-<circle cx="690" cy="266" r="90" fill="rgb(100,255,100)" stroke="black" stroke-width="5" />
-<circle cx="610" cy="315" r="50" fill="rgb(255,100,100)" stroke="black" stroke-width="5" />
-<circle cx="660" cy="90" r="35" fill="rgb(100,100,255)" stroke="black" stroke-width="5" />
-</svg>`;
+`;
 const parser = new DOMParser();
 const doc = parser.parseFromString(svgString, "image/svg+xml");
 return doc.documentElement as unknown as SVGSVGElement;
+
+// Open Graph
+<svg class="svg-artwork" width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+<rect width="100%" height="100%" fill="rgb(255,162,255)" />
+<!-- cyan --> <circle cx="82" cy="340" r="120" fill="rgb(100,224,255)" stroke="black" stroke-width="5" />
+<!-- yellow --> <circle cx="160" cy="110" r="75" fill="rgb(255,255,100)" stroke="black" stroke-width="5" />
+<!-- green --> <circle cx="690" cy="266" r="90" fill="rgb(100,255,100)" stroke="black" stroke-width="5" />
+<!-- red --> <circle cx="610" cy="315" r="50" fill="rgb(255,100,100)" stroke="black" stroke-width="5" />
+<!-- darkblue --> <circle cx="660" cy="90" r="35" fill="rgb(100,100,255)" stroke="black" stroke-width="5" />
+</svg>
 */
