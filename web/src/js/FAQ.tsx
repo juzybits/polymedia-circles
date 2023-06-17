@@ -3,6 +3,7 @@ import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
 import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
 import '../css/FAQ.less';
+import imgLogo from '../img/logo.png';
 
 export const FAQ: React.FC = () =>
 {
@@ -42,6 +43,11 @@ export const FAQ: React.FC = () =>
 
     return <>
     <div id='faq-page'>
+        <div id='faq-bar'>
+            <Link to='/' id='faq-back' className='btn'>Back</Link>
+            <a id='faq-logo' href='https://polymedia.app' target='_blank'><img src={imgLogo} alt='about' /></a>
+        </div>
+
         <div id='faq-faq'>
             <h1>F.A.Q.</h1>
 
@@ -104,10 +110,10 @@ export const FAQ: React.FC = () =>
                     <div className='faq-artwork-item'>
                     <svg className="faq-artwork-svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
                             <rect width="100%" height="100%" fill="rgb(100,193,193)" />
-                            {/* blue */} <circle cx="500" cy="500" r="400" fill="rgb(131,224,255)" stroke="black" stroke-width="5" />
-                            {/* yellow */} <circle cx="525" cy="475" r="280" fill="rgb(224,255,100)" stroke="black" stroke-width="5" />
-                            {/* green */} <circle cx="550" cy="450" r="160" fill="rgb(131,255,131)" stroke="black" stroke-width="5" />
-                            {/* red */} <circle cx="565" cy="435" r="65" fill="rgb(224,131,100)" stroke="black" stroke-width="5" />
+                            {/* blue */} <circle cx="500" cy="500" r="400" fill="rgb(131,224,255)" stroke="black" strokeWidth="5" />
+                            {/* yellow */} <circle cx="525" cy="475" r="280" fill="rgb(224,255,100)" stroke="black" strokeWidth="5" />
+                            {/* green */} <circle cx="550" cy="450" r="160" fill="rgb(131,255,131)" stroke="black" strokeWidth="5" />
+                            {/* red */} <circle cx="565" cy="435" r="65" fill="rgb(224,131,100)" stroke="black" strokeWidth="5" />
                         </svg>
                         <div className='faq-artwork-description'>(1) Artwork with fully nested circles.</div>
                     </div>
@@ -120,7 +126,7 @@ export const FAQ: React.FC = () =>
                             {/* head */}  <circle cx="500" cy="580" r="200" fill="rgb(255 224 193)"  />
                             {/* nose */} <circle cx="500" cy="600" r="50" />
                         </svg>
-                        <div className='faq-artwork-description'>(2) Artwork that resemble something.</div>
+                        <div className='faq-artwork-description'>(2) Artwork that resembles something.</div>
                     </div>
                 </div>
                 <p>Ultimately, it is impossible to predict how participants will appraise and categorize instances of Polymedia Circles, so it will be interesting to find out.</p>

@@ -1,9 +1,26 @@
+@import './variables.less';
+
 #faq-page
 {
     background-color: rgb(255 255 255 / 88%);
     margin: 0 auto;
     max-width: 800px;
-    padding: 2em 1em;
+    padding: 0em 1em 2em;
+}
+#faq-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 0.3em 0.1em;
+    #faq-logo {
+        height: 2.7em;
+        img {
+            height: 100%;
+            &:hover {
+                cursor: @cursor-pointer;
+                filter: brightness(1.16);
+            }
+        }
+    }
 }
 #faq-faq {
     h1 {
