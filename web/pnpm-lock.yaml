@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@polymedia/webutils':
+    specifier: latest
+    version: 1.0.1(react-dom@18.2.0)(react@18.2.0)
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -888,6 +891,16 @@ packages:
       '@parcel/utils': 2.9.2
       nullthrows: 1.1.1
     dev: true
+
+  /@polymedia/webutils@1.0.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-t+zYS0DXYYKsxD8oyOfPX7rF5rlFkg5msxg2ch5ORNS4ykZlne0dXYpbDyYkFrIvRuz3/sNtFm4pZB89UAR2SQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@remix-run/router@1.6.3:
     resolution: {integrity: sha512-EXJysQ7J3veRECd0kZFQwYYd5sJMcq2O/m60zu1W2l3oVQ9xtub8jTOtYRE0+M2iomyG/W3Ps7+vp2kna0C27Q==}

@@ -8,6 +8,7 @@
         "build": "rm -rf .parcel-cache/ dist/ && parcel build --no-source-maps src/index.html && cp src/static/* dist/"
     },
     "dependencies": {
+        "@polymedia/webutils": "latest",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.13.0"
