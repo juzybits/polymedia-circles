@@ -73,7 +73,7 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>What are the project goals?</h2>
+                <h2>What are the project's goals?</h2>
 
                     <p>1. The artwork should be <b>created on-chain</b>, on the fly, within a mint transaction. No preprocessing is allowed. Therefore, the code must be efficient in order to reduce Sui computation fees.</p>
 
@@ -110,10 +110,10 @@ export const FAQ: React.FC = () =>
                     <div className='faq-artwork-item'>
                     <svg className="faq-artwork-svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
                             <rect width="100%" height="100%" fill="rgb(100,193,193)" />
-                            {/* blue */} <circle cx="500" cy="500" r="400" fill="rgb(131,224,255)" stroke="black" strokeWidth="5" />
-                            {/* yellow */} <circle cx="525" cy="475" r="280" fill="rgb(224,255,100)" stroke="black" strokeWidth="5" />
-                            {/* green */} <circle cx="550" cy="450" r="160" fill="rgb(131,255,131)" stroke="black" strokeWidth="5" />
-                            {/* red */} <circle cx="565" cy="435" r="65" fill="rgb(224,131,100)" stroke="black" strokeWidth="5" />
+                            {/* blue */} <circle cx="500" cy="500" r="400" fill="rgb(131,224,255)" stroke="black" strokeWidth="6" />
+                            {/* yellow */} <circle cx="525" cy="475" r="280" fill="rgb(224,255,100)" stroke="black" strokeWidth="6" />
+                            {/* green */} <circle cx="550" cy="450" r="160" fill="rgb(131,255,131)" stroke="black" strokeWidth="6" />
+                            {/* red */} <circle cx="565" cy="435" r="65" fill="rgb(224,131,100)" stroke="black" strokeWidth="6" />
                         </svg>
                         <div className='faq-artwork-description'>(1) Artwork with fully nested circles.</div>
                     </div>
@@ -121,10 +121,10 @@ export const FAQ: React.FC = () =>
                     <div className='faq-artwork-item'>
                         <svg className="faq-artwork-svg" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
                             <rect width="100%" height="100%" fill="rgb(255,131,131)" />
-                            {/* left */}  <circle cx="292" cy="362" r="117" />
-                            {/* right */} <circle cx="708" cy="362" r="117" />
-                            {/* head */}  <circle cx="500" cy="580" r="200" fill="rgb(255 224 193)"  />
-                            {/* nose */} <circle cx="500" cy="600" r="50" />
+                            {/* left */}  <circle cx="292" cy="362" r="117" stroke="black" strokeWidth="6" />
+                            {/* right */} <circle cx="708" cy="362" r="117" stroke="black" strokeWidth="6" />
+                            {/* head */}  <circle cx="500" cy="580" r="200" fill="rgb(255 224 193)"  stroke="black" strokeWidth="6" />
+                            {/* nose */} <circle cx="500" cy="600" r="50" stroke="black" strokeWidth="6" />
                         </svg>
                         <div className='faq-artwork-description'>(2) Artwork that resembles something.</div>
                     </div>
@@ -160,13 +160,13 @@ export const FAQ: React.FC = () =>
                     The exact initial mint price and growth factor are yet to be decided, but my idea is to start very cheap. As an example, if the initial price is 1 SUI and the price increments by 0.1% on each mint, then:
                 </p>
                 <p>
-                - The 1st artwork costs 1.00 SUI<br/>
                 - The 10th artwork costs 1.09 SUI<br/>
-                - The 50th artwork costs 1.62 SUI<br/>
-                - The 100th artwork costs 2.67 SUI<br/>
-                - The 500th artwork costs 143 SUI<br/>
+                - The 100th artwork costs 2.68 SUI<br/>
+                - The 300th artwork costs 19.59 SUI<br/>
+                - The 500th artwork costs 143.33 SUI<br/>
+                - The 700th artwork costs 1,049 SUI<br/>
                 - The 1000th artwork costs 20,752 SUI<br/>
-                - The 2000th artwork costs 434,936,837 SUI<br/>
+                - The 1500th artwork costs 3,004,272 SUI<br/>
                 </p>
             </div>
 
