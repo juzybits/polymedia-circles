@@ -17,7 +17,7 @@ module polymedia_circles::artwork
     const CANVAS_SIZE: u64 = 1000;
     const CIRCLE_MIN_RADIUS: u64 = 42;
     const CIRCLE_MAX_RADIUS: u64 = 420;
-    const MIN_CIRCLES: u64 = 2;
+    const MIN_CIRCLES: u64 = 3;
     const MAX_CIRCLES: u64 = 5;
 
     /* Errors */

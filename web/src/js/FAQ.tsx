@@ -99,7 +99,7 @@ export const FAQ: React.FC = () =>
 
                 <p>When someone sends a mint transaction, a new artwork object is generated on-chain using the Circles algorithm, along with some randomness to ensure that each piece is unique. The artwork SVG representation is formatted as a <A text='data URL' href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs' /> by the artwork <A text='Display' href='https://docs.sui.io/build/sui-object-display' />, so that it can be shown as an image in Sui wallets and explorers.</p>
 
-                <p>Each artwork consists of a background and between 2 and 5 circles. These elements are assigned random colors from a palette of 216 colors. The circles' positions and sizes are also random, within the limits of the canvas. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
+                <p>Each artwork consists of a background and between 3 and 5 circles. These elements are assigned random colors from a palette of 216 colors. The circles' positions and sizes are also random, within the limits of the canvas. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
             </div>
 
             <div className='question'>

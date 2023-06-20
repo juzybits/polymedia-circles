@@ -5,7 +5,7 @@ import '../css/Demo.less';
 const CANVAS_SIZE = 1000;
 const CIRCLE_MIN_RADIUS = 42;
 const CIRCLE_MAX_RADIUS = 420;
-const MIN_CIRCLES = 2;
+const MIN_CIRCLES = 3;
 const MAX_CIRCLES = 5;
 const STROKE_WIDTH = 6;
 
