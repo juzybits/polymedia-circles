@@ -10,9 +10,12 @@ module polymedia_circles::controller
     use polymedia_circles::artwork::{Self, Artwork};
     use polymedia_circles::collection::{Self, Collection};
 
+    // public fun freeze() // TODO
+    // public fun autograph() // MAYBE
+
     /* base helpers */
 
-    fun create_artwork(
+    fun create(
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         price: u64,
@@ -37,14 +40,6 @@ module polymedia_circles::controller
         return artwork
     }
 
-    public fun destroy_artwork(
-        collection: &mut Collection,
-        artwork: Artwork
-    ) {
-        artwork::destroy(artwork);
-        collection::decrease_supply(collection);
-    }
-
     /* public functions */
 
     struct ArtworkMinted has copy, drop {
@@ -59,12 +54,29 @@ module polymedia_circles::controller
     ): Artwork
     {
         let full_price = collection::next_price(collection);
-        let artwork = create_artwork(collection, pay_coin, full_price, ctx);
+        let artwork = create(collection, pay_coin, full_price, ctx);
         event::emit(ArtworkMinted {
             artwork_id: object::id(&artwork),
             artwork_number: artwork::number(&artwork),
         });
         return artwork
+    }
+
+    struct ArtworkBurned has copy, drop {
+        artwork_id: ID,
+        artwork_number: u64,
+    }
+    /// Burn an existing `Artwork`
+    public fun burn(
+        collection: &mut Collection,
+        artwork: Artwork,
+    ) {
+        event::emit(ArtworkBurned {
+            artwork_id: object::id(&artwork),
+            artwork_number: artwork::number(&artwork),
+        });
+        artwork::destroy(artwork);
+        collection::decrease_supply(collection);
     }
 
     struct ArtworkRecycled has copy, drop {
@@ -81,31 +93,15 @@ module polymedia_circles::controller
         ctx: &mut TxContext,
     ): Artwork {
         let discounted_price = collection::next_price_discounted(collection);
-        let new_artwork = create_artwork(collection, pay_coin, discounted_price, ctx);
+        let new_artwork = create(collection, pay_coin, discounted_price, ctx);
         event::emit(ArtworkRecycled {
             old_artwork_id: object::id(&old_artwork),
             old_artwork_number: artwork::number(&old_artwork),
             new_artwork_id: object::id(&new_artwork),
             new_artwork_number: artwork::number(&new_artwork),
         });
-        destroy_artwork(collection, old_artwork);
+        burn(collection, old_artwork);
         return new_artwork
-    }
-
-    struct ArtworkBurned has copy, drop {
-        artwork_id: ID,
-        artwork_number: u64,
-    }
-    /// Burn an existing `Artwork`
-    public fun burn(
-        collection: &mut Collection,
-        artwork: Artwork,
-    ) {
-        event::emit(ArtworkBurned {
-            artwork_id: object::id(&artwork),
-            artwork_number: artwork::number(&artwork),
-        });
-        destroy_artwork(collection, artwork);
     }
 
     struct ArtworkBlended has copy, drop {
