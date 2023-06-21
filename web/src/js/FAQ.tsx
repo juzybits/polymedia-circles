@@ -55,7 +55,7 @@ export const FAQ: React.FC = () =>
             <h1>F.A.Q.</h1>
 
             <div id='note'>
-                * Last update: June 17, 2023
+                * Last update: June 21, 2023
                 <br/>
                 * This document is subject to change.
             </div>
@@ -84,15 +84,16 @@ export const FAQ: React.FC = () =>
 
                     <p>3. The artwork should <b>display natively</b> in Sui wallets and explorers. No additional code or libraries are allowed. Therefore, the artwork must be compatible with the Sui <A text='Display Standard' href='https://docs.sui.io/build/sui-object-display' /> so that it works everywhere out of the box.</p>
 
-                    <p>4. The artwork should be <b>dynamic</b>, giving owners the ability to modify it according to certain rules. This introduces a new element of creative unpredictability: not only are the initial artworks generated algorithmically, but subsequent versions will depend on the choices of their owners.</p>
+                    <p>4. The artwork should be <b>dynamic</b>, giving owners the ability to modify it according to certain rules. This adds a new level of unpredictability: not only are the initial artworks generated algorithmically, but subsequent versions depend on the choices of holders.</p>
             </div>
 
             <div className='question'>
                 <h2>How is the artwork dynamic?</h2>
 
-                <p>I have implemented two dynamic features so far (many more are possible, suggestions are welcome). These features introduce an element of human selection on top of the algorithmic randomness, which can lead to more aesthetic and interesting outcomes.</p>
+                <p>By "dynamic" we mean that the artwork can change over time. These dynamic features introduce an element of human selection on top of the algorithmic randomness, which can lead to more aesthetic and interesting outcomes. So far I have implemented the following features, but many more are possible (suggestions are welcome). </p>
                 <p><b>1) Recycling.</b> Holders can destroy existing artworks in order to mint new ones at a very big discount. If for any reason a holder is not happy with an artwork they minted, they can recycle it into a new one for just 10% of the full price.</p>
-                <p><b>2) Blending.</b> Holders can combine two artworks by picking which circles they'd like to swap. In this way holders can refine their artwork according to their personal taste, while simultaneously shaping and curating the entire Polymedia Circles collection.</p>
+                <p><b>2) Blending.</b> Holders can combine two artworks by swapping circles between them. In this way holders can refine their artwork according to their personal taste, while simultaneously shaping and curating the entire Polymedia Circles collection.</p>
+                <p><b>3) Freezing.</b> Holders can use this function to prevent further changes to their artwork. Once an artwork has been frozen, it can no longer be blended or recycled.</p>
             </div>
 
             <div className='question'>
@@ -102,7 +103,7 @@ export const FAQ: React.FC = () =>
 
                 <p>When someone sends a mint transaction, a new artwork object is generated on-chain using the Circles algorithm, along with some randomness to ensure that each piece is unique. The artwork SVG representation is formatted as a <A text='data URL' href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs' /> by the artwork <A text='Display' href='https://docs.sui.io/build/sui-object-display' />, so that it can be shown as an image in Sui wallets and explorers.</p>
 
-                <p>Each artwork consists of a background and between 3 and 5 circles. These elements are assigned random colors from a palette of 216 colors. The circles' positions and sizes are also random, within the limits of the canvas. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
+                <p>Each artwork consists of a background and a variable number of circles. These elements are assigned random colors, from a palette of 216 colors. The sizes and positions of the circles are also random, within the limits of the canvas. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
             </div>
 
             <div className='question'>
@@ -127,7 +128,7 @@ export const FAQ: React.FC = () =>
                             {/* left */}  <circle cx="292" cy="362" r="117" stroke="black" strokeWidth="6" />
                             {/* right */} <circle cx="708" cy="362" r="117" stroke="black" strokeWidth="6" />
                             {/* head */}  <circle cx="500" cy="580" r="200" fill="rgb(255 224 193)"  stroke="black" strokeWidth="6" />
-                            {/* nose */} <circle cx="500" cy="600" r="50" stroke="black" strokeWidth="6" />
+                            {/* nose */} <circle cx="500" cy="608" r="50" stroke="black" strokeWidth="6" />
                         </svg>
                         <div className='faq-artwork-description'>(2) Artwork that resembles something.</div>
                     </div>
@@ -139,34 +140,34 @@ export const FAQ: React.FC = () =>
                 <h2>What kind of ownership do holders have?</h2>
 
                 <p>From a copyright perspective, holders are free to use the artwork however they like, even commercially. The exact license is yet to be decided, but I am leaning towards something like <A text='CC BY' href='https://creativecommons.org/licenses/by/4.0/'/>.</p>
-                <p>From a technical perspective, artworks are "owned" objects that are completely controlled by their holders. There is no "shared" object wrapper that limits what you can do with your artwork.</p>
+                <p>From a technical perspective, artworks are "owned" objects and they are completely controlled by their holders. There is no "shared" object wrapper that limits what you can do with your artwork.</p>
             </div>
 
             <div className='question'>
                 <h2>Are there any royalties?</h2>
 
-                <p>Provided I implement artwork ownership in the manner I described in the "What kind of ownership do holders have?", royalties will not be enforceable.</p>
+                <p>Provided I implement artwork ownership in the manner I described in the previous question, royalties will not be enforceable.</p>
             </div>
 
             <div className='question'>
                 <h2>Is the code open source?</h2>
 
-                <p>It will be.</p>
+                <p>It will be (stay tuned).</p>
             </div>
 
             <div className='question'>
                 <h2>How much does it cost?</h2>
 
-                <p>Polymedia Circles has a unique minting mechanism. Instead of having a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
+                <p>Polymedia Circles has a unique minting mechanism. Instead of setting a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
                 </p>
                 <p>
-                    The exact initial mint price and growth factor are yet to be decided, but my idea is to start very cheap. As an example, if the initial price is 1 SUI and the price increments by 0.1% on each mint, then:
+                    The exact initial mint price and growth factor are yet to be decided, but my idea is to start very cheap. As an example, if the initial mint price is 1 SUI and the price increments by 0.1% on each mint, then:
                 </p>
                 <p>
                 - The 10th artwork costs 1.09 SUI<br/>
                 - The 100th artwork costs 2.68 SUI<br/>
                 - The 300th artwork costs 19.59 SUI<br/>
-                - The 500th artwork costs 143.33 SUI<br/>
+                - The 500th artwork costs 143.3 SUI<br/>
                 - The 700th artwork costs 1,049 SUI<br/>
                 - The 1000th artwork costs 20,752 SUI<br/>
                 - The 1500th artwork costs 3,004,272 SUI<br/>
@@ -182,7 +183,9 @@ export const FAQ: React.FC = () =>
             <div className='question'>
                 <h2>Is there a whitelist?</h2>
 
-                <p>There will be if there is interest. If you are a Polymedia supporter and want to be included, please reach out. If I follow you on Twitter, or we've had a positive interaction, there's a good chance you are eligible for the whitelist.</p>
+                <p>There will be if there is interest.</p>
+                <p>If you have been a Polymedia supporter and want to be included, please reach out. If I follow you on Twitter, or we've had a positive interaction before, there is a good chance that you are eligible for the whitelist.</p>
+                <p>Otherwise, you can try to contribute in different ways to earn a spot in the whitelist. How you get involved is up to you, but I'll do my best to include people who stand out.</p>
             </div>
 
             <div className='question'>
