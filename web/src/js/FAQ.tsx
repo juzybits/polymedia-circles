@@ -161,7 +161,7 @@ export const FAQ: React.FC = () =>
                 <p>Polymedia Circles has a unique minting mechanism. Instead of setting a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
                 </p>
                 <p>
-                    The exact initial mint price and growth factor are yet to be decided, but my idea is to start very cheap. As an example, if the initial mint price is 1 SUI and the price increments by 0.1% on each mint, then:
+                    The exact initial mint price and growth factor are yet to be decided, but my idea is to start very cheap. As an example, if the initial mint price is 1 SUI and the price increments by 1% on each mint, then:
                 </p>
                 <p>
                 - The 10th artwork costs 1.09 SUI<br/>

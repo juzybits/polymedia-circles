@@ -271,7 +271,7 @@ module polymedia_circles::controller_tests
         let price_2_discounted = price_2 / collection::discount_divisor();
         let price_3_discounted = price_3 / collection::discount_divisor();
 
-        /* mint_and_transfer() */
+        /* mint Artwork #1 and #2 */
 
         let addr_minter: address = @0x888;
         let minter_balance_0 = 10_000_000_000; // 10 SUI
@@ -373,15 +373,12 @@ module polymedia_circles::controller_tests
             ts::return_to_sender(&scen, change_coin);
         };
 
-        /* recycle_and_transfer() */
-
-        // Artwork #3 (recycled from #2)
-
         // verify price increases
         assert!( price_3 == collection::next_price(&coll), 0 );
         assert!( price_3_discounted == collection::next_price_discounted(&coll), 0 );
 
-        // recycle Artwork #2 into #3
+        /* recycle Artwork #2 into #3 */
+
         ts::next_tx(&mut scen, addr_minter);
         {
             controller::recycle_artwork_entry(
@@ -422,7 +419,7 @@ module polymedia_circles::controller_tests
             assert!( expected_price == collection::next_price(&mut coll), 0 );
         };
 
-        /* blend() */
+        /* blend Artwork #1 with #3 */
 
         ts::next_tx(&mut scen, addr_minter);
 
@@ -455,7 +452,7 @@ module polymedia_circles::controller_tests
                 vector[0, 0], // 1st Circle of each Artwork
                 vector[1, 1] //  2nd Circle of each Artwork
             ];
-            controller::blend_artwork(&mut artw_1, &mut artw_3, swaps);
+            controller::blend_artwork_entry(&mut artw_1, &mut artw_3, swaps);
 
             ts::return_to_sender(&scen, artw_1);
             ts::return_to_sender(&scen, artw_3);
@@ -481,18 +478,32 @@ module polymedia_circles::controller_tests
             ts::return_to_sender(&scen, artw_3);
         };
 
-        /* burn() */
+        /* freeze Artwork #1 */
+        ts::next_tx(&mut scen, addr_minter);
+        {
+            let artwork = ts::take_from_sender_by_id<Artwork>(&scen, artw_id_1);
+            controller::freeze_artwork_entry(
+                &mut artwork,
+            );
+            ts::return_to_sender(&scen, artwork);
+        };
+        ts::next_tx(&mut scen, addr_minter);
+        {
+            // verify that Artwork #2 was deleted
+            let artwork = ts::take_from_sender_by_id<Artwork>(&scen, artw_id_1);
+            assert!( artwork::frozen(&artwork) == true, 0 );
+            ts::return_to_sender(&scen, artwork);
+        };
 
-        // burn Artwork #3
+        /* burn Artwork #3 */
         ts::next_tx(&mut scen, addr_minter);
         {
             let artwork = ts::take_from_sender_by_id<Artwork>(&scen, artw_id_3);
-            controller::burn_artwork(
+            controller::burn_artwork_entry(
                 &mut coll,
                 artwork,
             );
         };
-
         let tx_effects = ts::next_tx(&mut scen, addr_minter);
         {
             // verify that Artwork #3 was deleted
