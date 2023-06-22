@@ -1,3 +1,4 @@
+/// `Circle` objects are always nested inside of an `Artwork` object
 module polymedia_circles::circle
 {
     use std::vector::{Self};

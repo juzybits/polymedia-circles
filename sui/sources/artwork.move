@@ -1,3 +1,4 @@
+/// `Artwork` owned objects are the collectible items that users can mint
 module polymedia_circles::artwork
 {
     use std::string::{String, utf8};
@@ -20,9 +21,6 @@ module polymedia_circles::artwork
     const MIN_CIRCLES: u64 = 3;
     const MAX_CIRCLES: u64 = 5;
 
-    /* Errors */
-    const E_WRONG_AMOUNT: u64 = 1000;
-
     /* Structs */
 
     struct Artwork has key, store {
@@ -31,6 +29,7 @@ module polymedia_circles::artwork
         background_color: String,
         circles: vector<Circle>,
         svg: String,
+        frozen: bool,
     }
 
     public(friend) fun create(
@@ -60,13 +59,20 @@ module polymedia_circles::artwork
             background_color: utf8(color::rgb_to_svg(&color::random_rgb(ctx))),
             circles,
             svg: utf8(circle::vector_to_svg(&circles)),
+            frozen: false,
         }
+    }
+
+    public(friend) fun freezee( // ("freeze" is a reserved word)
+        self: &mut Artwork,
+    ) {
+        self.frozen = true;
     }
 
     public(friend) fun destroy(
         self: Artwork,
     ) {
-        let Artwork {id, number: _, background_color: _, circles: _, svg: _} = self;
+        let Artwork {id, number: _, background_color: _, circles: _, svg: _, frozen: _} = self;
         object::delete(id);
     }
 
@@ -95,7 +101,9 @@ module polymedia_circles::artwork
     public fun svg(self: &Artwork): &String {
         &self.svg
     }
-
+    public fun frozen(self: &Artwork): bool {
+        self.frozen
+    }
     // One-Time-Witness
     struct ARTWORK has drop {}
 

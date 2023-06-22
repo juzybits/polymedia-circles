@@ -1,3 +1,4 @@
+/// A `Collection` shared object is the configuration for a collection of `Artwork` objects
 module polymedia_circles::collection
 {
     use sui::object::{Self, UID};

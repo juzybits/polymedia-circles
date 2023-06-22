@@ -1,3 +1,4 @@
+/// The entry point for the package
 module polymedia_circles::controller
 {
     use std::vector;
@@ -10,7 +11,38 @@ module polymedia_circles::controller
     use polymedia_circles::artwork::{Self, Artwork};
     use polymedia_circles::collection::{Self, Collection};
 
-    // public fun freeze() // TODO
+    /* Errors */
+    const E_CANT_MODIFY_FROZEN_ARTWORK: u64 = 1000;
+    const E_ARTWORK_ALREADY_FROZEN: u64 = 1001;
+    const E_WRONG_SWAP_LENGTH: u64 = 1002;
+    const E_WRONG_SWAP_INDEX: u64 = 1003;
+
+    /* Events */
+    struct ArtworkMinted has copy, drop {
+        artwork_id: ID,
+        artwork_number: u64,
+    }
+    struct ArtworkFrozen has copy, drop {
+        artwork_id: ID,
+        artwork_number: u64,
+    }
+    struct ArtworkBurned has copy, drop {
+        artwork_id: ID,
+        artwork_number: u64,
+    }
+    struct ArtworkRecycled has copy, drop {
+        old_artwork_id: ID,
+        old_artwork_number: u64,
+        new_artwork_id: ID,
+        new_artwork_number: u64,
+    }
+    struct ArtworkBlended has copy, drop {
+        artwork_a_id: ID,
+        artwork_a_number: u64,
+        artwork_b_id: ID,
+        artwork_b_number: u64,
+    }
+
     // public fun autograph() // MAYBE
 
     /* base helpers */
@@ -42,10 +74,6 @@ module polymedia_circles::controller
 
     /* public functions */
 
-    struct ArtworkMinted has copy, drop {
-        artwork_id: ID,
-        artwork_number: u64,
-    }
     /// Mint a new Artwork
     public fun mint(
         collection: &mut Collection,
@@ -62,15 +90,24 @@ module polymedia_circles::controller
         return artwork
     }
 
-    struct ArtworkBurned has copy, drop {
-        artwork_id: ID,
-        artwork_number: u64,
+    /// Prevent further changes to an `Artwork`
+    public fun freezee(
+        artwork: &mut Artwork,
+    ) {
+        assert!( !artwork::frozen(artwork), E_ARTWORK_ALREADY_FROZEN );
+        event::emit(ArtworkFrozen {
+            artwork_id: object::id(artwork),
+            artwork_number: artwork::number(artwork),
+        });
+        artwork::freezee(artwork);
     }
+
     /// Burn an existing `Artwork`
     public fun burn(
         collection: &mut Collection,
         artwork: Artwork,
     ) {
+        assert!( !artwork::frozen(&artwork), E_CANT_MODIFY_FROZEN_ARTWORK );
         event::emit(ArtworkBurned {
             artwork_id: object::id(&artwork),
             artwork_number: artwork::number(&artwork),
@@ -79,12 +116,6 @@ module polymedia_circles::controller
         collection::decrease_supply(collection);
     }
 
-    struct ArtworkRecycled has copy, drop {
-        old_artwork_id: ID,
-        old_artwork_number: u64,
-        new_artwork_id: ID,
-        new_artwork_number: u64,
-    }
     /// Burn an existing `Artwork` and mint a new one at a discounted price (10%)
     public fun recycle(
         collection: &mut Collection,
@@ -92,6 +123,7 @@ module polymedia_circles::controller
         old_artwork: Artwork,
         ctx: &mut TxContext,
     ): Artwork {
+        assert!( !artwork::frozen(&old_artwork), E_CANT_MODIFY_FROZEN_ARTWORK );
         let discounted_price = collection::next_price_discounted(collection);
         let new_artwork = create(collection, pay_coin, discounted_price, ctx);
         event::emit(ArtworkRecycled {
@@ -104,20 +136,14 @@ module polymedia_circles::controller
         return new_artwork
     }
 
-    struct ArtworkBlended has copy, drop {
-        artwork_a_id: ID,
-        artwork_a_number: u64,
-        artwork_b_id: ID,
-        artwork_b_number: u64,
-    }
-    const E_WRONG_SWAP_LENGTH: u64 = 1000;
-    const E_WRONG_SWAP_INDEX: u64 = 1001;
     /// Swap circles between two artworks
     public fun blend(
         a: &mut Artwork,
         b: &mut Artwork,
         swaps: vector<vector<u64>>,
     ) {
+        assert!( !artwork::frozen(a), E_CANT_MODIFY_FROZEN_ARTWORK );
+        assert!( !artwork::frozen(b), E_CANT_MODIFY_FROZEN_ARTWORK );
         let swaps_len = vector::length(&swaps);
         let a_circles = artwork::circles(a);
         let b_circles = artwork::circles(b);
@@ -172,8 +198,7 @@ module polymedia_circles::controller
         recipient: address,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext,
-        )
-    {
+    ) {
         let artwork = mint(collection, pay_coin, ctx);
         transfer::public_transfer(artwork, recipient);
     }
