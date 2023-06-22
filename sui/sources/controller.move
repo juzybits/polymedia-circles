@@ -47,7 +47,7 @@ module polymedia_circles::controller
 
     /* base helpers */
 
-    fun create(
+    fun create_artwork(
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         price: u64,
@@ -75,14 +75,14 @@ module polymedia_circles::controller
     /* public functions */
 
     /// Mint a new Artwork
-    public fun mint(
+    public fun mint_artwork(
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext
     ): Artwork
     {
         let full_price = collection::next_price(collection);
-        let artwork = create(collection, pay_coin, full_price, ctx);
+        let artwork = create_artwork(collection, pay_coin, full_price, ctx);
         event::emit(ArtworkMinted {
             artwork_id: object::id(&artwork),
             artwork_number: artwork::number(&artwork),
@@ -91,7 +91,7 @@ module polymedia_circles::controller
     }
 
     /// Prevent further changes to an `Artwork`
-    public fun freezee(
+    public fun freeze_artwork(
         artwork: &mut Artwork,
     ) {
         assert!( !artwork::frozen(artwork), E_ARTWORK_ALREADY_FROZEN );
@@ -103,7 +103,7 @@ module polymedia_circles::controller
     }
 
     /// Burn an existing `Artwork`
-    public fun burn(
+    public fun burn_artwork(
         collection: &mut Collection,
         artwork: Artwork,
     ) {
@@ -117,7 +117,7 @@ module polymedia_circles::controller
     }
 
     /// Burn an existing `Artwork` and mint a new one at a discounted price (10%)
-    public fun recycle(
+    public fun recycle_artwork(
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         old_artwork: Artwork,
@@ -125,19 +125,19 @@ module polymedia_circles::controller
     ): Artwork {
         assert!( !artwork::frozen(&old_artwork), E_CANT_MODIFY_FROZEN_ARTWORK );
         let discounted_price = collection::next_price_discounted(collection);
-        let new_artwork = create(collection, pay_coin, discounted_price, ctx);
+        let new_artwork = create_artwork(collection, pay_coin, discounted_price, ctx);
         event::emit(ArtworkRecycled {
             old_artwork_id: object::id(&old_artwork),
             old_artwork_number: artwork::number(&old_artwork),
             new_artwork_id: object::id(&new_artwork),
             new_artwork_number: artwork::number(&new_artwork),
         });
-        burn(collection, old_artwork);
+        burn_artwork(collection, old_artwork);
         return new_artwork
     }
 
     /// Swap circles between two artworks
-    public fun blend(
+    public fun blend_artwork(
         a: &mut Artwork,
         b: &mut Artwork,
         swaps: vector<vector<u64>>,
@@ -193,25 +193,46 @@ module polymedia_circles::controller
 
     /* entry wrappers around public functions */
 
-    public entry fun mint_and_transfer(
+    public entry fun mint_artwork_entry(
         collection: &mut Collection,
         recipient: address,
         pay_coin: Coin<SUI>,
         ctx: &mut TxContext,
     ) {
-        let artwork = mint(collection, pay_coin, ctx);
+        let artwork = mint_artwork(collection, pay_coin, ctx);
         transfer::public_transfer(artwork, recipient);
     }
 
-    public entry fun recycle_and_transfer(
+    public entry fun freeze_artwork_entry(
+        artwork: &mut Artwork,
+    ) {
+        freeze_artwork(artwork);
+    }
+
+    public entry fun burn_artwork_entry(
+        collection: &mut Collection,
+        artwork: Artwork,
+    ) {
+        burn_artwork(collection, artwork);
+    }
+
+    public entry fun recycle_artwork_entry(
         collection: &mut Collection,
         recipient: address,
         pay_coin: Coin<SUI>,
         recycle: Artwork,
         ctx: &mut TxContext,
     ) {
-        let artwork = recycle(collection, pay_coin, recycle, ctx);
+        let artwork = recycle_artwork(collection, pay_coin, recycle, ctx);
         transfer::public_transfer(artwork, recipient);
+    }
+
+    public entry fun blend_artwork_entry(
+        a: &mut Artwork,
+        b: &mut Artwork,
+        swaps: vector<vector<u64>>,
+    ) {
+        blend_artwork(a, b, swaps);
     }
 }
 
@@ -262,7 +283,7 @@ module polymedia_circles::controller_tests
         {
             let ctx = ts::ctx(&mut scen);
             let pay_coin = coin::mint_for_testing<SUI>(minter_balance_0, ctx);
-            controller::mint_and_transfer(
+            controller::mint_artwork_entry(
                 &mut coll,
                 addr_minter,
                 pay_coin,
@@ -311,7 +332,7 @@ module polymedia_circles::controller_tests
         // mint Artwork #2
         ts::next_tx(&mut scen, addr_minter);
         {
-            controller::mint_and_transfer(
+            controller::mint_artwork_entry(
                 &mut coll,
                 addr_minter,
                 ts::take_from_sender<Coin<SUI>>(&scen),
@@ -363,7 +384,7 @@ module polymedia_circles::controller_tests
         // recycle Artwork #2 into #3
         ts::next_tx(&mut scen, addr_minter);
         {
-            controller::recycle_and_transfer(
+            controller::recycle_artwork_entry(
                 &mut coll,
                 addr_minter,
                 ts::take_from_sender<Coin<SUI>>(&scen),
@@ -434,7 +455,7 @@ module polymedia_circles::controller_tests
                 vector[0, 0], // 1st Circle of each Artwork
                 vector[1, 1] //  2nd Circle of each Artwork
             ];
-            controller::blend(&mut artw_1, &mut artw_3, swaps);
+            controller::blend_artwork(&mut artw_1, &mut artw_3, swaps);
 
             ts::return_to_sender(&scen, artw_1);
             ts::return_to_sender(&scen, artw_3);
@@ -466,7 +487,7 @@ module polymedia_circles::controller_tests
         ts::next_tx(&mut scen, addr_minter);
         {
             let artwork = ts::take_from_sender_by_id<Artwork>(&scen, artw_id_3);
-            controller::burn(
+            controller::burn_artwork(
                 &mut coll,
                 artwork,
             );
