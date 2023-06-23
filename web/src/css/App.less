@@ -68,12 +68,29 @@ a {
     border: 2.5px solid black;
     box-shadow: 3px 3px 0px black;
     display: inline-block;
+    font-size: 1em;
     font-weight: bold;
     padding: 0.5rem 1rem 0.6rem;
     text-decoration: none;
+    user-select: none;
     &:hover {
         text-decoration: none;
         box-shadow: 0px 0px 0px black;
         background-color: rgb(245 207 84);
+    }
+}
+
+#network-selector {
+    margin: 1em;
+    user-select: none;
+    display: inline-block;
+    .network-options {
+        .network-option {
+            .text:hover:not(.selected) {
+                cursor: @cursor-pointer;
+                color: lightgreen;
+                text-decoration: underline;
+            }
+        }
     }
 }

@@ -4,6 +4,8 @@
     "author": "@juzybits (https://polymedia.app)",
     "description": "https://circles.polymedia.app",
     "dependencies": {
+        "@mysten/sui.js": "^0.36.0",
+        "@mysten/wallet-kit": "^0.4.10",
         "@polymedia/webutils": "latest",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
@@ -13,6 +15,7 @@
         "@parcel/transformer-less": "latest",
         "@types/react": "^18.2.13",
         "@types/react-dom": "^18.2.6",
+        "events": "^3.3.0",
         "parcel": "latest",
         "process": "latest",
         "react-devtools": "latest"
@@ -22,5 +25,9 @@
         "build": "rm -rf .parcel-cache/ dist/ && parcel build --no-source-maps src/index.html && cp src/static/* dist/",
         "deploy-dev": "pnpm build && wrangler pages publish dist/ --project-name polymedia-circles --branch dev",
         "deploy-prod": "pnpm build && wrangler pages publish dist/ --project-name polymedia-circles --branch main"
+    },
+    "alias": {
+        "react": "./node_modules/react",
+        "react-dom": "./node_modules/react-dom"
     }
 }

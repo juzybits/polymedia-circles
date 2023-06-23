@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { App } from './js/App';
+import { AppWrap } from './js/App';
 // Main pages
 import { Home } from './js/Home';
 import { FAQ } from './js/FAQ';
@@ -22,7 +22,7 @@ ReactDOM
     .render(
         <BrowserRouter>
         <Routes>
-            <Route path='/' element={<App />} >
+            <Route path='/' element={<AppWrap />} >
                 {/* main pages */}
                 <Route index element={<Home />} />
                 <Route path='faq' element={<FAQ />} />
