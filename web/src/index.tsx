@@ -1,12 +1,19 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { App } from './js/App';
+// Main pages
 import { Home } from './js/Home';
 import { FAQ } from './js/FAQ';
+import { Activity } from './js/Activity';
+import { MyCircles } from './js/MyCircles';
+// Artwork actions
 import { Mint } from './js/Mint';
 import { View } from './js/View';
-import { Blend } from './js/Blend';
+import { Freeze } from './js/Freeze';
+import { Burn } from './js/Burn';
 import { Recycle } from './js/Recycle';
+import { Blend } from './js/Blend';
+// Special pages
 import { Demo } from './js/Demo';
 import { NotFound } from './js/NotFound';
 
@@ -16,12 +23,19 @@ ReactDOM
         <BrowserRouter>
         <Routes>
             <Route path='/' element={<App />} >
+                {/* main pages */}
                 <Route index element={<Home />} />
                 <Route path='faq' element={<FAQ />} />
+                <Route path='activity' element={<Activity />} />
+                <Route path='mycircles' element={<MyCircles />} />
+                {/* artwork actions */}
                 <Route path='mint' element={<Mint />} />
                 <Route path='view/:artId' element={<View />} />
-                <Route path='blend/:artId' element={<Blend />} />
+                <Route path='freeze/:artId' element={<Freeze />} />
+                <Route path='burn/:artId' element={<Burn />} />
                 <Route path='recycle/:artId' element={<Recycle />} />
+                <Route path='blend/:artId' element={<Blend />} />
+                {/* Special pages */}
                 <Route path='demo' element={<Demo />} />
                 <Route path='*' element={<NotFound />} />
             </Route>
