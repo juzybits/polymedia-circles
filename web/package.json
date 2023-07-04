@@ -5,15 +5,15 @@
     "description": "https://circles.polymedia.app",
     "dependencies": {
         "@mysten/sui.js": "^0.36.0",
-        "@mysten/wallet-kit": "^0.4.10",
+        "@mysten/wallet-kit": "^0.4.12",
         "@polymedia/webutils": "latest",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-router-dom": "^6.13.0"
+        "react-router-dom": "^6.14.1"
     },
     "devDependencies": {
         "@parcel/transformer-less": "latest",
-        "@types/react": "^18.2.13",
+        "@types/react": "^18.2.14",
         "@types/react-dom": "^18.2.6",
         "events": "^3.3.0",
         "parcel": "latest",

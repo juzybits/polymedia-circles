@@ -48,7 +48,7 @@ export const FAQ: React.FC = () =>
     <div id='faq-page'>
         <div id='faq-bar'>
             <Link to='/' id='faq-back' className='btn'>Back</Link>
-            <a id='faq-logo' href='https://polymedia.app' target='_blank'><img src={imgLogo} alt='about' /></a>
+            <a id='faq-logo' href='https://polymedia.app' target='_blank' rel='noopener'><img src={imgLogo} alt='about' /></a>
         </div>
 
         <div id='faq-faq'>
@@ -240,5 +240,5 @@ const A: React.FC<{
     href = '',
     target = '_blank',
 }) => {
-    return <a href={href} target={target}>{text||href}</a>
+    return <a href={href} target={target} rel='noopener'>{text||href}</a>
 }
