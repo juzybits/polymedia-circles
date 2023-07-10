@@ -55,7 +55,7 @@ export const FAQ: React.FC = () =>
             <h1>F.A.Q.</h1>
 
             <div id='note'>
-                * Last update: June 21, 2023
+                * Last update: July 10, 2023
                 <br/>
                 * This document is subject to change.
             </div>
@@ -84,7 +84,7 @@ export const FAQ: React.FC = () =>
 
                     <p>3. The artwork should <b>display natively</b> in Sui wallets and explorers. No additional code or libraries are allowed. Therefore, the artwork must be compatible with the Sui <A text='Display Standard' href='https://docs.sui.io/build/sui-object-display' /> so that it works everywhere out of the box.</p>
 
-                    <p>4. The artwork should be <b>dynamic</b>, giving owners the ability to modify it according to certain rules. This adds a new level of unpredictability: not only are the initial artworks generated algorithmically, but subsequent versions depend on the choices of holders.</p>
+                    <p>4. The artwork should be <b>dynamic</b>, giving owners the ability to modify it according to certain rules. This adds a new kind of unpredictability: not only are the initial artworks generated algorithmically, but subsequent versions depend on the choices of holders.</p>
             </div>
 
             <div className='question'>
@@ -133,7 +133,7 @@ export const FAQ: React.FC = () =>
                         <div className='faq-artwork-description'>(2) Artwork that resembles something.</div>
                     </div>
                 </div>
-                <p>Ultimately, it is impossible to predict how participants will appraise and categorize instances of Polymedia Circles, so it will be interesting to find out.</p>
+                <p>Ultimately, it is impossible to predict how participants will classify and appraise instances of Polymedia Circles, so it will be interesting to find out.</p>
             </div>
 
             <div className='question'>
@@ -157,6 +157,8 @@ export const FAQ: React.FC = () =>
 
             <div className='question'>
                 <h2>How much does it cost?</h2>
+
+                <p><i><b>Note (July 10): The minting mechanism will likely be changed to an <A text='auction' href='https://twitter.com/juzybits/status/1678061481034694656' /> instead of the approach described below.</b></i></p>
 
                 <p>Polymedia Circles has a unique minting mechanism. Instead of setting a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
                 </p>
