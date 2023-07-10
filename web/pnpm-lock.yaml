@@ -5,15 +5,21 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@mysten/bcs':
+    specifier: latest
+    version: 0.7.3
   '@mysten/sui.js':
-    specifier: ^0.36.0
-    version: 0.36.0
+    specifier: latest
+    version: 0.37.1
   '@mysten/wallet-kit':
-    specifier: ^0.4.12
+    specifier: latest
     version: 0.4.12(react-dom@18.2.0)(react@18.2.0)
+  '@mysten/wallet-kit-core':
+    specifier: latest
+    version: 0.4.12
   '@polymedia/webutils':
     specifier: latest
-    version: 1.0.1(react-dom@18.2.0)(react@18.2.0)
+    version: 1.0.3(react-dom@18.2.0)(react@18.2.0)
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -40,12 +46,15 @@ devDependencies:
   parcel:
     specifier: latest
     version: 2.9.3
+  prettier:
+    specifier: 3.0.0
+    version: 3.0.0
   process:
     specifier: latest
     version: 0.11.10
   react-devtools:
     specifier: latest
-    version: 4.27.8
+    version: 4.28.0
 
 packages:
 
@@ -214,35 +223,10 @@ packages:
     dev: true
     optional: true
 
-  /@mysten/bcs@0.7.2:
-    resolution: {integrity: sha512-M8aUGFwoBEj9XPCJcYuVlv8UbqBINAYhrDGLavdCYZwGlN5saGgrBcnGpXk+D2/Vp+aEUFh3RCyKudn7H0G9hQ==}
-    dependencies:
-      bs58: 5.0.0
-    dev: false
-
   /@mysten/bcs@0.7.3:
     resolution: {integrity: sha512-fbusBfsyc2MpTACi72H5edWJ670T84va+qn9jSPpb5BzZ+pzUM1Q0ApPrF5OT+mB1o5Ng+mxPQpBCZQkfiV2TA==}
     dependencies:
       bs58: 5.0.0
-    dev: false
-
-  /@mysten/sui.js@0.36.0:
-    resolution: {integrity: sha512-l/gZUxlr0oHgnwuHYxIVp+JOrdj1imhffL5iK25JYh3WV4sTxiQntCLuSen6etXyFG9c1l2GNvVaGZaV3mb4Hw==}
-    engines: {node: '>=16'}
-    dependencies:
-      '@mysten/bcs': 0.7.2
-      '@noble/curves': 1.1.0
-      '@noble/hashes': 1.3.1
-      '@open-rpc/client-js': 1.8.1
-      '@scure/bip32': 1.3.0
-      '@scure/bip39': 1.2.1
-      '@suchipi/femver': 1.0.0
-      superstruct: 1.0.3
-      tweetnacl: 1.0.3
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - utf-8-validate
     dev: false
 
   /@mysten/sui.js@0.37.1:
@@ -1179,8 +1163,8 @@ packages:
       nullthrows: 1.1.1
     dev: true
 
-  /@polymedia/webutils@1.0.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-t+zYS0DXYYKsxD8oyOfPX7rF5rlFkg5msxg2ch5ORNS4ykZlne0dXYpbDyYkFrIvRuz3/sNtFm4pZB89UAR2SQ==}
+  /@polymedia/webutils@1.0.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Zy5nl+5QRtTfyPqzUb2/ARoF+QMnRvpA5PN48asW1LCc8Atn4RvseV3tFAa4TilhD8xSiCQaZBj1GKFvTTqc/Q==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
@@ -1365,7 +1349,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 16.18.38
+      '@types/node': 20.3.3
       '@types/responselike': 1.0.0
     dev: true
 
@@ -1419,7 +1403,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 16.18.38
+      '@types/node': 20.3.3
     dev: true
     optional: true
 
@@ -2870,6 +2854,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /prettier@3.0.0:
+    resolution: {integrity: sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
+
   /process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
@@ -2911,8 +2901,8 @@ packages:
       strip-json-comments: 2.0.1
     dev: true
 
-  /react-devtools-core@4.27.8:
-    resolution: {integrity: sha512-KwoH8/wN/+m5wTItLnsgVraGNmFrcTWR3k1VimP1HjtMMw4CNF+F5vg4S/0tzTEKIdpCi2R7mPNTC+/dswZMgw==}
+  /react-devtools-core@4.28.0:
+    resolution: {integrity: sha512-E3C3X1skWBdBzwpOUbmXG8SgH6BtsluSMe+s6rRcujNKG1DGi8uIfhdhszkgDpAsMoE55hwqRUzeXCmETDBpTg==}
     dependencies:
       shell-quote: 1.8.1
       ws: 7.5.9
@@ -2921,15 +2911,15 @@ packages:
       - utf-8-validate
     dev: true
 
-  /react-devtools@4.27.8:
-    resolution: {integrity: sha512-DeqAofBIZZaEew6lMZStInTukF24CIaMvJ1nwDLWPCbdVHyLDpy4JA7d5AArt97xnE2X7HTKXIFFCMwcannA2A==}
+  /react-devtools@4.28.0:
+    resolution: {integrity: sha512-nagHAiR9ZBZtXdjMdNWSiWCee7i0gYm/hPNYTS3fmxvlfbzU3PfKlID7wdZgSoO00I2/ZzhsPfr9fccg9uk5Yw==}
     hasBin: true
     dependencies:
       cross-spawn: 5.1.0
       electron: 23.3.9
       ip: 1.1.8
       minimist: 1.2.8
-      react-devtools-core: 4.27.8
+      react-devtools-core: 4.28.0
       update-notifier: 2.5.0
     transitivePeerDependencies:
       - bufferutil
