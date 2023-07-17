@@ -1,15 +1,17 @@
 /// The entry point for the package
 module polymedia_circles::controller
 {
-    use std::vector;
+    use std::string::{String, utf8};
+    use std::vector::{Self};
     use sui::coin::{Self, Coin};
-    use sui::event;
+    use sui::event::{Self};
     use sui::object::{Self, ID};
     use sui::sui::{SUI};
-    use sui::transfer;
+    use sui::transfer::{Self};
     use sui::tx_context::{Self, TxContext};
     use polymedia_circles::artwork::{Self, Artwork};
     use polymedia_circles::collection::{Self, Collection};
+    use polymedia_circles::whitelist::{Self, Whitelist};
 
     /* Errors */
     const E_CANT_MODIFY_FROZEN_ARTWORK: u64 = 1000;
@@ -21,6 +23,7 @@ module polymedia_circles::controller
     struct ArtworkMinted has copy, drop {
         artwork_id: ID,
         artwork_number: u64,
+        from_whitelist: bool,
     }
     struct ArtworkFrozen has copy, drop {
         artwork_id: ID,
@@ -51,6 +54,7 @@ module polymedia_circles::controller
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         price: u64,
+        autograph: String,
         ctx: &mut TxContext
     ) : Artwork
     {
@@ -65,7 +69,11 @@ module polymedia_circles::controller
         };
         transfer::public_transfer( exact_coin, collection::pay_address(collection) );
 
-        let artwork = artwork::create(collection::next_number(collection), ctx);
+        let artwork = artwork::create(
+            collection::next_number(collection),
+            autograph,
+            ctx,
+        );
         collection::increase_supply(collection);
         collection::increase_number(collection);
         collection::increase_price(collection);
@@ -82,10 +90,44 @@ module polymedia_circles::controller
     ): Artwork
     {
         let full_price = collection::next_price(collection);
-        let artwork = create_artwork(collection, pay_coin, full_price, ctx);
+        let autograph = utf8(b"");
+        let artwork = create_artwork(
+            collection,
+            pay_coin,
+            full_price,
+            autograph,
+            ctx,
+        );
         event::emit(ArtworkMinted {
             artwork_id: object::id(&artwork),
             artwork_number: artwork::number(&artwork),
+            from_whitelist: false,
+        });
+        return artwork
+    }
+
+    /// Mint a new Artwork for free, for whitelisted addresses
+    public fun mint_artwork_via_whitelist(
+        collection: &mut Collection,
+        whitelist: &mut Whitelist,
+        ctx: &mut TxContext,
+    ): Artwork
+    {
+        // Will fail if not whitelisted
+        let autograph = whitelist::pop_autograph(whitelist, tx_context::sender(ctx));
+        let price = 0;
+        let pay_coin = coin::zero(ctx);
+        let artwork = create_artwork(
+            collection,
+            pay_coin,
+            price,
+            autograph,
+            ctx,
+        );
+        event::emit(ArtworkMinted {
+            artwork_id: object::id(&artwork),
+            artwork_number: artwork::number(&artwork),
+            from_whitelist: true,
         });
         return artwork
     }
@@ -125,7 +167,14 @@ module polymedia_circles::controller
     ): Artwork {
         assert!( !artwork::frozen(&old_artwork), E_CANT_MODIFY_FROZEN_ARTWORK );
         let discounted_price = collection::next_price_discounted(collection);
-        let new_artwork = create_artwork(collection, pay_coin, discounted_price, ctx);
+        let autograph = utf8(b"");
+        let new_artwork = create_artwork(
+            collection,
+            pay_coin,
+            discounted_price,
+            autograph,
+            ctx,
+        );
         event::emit(ArtworkRecycled {
             old_artwork_id: object::id(&old_artwork),
             old_artwork_number: artwork::number(&old_artwork),

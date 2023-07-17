@@ -4,6 +4,7 @@ module polymedia_circles::collection
     use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
+    use polymedia_circles::whitelist::{Self, Whitelist};
 
     friend polymedia_circles::controller;
 
@@ -19,6 +20,7 @@ module polymedia_circles::collection
         next_number: u64,
         next_price: u64,
         pay_address: address, // TODO: multisig vault
+        whitelist: Whitelist,
     }
 
     public(friend) fun increase_number(self: &mut Collection) {
@@ -60,14 +62,27 @@ module polymedia_circles::collection
         DISCOUNT_DIVISOR
     }
 
-    fun init(ctx: &mut TxContext)
+    fun init(ctx: &mut TxContext) // TODO: Publisher + Display
     {
+        let whitelist = whitelist::create
+        (
+            vector[ // addresses that can mint
+                @0xAAA,
+                @0xBBB,
+            ],
+            vector[ // autographs for each address
+                b"To my friend AAA",
+                b"Hope you like it BBB",
+            ],
+            ctx,
+        );
         transfer::public_share_object(Collection {
             id: object::new(ctx),
             supply: 0,
             next_number: INITIAL_NUMBER,
             next_price: INITIAL_PRICE,
             pay_address: tx_context::sender(ctx),
+            whitelist,
         });
     }
 
