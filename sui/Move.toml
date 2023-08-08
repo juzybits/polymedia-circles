@@ -2,7 +2,7 @@
 name = "PolymediaCircles"
 version = "1.0.0"
 authors = ["juzybits <https://twitter.com/juzybits>"]
-license = "CC-BY-NC-SA-4.0"
+license = "CC-BY-SA-4.0"
 published-at = "0x0"
 
 [dependencies]

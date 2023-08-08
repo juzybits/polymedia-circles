@@ -139,7 +139,7 @@ export const FAQ: React.FC = () =>
             <div className='question'>
                 <h2>What kind of ownership do holders have?</h2>
 
-                <p>From a copyright perspective, holders are free to use the artwork however they like, even commercially. The exact license is yet to be decided, but I am leaning towards something like <A text='CC BY' href='https://creativecommons.org/licenses/by/4.0/'/>.</p>
+                <p>From a copyright perspective, holders are free to use the artwork however they like, even commercially. The exact license is yet to be decided, but I am leaning towards something like <A text='CC BY-SA' href='https://creativecommons.org/licenses/by-sa/4.0/'/>.</p>
                 <p>From a technical perspective, artworks are "owned" objects and they are completely controlled by their holders. There is no "shared" object wrapper that limits what you can do with your artwork.</p>
             </div>
 
@@ -158,7 +158,7 @@ export const FAQ: React.FC = () =>
             <div className='question'>
                 <h2>How much does it cost?</h2>
 
-                <p><i><b>Note (July 10): The minting mechanism will likely be changed to an <A text='auction' href='https://twitter.com/juzybits/status/1678061481034694656' /> instead of the approach described below.</b></i></p>
+                <p><i><b>Note (August 8): The minting mechanism will likely be changed to an <A text='auction' href='https://twitter.com/juzybits/status/1678061481034694656' /> instead of the approach described below.</b></i></p>
 
                 <p>Polymedia Circles has a unique minting mechanism. Instead of setting a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
                 </p>
