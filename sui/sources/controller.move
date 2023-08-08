@@ -50,6 +50,7 @@ module polymedia_circles::controller
 
     /* base helpers */
 
+    #[lint_allow(self_transfer)]
     fun create_artwork(
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
@@ -317,8 +318,8 @@ module polymedia_circles::controller_tests
         let price_2 = price_1 + ((price_1 * price_increase_bps) / 10000); // 1.01 SUI
         let price_3 = price_2 + ((price_2 * price_increase_bps) / 10000); // 1.0201 SUI
         let price_4 = price_3 + ((price_3 * price_increase_bps) / 10000); // 1.0201 SUI
-        let price_2_discounted = price_2 / collection::discount_divisor();
-        let price_3_discounted = price_3 / collection::discount_divisor();
+        let price_2_discounted = price_2 / collection::recycled_divisor();
+        let price_3_discounted = price_3 / collection::recycled_divisor();
 
         /* mint Artwork #1 and #2 */
 

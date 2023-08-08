@@ -6,6 +6,7 @@ license = "CC-BY-SA-4.0"
 published-at = "0x0"
 
 [dependencies]
+# Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "mainnet" }
 Sui = { local = "../../sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]

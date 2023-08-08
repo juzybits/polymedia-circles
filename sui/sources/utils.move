@@ -5,7 +5,7 @@ module polymedia_circles::utils
     friend polymedia_circles::circle;
     friend polymedia_circles::color;
 
-    /// Represent a number as a string (vector of u8 characters)
+    /// Represent a u64 number as a string (vector of u8 characters)
     public(friend) fun u64_to_bytes(num: u64): vector<u8>
     {
         if (num == 0) {
@@ -20,6 +20,8 @@ module polymedia_circles::utils
         vector::reverse(&mut bytes);
         return bytes
     }
+
+    /// Represent a u8 number as a string (vector of u8 characters)
     public(friend) fun u8_to_bytes(num: u8): vector<u8> {
         return u64_to_bytes((num as u64))
     }

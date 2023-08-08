@@ -12,7 +12,7 @@ module polymedia_circles::collection
     const INITIAL_NUMBER: u64 = 1; // number of the first artwork
     const INITIAL_PRICE: u64 = 1_000_000_000; // price of the first artwork (1 SUI)
     const PRICE_INCREASE_BPS: u64 = 100; // basis points (1%)
-    const DISCOUNT_DIVISOR: u64 = 10; // recycled Artwork costs 10% of Collection.next_price
+    const RECYCLED_DIVISOR: u64 = 10; // recycled Artwork costs 10% of Collection.next_price
 
     struct Collection has key, store {
         id: UID,
@@ -53,13 +53,13 @@ module polymedia_circles::collection
         self.pay_address
     }
     public fun next_price_discounted(self: &Collection): u64 {
-        self.next_price / DISCOUNT_DIVISOR
+        self.next_price / RECYCLED_DIVISOR
     }
     public fun price_increase_bps(): u64 {
         PRICE_INCREASE_BPS
     }
-    public fun discount_divisor(): u64 {
-        DISCOUNT_DIVISOR
+    public fun recycled_divisor(): u64 {
+        RECYCLED_DIVISOR
     }
 
     fun init(ctx: &mut TxContext) // TODO: Publisher + Display
