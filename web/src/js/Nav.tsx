@@ -1,4 +1,5 @@
-import { NetworkName, NetworkSelector, isLocalhost } from '@polymedia/webutils';
+import { NetworkSelector } from '@polymedia/react-components';
+import { NetworkName, isLocalhost } from '@polymedia/webutils';
 import '../css/Nav.less';
 
 export const Nav: React.FC<{
