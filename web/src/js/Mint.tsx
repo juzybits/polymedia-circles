@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useWalletKit } from '@mysten/wallet-kit';
 import '../css/Mint.less';
 import { useOutletContext } from 'react-router-dom';
@@ -8,11 +8,13 @@ export const Mint: React.FC = () => // TODO
 {
     const {
         currentAccount,
-        // signTransactionBlock,
+        signTransactionBlock,
     } = useWalletKit();
 
+    const [errorMsg, _setErrorMsg] = useState<string|null>(null);
+
     const {
-        // circlesManager,
+        circlesManager,
         openConnectModal,
     } = useOutletContext<AppContext>();
 
@@ -21,15 +23,35 @@ export const Mint: React.FC = () => // TODO
     }, []);
 
     const onClickMint = async () => {
-        if (!currentAccount) {
-            openConnectModal();
-            return;
-        }
+        circlesManager.mint({signTransactionBlock, collection: '0x123', payCoin: '0x123'})
+    };
+
+    const onClickConnect = async () => {
+        openConnectModal();
     };
 
     return <>
     <div id='mint-page'>
-        <button className='btn' onClick={onClickMint}>Mint</button>
+        {
+            !currentAccount
+            ? <button className='btn' onClick={onClickMint}>Mint</button>
+            : <button className='btn' onClick={onClickConnect}>Connect</button>
+        }
+        <ErrorBox msg={errorMsg} />
     </div>
     </>;
+}
+
+export const ErrorBox: React.FC<{
+    msg: string|null,
+}> = ({
+    msg,
+}) =>
+{
+    if (!msg) {
+        return <></>;
+    }
+    return <div className='error-box'>
+        <span className='error-msg'>{msg}</span>
+    </div>;
 }

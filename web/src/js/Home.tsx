@@ -49,6 +49,7 @@ export const Home: React.FC = () =>
             </div>
             <div id='home-buttons'>
                 <Link to='/faq' className='btn'>Read F.A.Q.</Link>
+                <Link to='/mint' className='btn'>Mint</Link>
             </div>
         </div>
     </div>
