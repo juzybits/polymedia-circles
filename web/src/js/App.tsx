@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Connection, JsonRpcProvider } from '@mysten/sui.js';
+import { SuiClient } from '@mysten/sui.js/client';
 import { ConnectModal, WalletKitProvider } from '@mysten/wallet-kit';
 import { NetworkName, isLocalhost, loadNetwork, loadRpcConfig } from '@polymedia/webutils';
 import { Nav } from './Nav';
@@ -28,9 +28,9 @@ export const App: React.FC = () =>
         async function initialize() {
             const network = isLocalhost() ? loadNetwork() : 'mainnet';
             const rpcConfig = await loadRpcConfig({network, noFetch: true});
-            const rpcProvider = new JsonRpcProvider(new Connection(rpcConfig));
+            const suiClient = new SuiClient({url: rpcConfig.fullnode});
             setNetwork(network);
-            setCirclesManager( new CirclesManager({network, rpcProvider}) );
+            setCirclesManager( new CirclesManager({network, suiClient}) );
         };
         initialize();
     }, []);
