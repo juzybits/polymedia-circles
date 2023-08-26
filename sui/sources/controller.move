@@ -11,13 +11,13 @@ module polymedia_circles::controller
     use sui::tx_context::{Self, TxContext};
     use polymedia_circles::artwork::{Self, Artwork};
     use polymedia_circles::collection::{Self, Collection};
-    use polymedia_circles::whitelist::{Self, Whitelist};
 
     /* Errors */
     const E_CANT_MODIFY_FROZEN_ARTWORK: u64 = 1000;
     const E_ARTWORK_ALREADY_FROZEN: u64 = 1001;
     const E_WRONG_SWAP_LENGTH: u64 = 1002;
     const E_WRONG_SWAP_INDEX: u64 = 1003;
+    const E_NOT_WHITELISTED: u64 = 1004;
 
     /* Events */
     struct ArtworkMinted has copy, drop {
@@ -110,12 +110,12 @@ module polymedia_circles::controller
     /// Mint a new Artwork for free, for whitelisted addresses
     public fun mint_artwork_via_whitelist(
         collection: &mut Collection,
-        whitelist: &mut Whitelist,
         ctx: &mut TxContext,
     ): Artwork
     {
-        // Will fail if not whitelisted
-        whitelist::remove(whitelist, tx_context::sender(ctx));
+        let sender = tx_context::sender(ctx);
+        let is_whitelisted = collection::remove_from_whitelist(collection, sender);
+        assert!(is_whitelisted, E_NOT_WHITELISTED);
         let autograph = utf8(b"");
         let price = 0;
         let pay_coin = coin::zero(ctx);

@@ -1,10 +1,10 @@
 /// A `Collection` shared object is the configuration for a collection of `Artwork` objects
 module polymedia_circles::collection
 {
+    use std::vector::{Self};
     use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
-    use polymedia_circles::whitelist::{Self, Whitelist};
 
     friend polymedia_circles::controller;
 
@@ -20,7 +20,7 @@ module polymedia_circles::collection
         next_number: u64,
         next_price: u64,
         pay_address: address, // TODO: multisig vault
-        whitelist: Whitelist,
+        whitelist: vector<address>,
     }
 
     public(friend) fun increase_number(self: &mut Collection) {
@@ -39,6 +39,22 @@ module polymedia_circles::collection
         self.supply = self.supply - 1;
     }
 
+    /// Remove an address from the whitelist and return true,
+    /// or return false if the address is not whitelisted.
+    public(friend) fun remove_from_whitelist(self: &mut Collection, lookup_addr: address): bool {
+        let len = vector::length(&self.whitelist);
+        let i = 0;
+        while (i < len) {
+            let addr = *vector::borrow(&self.whitelist, i);
+            if (addr == lookup_addr) {
+                vector::remove(&mut self.whitelist, i);
+                return true
+            };
+            i = i + 1;
+        };
+        return false
+    }
+
     /* Accessors */
     public fun supply(self: &Collection): u64 {
         self.supply
@@ -55,28 +71,29 @@ module polymedia_circles::collection
     public fun next_price_discounted(self: &Collection): u64 {
         self.next_price / RECYCLED_DIVISOR
     }
-    public fun price_increase_bps(): u64 {
+    public fun whitelist(self: &Collection): &vector<address> {
+        &self.whitelist
+    }
+    /* Constant accessors (for controller_tests) */
+    public(friend) fun price_increase_bps(): u64 {
         PRICE_INCREASE_BPS
     }
-    public fun recycled_divisor(): u64 {
+    public(friend) fun recycled_divisor(): u64 {
         RECYCLED_DIVISOR
     }
 
     fun init(ctx: &mut TxContext) // TODO: Publisher + Display
     {
-        let whitelist = whitelist::create(
-            vector[ // addresses that can mint
-                @0xAAA,
-                @0xBBB,
-            ]
-        );
         transfer::public_share_object(Collection {
             id: object::new(ctx),
             supply: 0,
             next_number: INITIAL_NUMBER,
             next_price: INITIAL_PRICE,
             pay_address: tx_context::sender(ctx),
-            whitelist,
+            whitelist: vector[ // addresses that can mint for free
+                @0xAAA,
+                @0xBBB,
+            ],
         });
     }
 
