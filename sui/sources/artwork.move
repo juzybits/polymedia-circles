@@ -1,4 +1,6 @@
-/// `Artwork` owned objects are the collectible items that users can mint
+/// `Artwork` owned objects are the collectible items that users can mint.
+/// All access control is done on `controller.move`. This is why there are no `public` functions here
+/// (aside from accessors). Instead, `public(friend)` functions are defined, to be used by the controller.
 module polymedia_circles::artwork
 {
     use std::string::{String, utf8};
@@ -97,6 +99,13 @@ module polymedia_circles::artwork
         self.circles = circles;
         // Update SVG representation
         self.svg = utf8(circle::vector_to_svg(&circles));
+    }
+
+    public(friend) fun set_autograph(
+        self: &mut Artwork,
+        autograph_text: String,
+    ) {
+        self.autograph = autograph_text;
     }
 
     /* Accessors */

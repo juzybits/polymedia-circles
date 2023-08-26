@@ -1,4 +1,5 @@
-/// The entry point for the package
+/// The entry point for the package.
+/// All access control is done here.
 module polymedia_circles::controller
 {
     use std::string::{String, utf8};
@@ -10,9 +11,10 @@ module polymedia_circles::controller
     use sui::transfer::{Self};
     use sui::tx_context::{Self, TxContext};
     use polymedia_circles::artwork::{Self, Artwork};
-    use polymedia_circles::collection::{Self, Collection};
+    use polymedia_circles::collection::{Self, ArtistCap, Collection};
 
     /* Errors */
+
     const E_CANT_MODIFY_FROZEN_ARTWORK: u64 = 1000;
     const E_ARTWORK_ALREADY_FROZEN: u64 = 1001;
     const E_WRONG_SWAP_LENGTH: u64 = 1002;
@@ -20,6 +22,7 @@ module polymedia_circles::controller
     const E_NOT_WHITELISTED: u64 = 1004;
 
     /* Events */
+
     struct ArtworkMinted has copy, drop {
         artwork_id: ID,
         artwork_number: u64,
@@ -45,7 +48,7 @@ module polymedia_circles::controller
         artwork_b_number: u64,
     }
 
-    /* base helpers */
+    /* Base helpers */
 
     fun create_artwork(
         collection: &mut Collection,
@@ -70,7 +73,7 @@ module polymedia_circles::controller
         return (artwork, pay_coin)
     }
 
-    /* public functions */
+    /* Public functions */
 
     /// Mint a new Artwork
     public fun mint_artwork(
@@ -205,7 +208,25 @@ module polymedia_circles::controller
         });
     }
 
-    /* entry wrappers around public functions */
+    public fun save_autograph(
+        _: &ArtistCap,
+        collection: &mut Collection,
+        artwork_addr: address,
+        autograph_text: vector<u8>,
+    ) {
+        collection::add_autograph(collection, artwork_addr, autograph_text);
+    }
+
+    public fun claim_autograph(
+        collection: &mut Collection,
+        artwork: &mut Artwork,
+    ) {
+        let artwork_addr = object::id_to_address( &object::id(artwork) );
+        let autograph_text = collection::remove_autograph(collection, artwork_addr);
+        artwork::set_autograph(artwork, autograph_text);
+    }
+
+    /* Entry wrappers around public functions */
 
     #[lint_allow(self_transfer)]
     public entry fun mint_artwork_entry(

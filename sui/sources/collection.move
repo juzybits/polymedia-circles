@@ -1,18 +1,33 @@
-/// A `Collection` shared object is the configuration for a collection of `Artwork` objects
+/// A `Collection` is shared object that stores the configuration and shared state of a collection
+/// of `Artwork` owned objects.
+/// All access control is done on `controller.move`. This is why there are no `public` functions here
+/// (aside from accessors). Instead, `public(friend)` functions are defined, to be used by the controller.
 module polymedia_circles::collection
 {
+    use std::string::{String, utf8};
     use std::vector::{Self};
     use sui::object::{Self, UID};
+    use sui::table::{Self, Table};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
     friend polymedia_circles::controller;
 
-    /* Settings */
+    /* settings */
+
     const INITIAL_NUMBER: u64 = 1; // number of the first artwork
     const INITIAL_PRICE: u64 = 1_000_000_000; // price of the first artwork (1 SUI)
     const PRICE_INCREASE_BPS: u64 = 100; // basis points (1%)
     const RECYCLED_DIVISOR: u64 = 10; // recycled Artwork costs 10% of Collection.next_price
+
+    /* Capabilities */
+
+    /// Allows the artist to create autographs
+    struct ArtistCap has key {
+        id: UID
+    }
+
+    /* Structs */
 
     struct Collection has key, store {
         id: UID,
@@ -20,8 +35,14 @@ module polymedia_circles::collection
         next_number: u64,
         next_price: u64,
         pay_address: address, // TODO: multisig vault
+        // addresses that can mint for free
         whitelist: vector<address>,
+        // `address` is an artwork object ID
+        // `String` is an autograph by the artist
+        autographs: Table<address, String>,
     }
+
+    /* Functionality */
 
     public(friend) fun increase_number(self: &mut Collection) {
         self.next_number = self.next_number + 1;
@@ -39,9 +60,11 @@ module polymedia_circles::collection
         self.supply = self.supply - 1;
     }
 
-    /// Remove an address from the whitelist and return true,
-    /// or return false if the address is not whitelisted.
-    public(friend) fun remove_from_whitelist(self: &mut Collection, lookup_addr: address): bool {
+    /// Remove an address from the whitelist and return true, or return false if not whitelisted.
+    public(friend) fun remove_from_whitelist(
+        self: &mut Collection,
+        lookup_addr: address
+    ): bool {
         let len = vector::length(&self.whitelist);
         let i = 0;
         while (i < len) {
@@ -55,7 +78,25 @@ module polymedia_circles::collection
         return false
     }
 
+    /// Aborts with `sui::dynamic_field::EFieldAlreadyExists` if the table already contains `artwork_addr`
+    public(friend) fun add_autograph(
+        self: &mut Collection,
+        artwork_addr: address,
+        autograph_text: vector<u8>,
+    ) {
+        table::add(&mut self.autographs, artwork_addr, utf8(autograph_text));
+    }
+
+    /// Aborts with `sui::dynamic_field::EFieldDoesNotExist` if the table does not contain `artwork_addr`
+    public(friend) fun remove_autograph(
+        self: &mut Collection,
+        artwork_addr: address,
+    ): String {
+        return table::remove(&mut self.autographs, artwork_addr)
+    }
+
     /* Collection accessors */
+
     public fun supply(self: &Collection): u64 {
         self.supply
     }
@@ -74,7 +115,9 @@ module polymedia_circles::collection
     public fun whitelist(self: &Collection): &vector<address> {
         &self.whitelist
     }
+
     /* Constant accessors (for controller_tests) */
+
     public(friend) fun price_increase_bps(): u64 {
         PRICE_INCREASE_BPS
     }
@@ -82,22 +125,35 @@ module polymedia_circles::collection
         RECYCLED_DIVISOR
     }
 
+    /* Initialization */
+
     fun init(ctx: &mut TxContext) // TODO: Publisher + Display
     {
-        transfer::public_share_object(Collection {
+        let sender = tx_context::sender(ctx);
+
+        // Create and share the collection object
+        let collection = Collection {
             id: object::new(ctx),
             supply: 0,
             next_number: INITIAL_NUMBER,
             next_price: INITIAL_PRICE,
-            pay_address: tx_context::sender(ctx),
-            whitelist: vector[ // addresses that can mint for free
+            pay_address: sender,
+            whitelist: vector[
                 @0xAAA,
                 @0xBBB,
             ],
-        });
+            autographs: table::new(ctx),
+        };
+        transfer::public_share_object(collection);
+
+        // Create and transfer ArtistCap to the sender
+        let artistCap = ArtistCap {
+            id: object::new(ctx)
+        };
+        transfer::transfer(artistCap, sender);
     }
 
-    /* Testing */
+    /* Tests */
 
     #[test_only]
     use sui::test_scenario::{Self as ts};
