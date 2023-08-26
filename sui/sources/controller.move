@@ -115,7 +115,8 @@ module polymedia_circles::controller
     ): Artwork
     {
         // Will fail if not whitelisted
-        let autograph = whitelist::pop_autograph(whitelist, tx_context::sender(ctx));
+        whitelist::remove(whitelist, tx_context::sender(ctx));
+        let autograph = utf8(b"");
         let price = 0;
         let pay_coin = coin::zero(ctx);
         let artwork = create_artwork(

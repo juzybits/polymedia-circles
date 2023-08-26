@@ -64,17 +64,11 @@ module polymedia_circles::collection
 
     fun init(ctx: &mut TxContext) // TODO: Publisher + Display
     {
-        let whitelist = whitelist::create
-        (
+        let whitelist = whitelist::create(
             vector[ // addresses that can mint
                 @0xAAA,
                 @0xBBB,
-            ],
-            vector[ // autographs for each address
-                b"To my friend AAA",
-                b"Hope you like it BBB",
-            ],
-            ctx,
+            ]
         );
         transfer::public_share_object(Collection {
             id: object::new(ctx),

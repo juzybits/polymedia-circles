@@ -1,10 +1,7 @@
 /// Determines who can mint for free
 module polymedia_circles::whitelist
 {
-    use std::string::{String, utf8};
     use std::vector::{Self};
-    use sui::table::{Self, Table};
-    use sui::tx_context::{TxContext};
 
     friend polymedia_circles::collection;
     friend polymedia_circles::controller;
@@ -13,37 +10,32 @@ module polymedia_circles::whitelist
     const E_NOT_WHITELISTED: u64 = 2001;
 
     struct Whitelist has store {
-        // `address` is the person who can mint
-        // `String` is an autograph by the artist
-        claims: Table<address, String>,
+        addresses: vector<address>,
     }
 
     public(friend) fun create(
-        addresses: vector<address>,
-        autographs: vector<vector<u8>>,
-        ctx: &mut TxContext,
+        whitelisted_addresses: vector<address>,
     ) : Whitelist {
-        let length = vector::length(&addresses);
-        assert!( length == vector::length(&autographs), E_LENGTH_MISMATCH );
-        let claims = table::new(ctx);
-        let index = 0;
-        while ( index < length ) {
-            let minter_address = vector::borrow(&addresses, index);
-            let autograph = vector::borrow(&autographs, index);
-            table::add(&mut claims, *minter_address, utf8(*autograph));
-            index = index + 1;
-        };
         return Whitelist {
-            claims,
+            addresses: whitelisted_addresses,
         }
     }
 
-    public(friend) fun pop_autograph(
+    public(friend) fun remove(
         self: &mut Whitelist,
-        addr: address,
-    ): String {
-        assert!( table::contains(&self.claims, addr), E_NOT_WHITELISTED );
-        let autograph = table::remove(&mut self.claims, addr);
-        return autograph
+        lookup_addr: address,
+    ): bool {
+        let len = vector::length(&self.addresses);
+        let i = 0;
+        while (i < len) {
+            let addr = *vector::borrow(&self.addresses, i);
+            if (addr == lookup_addr) {
+                vector::remove(&mut self.addresses, i);
+                return true
+            };
+            i = i + 1;
+        };
+        assert!(false, E_NOT_WHITELISTED);
+        return false
     }
 }
