@@ -55,7 +55,7 @@ module polymedia_circles::collection
         return false
     }
 
-    /* Accessors */
+    /* Collection accessors */
     public fun supply(self: &Collection): u64 {
         self.supply
     }
