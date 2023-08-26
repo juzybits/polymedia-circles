@@ -23,7 +23,6 @@ module polymedia_circles::controller
     struct ArtworkMinted has copy, drop {
         artwork_id: ID,
         artwork_number: u64,
-        from_whitelist: bool,
     }
     struct ArtworkFrozen has copy, drop {
         artwork_id: ID,
@@ -45,8 +44,6 @@ module polymedia_circles::controller
         artwork_b_id: ID,
         artwork_b_number: u64,
     }
-
-    // public fun autograph() // MAYBE
 
     /* base helpers */
 
@@ -90,35 +87,10 @@ module polymedia_circles::controller
         ctx: &mut TxContext
     ): Artwork
     {
-        let full_price = collection::next_price(collection);
-        let autograph = utf8(b"");
-        let artwork = create_artwork(
-            collection,
-            pay_coin,
-            full_price,
-            autograph,
-            ctx,
-        );
-        event::emit(ArtworkMinted {
-            artwork_id: object::id(&artwork),
-            artwork_number: artwork::number(&artwork),
-            from_whitelist: false,
-        });
-        return artwork
-    }
-
-    /// Mint a new Artwork for free, for whitelisted addresses
-    public fun mint_artwork_via_whitelist(
-        collection: &mut Collection,
-        ctx: &mut TxContext,
-    ): Artwork
-    {
         let sender = tx_context::sender(ctx);
         let is_whitelisted = collection::remove_from_whitelist(collection, sender);
-        assert!(is_whitelisted, E_NOT_WHITELISTED);
-        let autograph = utf8(b"");
-        let price = 0;
-        let pay_coin = coin::zero(ctx);
+        let price = if (is_whitelisted) { 0 } else { collection::next_price(collection) };
+        let autograph = utf8(b""); // TODO
         let artwork = create_artwork(
             collection,
             pay_coin,
@@ -129,7 +101,6 @@ module polymedia_circles::controller
         event::emit(ArtworkMinted {
             artwork_id: object::id(&artwork),
             artwork_number: artwork::number(&artwork),
-            from_whitelist: true,
         });
         return artwork
     }
