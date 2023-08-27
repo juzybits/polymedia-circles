@@ -12,7 +12,7 @@ module polymedia_circles::artwork
     use sui::tx_context::{Self, TxContext};
     use capsules::rand;
     use polymedia_circles::circle::{Self, Circle};
-    use polymedia_circles::color;
+    use polymedia_circles::utils;
 
     friend polymedia_circles::controller;
 
@@ -45,7 +45,7 @@ module polymedia_circles::artwork
         let num_circles = rand::rng(MIN_CIRCLES, MAX_CIRCLES+1, ctx);
         let i = 0;
         while (i < num_circles) {
-            let rgb_color = color::random_rgb(ctx);
+            let rgb_color = utils::random_rgb(ctx);
             let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
             let x_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
             let y_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
@@ -60,7 +60,7 @@ module polymedia_circles::artwork
         return Artwork {
             id: object::new(ctx),
             number,
-            background_color: utf8(color::rgb_to_svg(&color::random_rgb(ctx))),
+            background_color: utf8(utils::rgb_to_svg(&utils::random_rgb(ctx))),
             circles,
             svg: utf8(circle::vector_to_svg(&circles)),
             frozen: false,

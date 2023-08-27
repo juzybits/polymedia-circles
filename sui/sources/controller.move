@@ -85,7 +85,7 @@ module polymedia_circles::controller
         let sender = tx_context::sender(ctx);
         let is_whitelisted = collection::remove_from_whitelist(collection, sender);
         let price = if (is_whitelisted) { 0 } else { collection::next_price(collection) };
-        let autograph = utf8(b""); // TODO
+        let autograph = utf8(b"");
         let (artwork, change) = create_artwork(
             collection,
             pay_coin,

@@ -2,7 +2,6 @@
 module polymedia_circles::circle
 {
     use std::vector::{Self};
-    use polymedia_circles::color;
     use polymedia_circles::utils;
 
     friend polymedia_circles::artwork;
@@ -35,7 +34,7 @@ module polymedia_circles::circle
         vector::append(&mut svg, b"%22%20cy%3D%22"); // " cy="
         vector::append(&mut svg, utils::u64_to_bytes(self.y_axis));
         vector::append(&mut svg, b"%22%20fill%3D%22"); // " fill="
-        vector::append(&mut svg, color::rgb_to_svg(&vector[self.red, self.green, self.blue]));
+        vector::append(&mut svg, utils::rgb_to_svg(&vector[self.red, self.green, self.blue]));
         vector::append(&mut svg, b"%22%20stroke%3D%22black%22%20stroke-width%3D%228%22%20%2F%3E"); // " stroke="black" stroke-width="6" />
         return svg
     }
