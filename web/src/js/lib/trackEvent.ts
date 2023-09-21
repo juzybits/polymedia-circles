@@ -16,7 +16,7 @@ export async function trackEvent(
     }
 
     const body = { name, ...args };
-    await fetch('https://n5yzgapgnehivgmjg327qwcdnm0uqsia.lambda-url.eu-central-1.on.aws/', {
+    await fetch('', {
         method: 'POST',
         body: JSON.stringify(body),
     })

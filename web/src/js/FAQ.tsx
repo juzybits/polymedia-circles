@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
 import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
-import { trackEvent } from './lib/trackEvent';
 import '../css/FAQ.less';
 import imgLogo from '../img/logo.png';
 
@@ -12,8 +11,6 @@ export const FAQ: React.FC = () =>
 
     useEffect(() =>
     {
-        trackEvent('faq_view');
-
         // Callback to handle resizing of the #faq-page div
         const observer = new ResizeObserver((entries) =>
         {
