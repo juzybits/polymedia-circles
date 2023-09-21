@@ -52,7 +52,7 @@ export const FAQ: React.FC = () =>
             <h1>F.A.Q.</h1>
 
             <div id='note'>
-                * Last update: July 10, 2023
+                * Last update: September 21, 2023
                 <br/>
                 * This document is subject to change.
             </div>
@@ -75,11 +75,11 @@ export const FAQ: React.FC = () =>
             <div className='question'>
                 <h2>What are the project's goals?</h2>
 
-                    <p>1. The artwork should be <b>created on-chain</b>, on the fly, within a mint transaction. No preprocessing is allowed. Therefore, the code must be efficient in order to reduce Sui computation fees.</p>
+                    <p>1. The artwork should be <b>created on-chain</b>, on the fly, within a mint transaction. No preprocessing is allowed.</p>
 
-                    <p>2. The artwork should be <b>stored on-chain</b>. No links to external storage like AWS or IPFS are allowed. Therefore, the artwork size (in bytes) must be small in order to reduce Sui storage fees and stay within the object size limit.</p>
+                    <p>2. The artwork should be <b>stored on-chain</b>, inside a     Sui object. No links to external storage like AWS or IPFS are allowed.</p>
 
-                    <p>3. The artwork should <b>display natively</b> in Sui wallets and explorers. No additional code or libraries are allowed. Therefore, the artwork must be compatible with the Sui <A text='Display Standard' href='https://docs.sui.io/build/sui-object-display' /> so that it works everywhere out of the box.</p>
+                    <p>3. The artwork should <b>display natively</b> in Sui wallets and explorers. No additional code or libraries are allowed.</p>
 
                     <p>4. The artwork should be <b>dynamic</b>, giving owners the ability to modify it according to certain rules. This adds a new kind of unpredictability: not only are the initial artworks generated algorithmically, but subsequent versions depend on the choices of holders.</p>
             </div>
@@ -88,9 +88,10 @@ export const FAQ: React.FC = () =>
                 <h2>How is the artwork dynamic?</h2>
 
                 <p>By "dynamic" we mean that the artwork can change over time. These dynamic features introduce an element of human selection on top of the algorithmic randomness, which can lead to more aesthetic and interesting outcomes. So far I have implemented the following features, but many more are possible (suggestions are welcome). </p>
-                <p><b>1) Recycling.</b> Holders can destroy existing artworks in order to mint new ones at a very big discount. If for any reason a holder is not happy with an artwork they minted, they can recycle it into a new one for just 10% of the full price.</p>
-                <p><b>2) Blending.</b> Holders can combine two artworks by swapping circles between them. In this way holders can refine their artwork according to their personal taste, while simultaneously shaping and curating the entire Polymedia Circles collection.</p>
-                <p><b>3) Freezing.</b> Holders can use this function to prevent further changes to their artwork. Once an artwork has been frozen, it can no longer be blended or recycled.</p>
+                <p><b>1) Recycle.</b> Holders can destroy existing artworks in order to mint new ones at a big discount. If a holder is not happy with an artwork they minted, they can recycle it into a new one for just 10% of the full price.</p>
+                <p><b>2) Blend.</b> Holders can combine two artworks by swapping circles between them. In this way holders can refine their artwork according to their personal taste, while simultaneously shaping and curating the entire Polymedia Circles collection.</p>
+                <p><b>3) Freeze.</b> Holders can use this function to prevent further changes to their artwork. Once an artwork has been frozen, it can no longer be blended or recycled.</p>
+                <p><b>4) Autograph.</b> The programmer/artist who created this project (@juzybits) can autograph a holder's artwork with a personalized message.</p>
             </div>
 
             <div className='question'>
@@ -98,9 +99,9 @@ export const FAQ: React.FC = () =>
 
                 <p>Artworks are Sui <A text='objects' href='https://docs.sui.io/learn/objects' />. An artwork object contains both its <A text='SVG' href='https://developer.mozilla.org/en-US/docs/Web/SVG' /> representation, which allows it to be displayed visually, as well as its components and their properties (like circle colors and sizes), which enables the dynamic nature of Polymedia Circles.</p>
 
-                <p>When someone sends a mint transaction, a new artwork object is generated on-chain using the Circles algorithm, along with some randomness to ensure that each piece is unique. The artwork SVG representation is formatted as a <A text='data URL' href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs' /> by the artwork <A text='Display' href='https://docs.sui.io/build/sui-object-display' />, so that it can be shown as an image in Sui wallets and explorers.</p>
+                <p>When someone sends a mint transaction, a new artwork object is generated on-chain using the Circles algorithm, along with some randomness to ensure that each piece is unique. The artwork SVG representation is formatted as a <A text='data URL' href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs' /> by the artwork <A text='Display Standard' href='https://docs.sui.io/build/sui-object-display' />, so that it can be shown as an image in Sui wallets and explorers.</p>
 
-                <p>Each artwork consists of a background and a variable number of circles. These elements are assigned random colors, from a palette of 216 colors. The sizes and positions of the circles are also random, within the limits of the canvas. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
+                <p>Each artwork consists of a background and a variable number of circles. These elements are assigned random colors and positions. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
             </div>
 
             <div className='question'>
@@ -155,12 +156,10 @@ export const FAQ: React.FC = () =>
             <div className='question'>
                 <h2>How much does it cost?</h2>
 
-                <p><i><b>Note (August 8): The minting mechanism will likely be changed to an <A text='auction' href='https://twitter.com/juzybits/status/1678061481034694656' /> instead of the approach described below.</b></i></p>
-
                 <p>Polymedia Circles has a unique minting mechanism. Instead of setting a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
                 </p>
                 <p>
-                    The exact initial mint price and growth factor are yet to be decided, but my idea is to start very cheap. As an example, if the initial mint price is 1 SUI and the price increments by 1% on each mint, then:
+                    The exact initial mint price and growth factor are yet to be decided, but the idea is to start very cheap. As an example, if the initial mint price is 1 SUI and the price increments by 1% on each mint, then:
                 </p>
                 <p>
                 - The 10th artwork costs 1.09 SUI<br/>
