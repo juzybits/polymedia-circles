@@ -1,5 +1,7 @@
 # Polymedia Circles
 
+![Polymedia Circles](./web/src/img/open-graph.webp)
+
 ## Wallet support
 
 Sui official: image doesn't render (TODO: report / file bug / pull request)
