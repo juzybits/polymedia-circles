@@ -3,7 +3,6 @@ import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
 import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
 import '../css/FAQ.less';
-import imgLogo from '../img/logo.png';
 
 export const FAQ: React.FC = () =>
 {
@@ -45,7 +44,9 @@ export const FAQ: React.FC = () =>
     <div id='faq-page'>
         <div id='faq-bar'>
             <Link to='/' id='faq-back' className='btn'>Back</Link>
-            <a id='faq-logo' href='https://polymedia.app' target='_blank' rel='noopener'><img src={imgLogo} alt='about' /></a>
+            <a id='faq-logo' href='https://polymedia.app' target='_blank' rel='noopener'>
+                <img src='https://assets.polymedia.app/img/all/logo-nomargin-transparent-512x512.webp' alt='Polymedia logo' />
+            </a>
         </div>
 
         <div id='faq-faq'>
