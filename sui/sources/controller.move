@@ -360,9 +360,9 @@ module polymedia_circles::controller_tests
             let expected_supply = 1; // increased
             let expected_number = 2; // increased
             let expected_price = price_2; // increased
-            assert!( expected_supply == collection::supply(&mut coll), 0 );
-            assert!( expected_number == collection::next_number(&mut coll), 0 );
-            assert!( expected_price == collection::next_price(&mut coll), 0 );
+            assert!( expected_supply == collection::supply(&coll), 0 );
+            assert!( expected_number == collection::next_number(&coll), 0 );
+            assert!( expected_price == collection::next_price(&coll), 0 );
         };
 
         // verify that pay_address got payed
@@ -410,9 +410,9 @@ module polymedia_circles::controller_tests
             let expected_supply = 2; // increased
             let expected_number = 3; // increased
             let expected_price = price_3; // increased
-            assert!( expected_supply == collection::supply(&mut coll), 0 );
-            assert!( expected_number == collection::next_number(&mut coll), 0 );
-            assert!( expected_price == collection::next_price(&mut coll), 0 );
+            assert!( expected_supply == collection::supply(&coll), 0 );
+            assert!( expected_number == collection::next_number(&coll), 0 );
+            assert!( expected_price == collection::next_price(&coll), 0 );
         };
 
         ts::next_tx(&mut scen, addr_publisher);
@@ -464,9 +464,9 @@ module polymedia_circles::controller_tests
             let expected_supply = 2; // no change
             let expected_number = 4; // increased
             let expected_price = price_4; // increased
-            assert!( expected_supply == collection::supply(&mut coll), 0 );
-            assert!( expected_number == collection::next_number(&mut coll), 0 );
-            assert!( expected_price == collection::next_price(&mut coll), 0 );
+            assert!( expected_supply == collection::supply(&coll), 0 );
+            assert!( expected_number == collection::next_number(&coll), 0 );
+            assert!( expected_price == collection::next_price(&coll), 0 );
         };
 
         /* blend Artwork #1 with #3 */
@@ -564,9 +564,9 @@ module polymedia_circles::controller_tests
             let expected_supply = 1; // decreased
             let expected_number = 4; // no change
             let expected_price = price_4; // no change
-            assert!( expected_supply == collection::supply(&mut coll), 0 );
-            assert!( expected_number == collection::next_number(&mut coll), 0 );
-            assert!( expected_price == collection::next_price(&mut coll), 0 );
+            assert!( expected_supply == collection::supply(&coll), 0 );
+            assert!( expected_number == collection::next_number(&coll), 0 );
+            assert!( expected_price == collection::next_price(&coll), 0 );
         };
 
         ts::return_shared(coll);

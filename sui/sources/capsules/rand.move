@@ -68,8 +68,7 @@ module capsules::rand_tests {
     use capsules::rand;
 
     const EOUTSIDE_RANGE: u64 = 0;
-    const EBAD_SINGLE_RANGE: u64 = 1;
-    const EONE_IN_A_MILLION_ERROR: u64 = 2;
+    const EONE_IN_A_MILLION_ERROR: u64 = 1;
 
     public fun print_rand(min: u64, max: u64, ctx: &mut TxContext): u64 {
         let num = rand::rng(min, max, ctx);

@@ -187,10 +187,10 @@ module polymedia_circles::collection
         // verify initial Collection values
         ts::next_tx(&mut scen, sender);
         {
-            assert!( 0 == supply(&mut coll), 0 );
-            assert!( INITIAL_PRICE == next_price(&mut coll), 0 );
-            assert!( INITIAL_NUMBER == next_number(&mut coll), 0 );
-            assert!( sender == pay_address(&mut coll), 0 );
+            assert!( 0 == supply(&coll), 0 );
+            assert!( INITIAL_PRICE == next_price(&coll), 0 );
+            assert!( INITIAL_NUMBER == next_number(&coll), 0 );
+            assert!( sender == pay_address(&coll), 0 );
         };
 
         // increase supply+number+price
@@ -206,9 +206,9 @@ module polymedia_circles::collection
             let expected_supply = 1;
             let expected_number = INITIAL_NUMBER + 1;
             let expected_price = INITIAL_PRICE + ((INITIAL_PRICE * PRICE_INCREASE_BPS) / 10000);
-            assert!( expected_supply == supply(&mut coll), 0 );
-            assert!( expected_number == next_number(&mut coll), 0 );
-            assert!( expected_price == next_price(&mut coll), 0 );
+            assert!( expected_supply == supply(&coll), 0 );
+            assert!( expected_number == next_number(&coll), 0 );
+            assert!( expected_price == next_price(&coll), 0 );
         };
 
         // decrease supply
@@ -219,7 +219,7 @@ module polymedia_circles::collection
         // verify decreased supply
         ts::next_tx(&mut scen, sender);
         {
-            assert!( 0 == supply(&mut coll), 0 );
+            assert!( 0 == supply(&coll), 0 );
         };
 
         ts::return_shared(coll);
