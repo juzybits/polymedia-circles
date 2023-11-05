@@ -1,8 +1,25 @@
 {
     "private": true,
+    "version": "0.0.0",
     "name": "@polymedia/circles-web",
     "author": "@juzybits (https://polymedia.app)",
-    "description": "https://circles.polymedia.app",
+    "homepage": "https://circles.polymedia.app",
+    "description": "Generative art on Sui",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/juzybits/polymedia-circles"
+    },
+    "keywords": [],
+    "scripts": {
+        "clean": "rm -rf .parcel-cache/ dist/",
+        "lint": "eslint ./src --ext .ts,.tsx",
+        "serve": "pnpm clean && parcel src/index.html",
+        "build": "pnpm clean && parcel build --no-source-maps src/index.html && cp src/static/* dist/",
+        "deploy-dev": "pnpm build && wrangler pages publish dist/ --project-name polymedia-circles --branch dev",
+        "deploy-prod": "pnpm build && wrangler pages publish dist/ --project-name polymedia-circles --branch main",
+        "generate-sdk": "./sui-client-gen/generate-sdk.sh"
+    },
     "dependencies": {
         "@mysten/bcs": "latest",
         "@mysten/sui.js": "latest",
@@ -27,14 +44,6 @@
         "prettier": "3.0.0",
         "process": "latest",
         "react-devtools": "latest"
-    },
-    "scripts": {
-        "generate-sdk": "./sui-client-gen/generate-sdk.sh",
-        "lint": "eslint ./src --ext .ts,.tsx",
-        "serve": "rm -rf .parcel-cache/ dist/ && parcel src/index.html",
-        "build": "rm -rf .parcel-cache/ dist/ && parcel build --no-source-maps src/index.html && cp src/static/* dist/",
-        "deploy-dev": "pnpm build && wrangler pages publish dist/ --project-name polymedia-circles --branch dev",
-        "deploy-prod": "pnpm build && wrangler pages publish dist/ --project-name polymedia-circles --branch main"
     },
     "alias": {
         "react": "./node_modules/react",
