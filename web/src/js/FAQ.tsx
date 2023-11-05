@@ -98,9 +98,9 @@ export const FAQ: React.FC = () =>
             <div className='question'>
                 <h2>How does it work?</h2>
 
-                <p>Artworks are Sui <A text='objects' href='https://docs.sui.io/learn/objects' />. An artwork object contains both its <A text='SVG' href='https://developer.mozilla.org/en-US/docs/Web/SVG' /> representation, which allows it to be displayed visually, as well as its components and their properties (like circle colors and sizes), which enables the dynamic nature of Polymedia Circles.</p>
+                <p>Artworks are Sui <A text='objects' href='https://docs.sui.io/concepts/object-model' />. An artwork object contains both its <A text='SVG' href='https://developer.mozilla.org/en-US/docs/Web/SVG' /> representation, which allows it to be displayed visually, as well as its components and their properties (like circle colors and sizes), which enables the dynamic nature of Polymedia Circles.</p>
 
-                <p>When someone sends a mint transaction, a new artwork object is generated on-chain using the Circles algorithm, along with some randomness to ensure that each piece is unique. The artwork SVG representation is formatted as a <A text='data URL' href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs' /> by the artwork <A text='Display Standard' href='https://docs.sui.io/build/sui-object-display' />, so that it can be shown as an image in Sui wallets and explorers.</p>
+                <p>When someone sends a mint transaction, a new artwork object is generated on-chain using the Circles algorithm, along with some randomness to ensure that each piece is unique. The artwork SVG representation is formatted as a <A text='data URL' href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs' /> by the artwork <A text='Display Standard' href='https://docs.sui.io/standards/display' />, so that it can be shown as an image in Sui wallets and explorers.</p>
 
                 <p>Each artwork consists of a background and a variable number of circles. These elements are assigned random colors and positions. Smaller circles are placed on top bigger ones, to ensure that all circles are visible.</p>
             </div>
@@ -215,7 +215,7 @@ export const FAQ: React.FC = () =>
 
                 <p>After mint: you will own a Sui object and nobody else but you can change it or move it. However:</p>
 
-                <p>- As long as I own the <A text='UpgradeCap' href='https://docs.sui.io/build/package-upgrades' /> object, I can release package upgrades that make changes like setting the mint price to zero (see <A text='assess risk from package upgrades' href='https://github.com/MystenLabs/sui/issues/2045' />).</p>
+                <p>- As long as I own the <A text='UpgradeCap' href='https://docs.sui.io/concepts/sui-move-concepts/packages/upgrade' /> object, I can release package upgrades that make changes like setting the mint price to zero (see <A text='assess risk from package upgrades' href='https://github.com/MystenLabs/sui/issues/2045' />).</p>
 
                 <p>- As long as I own the <A text='Display' href='https://examples.sui.io/basics/display.html' /> or <A text='Publisher' href='https://examples.sui.io/basics/publisher.html' /> objects, I can modify or break how artwork gets displayed in wallets.</p>
 
