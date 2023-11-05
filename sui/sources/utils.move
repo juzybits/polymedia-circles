@@ -19,9 +19,9 @@ module polymedia_circles::utils
     /// Convert `vector[100, 193, 255]` to "rgb(100,193,255)", URL-encoded
     public(friend) fun rgb_to_svg(rgb_color: &vector<u8>): vector<u8>
     {
-        let red_bytes = u8_to_bytes(*vector::borrow(rgb_color, 0));
-        let green_bytes = u8_to_bytes(*vector::borrow(rgb_color, 1));
-        let blue_bytes = u8_to_bytes(*vector::borrow(rgb_color, 2));
+        let red_bytes = u8_to_ascii(*vector::borrow(rgb_color, 0));
+        let green_bytes = u8_to_ascii(*vector::borrow(rgb_color, 1));
+        let blue_bytes = u8_to_ascii(*vector::borrow(rgb_color, 2));
 
         let color = b"rgb%28"; // "rgb("
         vector::append(&mut color, red_bytes);
@@ -34,8 +34,8 @@ module polymedia_circles::utils
         return color
     }
 
-    /// Represent a u64 number as a string (vector of u8 characters)
-    public(friend) fun u64_to_bytes(num: u64): vector<u8>
+    /// Convert a u64 number to its ASCII representation (vector of u8 characters)
+    public(friend) fun u64_to_ascii(num: u64): vector<u8>
     {
         if (num == 0) {
             return b"0"
@@ -50,8 +50,8 @@ module polymedia_circles::utils
         return bytes
     }
 
-    /// Represent a u8 number as a string (vector of u8 characters)
-    public(friend) fun u8_to_bytes(num: u8): vector<u8> {
-        return u64_to_bytes((num as u64))
+    /// Convert a u8 number to its ASCII representation (vector of u8 characters)
+    public(friend) fun u8_to_ascii(num: u8): vector<u8> {
+        return u64_to_ascii((num as u64))
     }
 }

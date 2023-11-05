@@ -19,7 +19,6 @@ module polymedia_circles::controller
     const E_ARTWORK_ALREADY_FROZEN: u64 = 1001;
     const E_WRONG_SWAP_LENGTH: u64 = 1002;
     const E_WRONG_SWAP_INDEX: u64 = 1003;
-    const E_NOT_WHITELISTED: u64 = 1004;
 
     /* Events */
 

@@ -28,11 +28,11 @@ module polymedia_circles::circle
     /// <circle cx="139" cy="402" r="204" fill="rgb(131,162,224)" stroke="black" stroke-width="6" />
     public(friend) fun to_svg(self: &Circle): vector<u8> {
         let svg = b"%3Ccircle%20r%3D%22"; // <circle r="
-        vector::append(&mut svg, utils::u64_to_bytes(self.radius));
+        vector::append(&mut svg, utils::u64_to_ascii(self.radius));
         vector::append(&mut svg, b"%22%20cx%3D%22"); // " cx="
-        vector::append(&mut svg, utils::u64_to_bytes(self.x_axis));
+        vector::append(&mut svg, utils::u64_to_ascii(self.x_axis));
         vector::append(&mut svg, b"%22%20cy%3D%22"); // " cy="
-        vector::append(&mut svg, utils::u64_to_bytes(self.y_axis));
+        vector::append(&mut svg, utils::u64_to_ascii(self.y_axis));
         vector::append(&mut svg, b"%22%20fill%3D%22"); // " fill="
         vector::append(&mut svg, utils::rgb_to_svg(&vector[self.red, self.green, self.blue]));
         vector::append(&mut svg, b"%22%20stroke%3D%22black%22%20stroke-width%3D%228%22%20%2F%3E"); // " stroke="black" stroke-width="6" />

@@ -21,7 +21,6 @@ module capsules::rand {
 
     const EBAD_RANGE: u64 = 0;
     const ETOO_FEW_BYTES: u64 = 1;
-    const EDIVISOR_MUST_BE_NON_ZERO: u64 = 2;
 
     public fun rng(min: u64, max: u64, ctx: &mut TxContext): u64 {
         assert!(max >= min, EBAD_RANGE);
