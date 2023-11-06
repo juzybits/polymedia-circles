@@ -22,6 +22,8 @@ module polymedia_circles::controller
 
     /* Events */
 
+    // TODO: remove events that can be replaced by looking at transaction effects
+
     struct ArtworkMinted has copy, drop {
         artwork_id: ID,
         artwork_number: u64,
@@ -228,7 +230,7 @@ module polymedia_circles::controller
     /* Entry wrappers around public functions */
 
     #[lint_allow(self_transfer)]
-    public entry fun mint_artwork_entry(
+    entry fun mint_artwork_entry(
         collection: &mut Collection,
         recipient: address,
         pay_coin: Coin<SUI>,
@@ -245,13 +247,13 @@ module polymedia_circles::controller
         };
     }
 
-    public entry fun freeze_artwork_entry(
+    entry fun freeze_artwork_entry(
         artwork: &mut Artwork,
     ) {
         freeze_artwork(artwork);
     }
 
-    public entry fun burn_artwork_entry(
+    entry fun burn_artwork_entry(
         collection: &mut Collection,
         artwork: Artwork,
     ) {
@@ -259,7 +261,7 @@ module polymedia_circles::controller
     }
 
     #[lint_allow(self_transfer)]
-    public entry fun recycle_artwork_entry(
+    entry fun recycle_artwork_entry(
         collection: &mut Collection,
         recipient: address,
         pay_coin: Coin<SUI>,
@@ -277,7 +279,7 @@ module polymedia_circles::controller
         };
     }
 
-    public entry fun blend_artwork_entry(
+    entry fun blend_artwork_entry(
         a: &mut Artwork,
         b: &mut Artwork,
         swaps: vector<vector<u64>>,

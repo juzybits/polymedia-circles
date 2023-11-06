@@ -1,7 +1,5 @@
-/// A `Collection` is shared object that stores the configuration and shared state of a collection
-/// of `Artwork` owned objects.
-/// All access control is done on `controller.move`. This is why there are no `public` functions here
-/// (aside from accessors). Instead, `public(friend)` functions are defined, to be used by the controller.
+/// A `Collection` is shared object that stores the configuration and shared state
+/// of a series of `Artwork` owned objects.
 module polymedia_circles::collection
 {
     use std::string::{String, utf8};

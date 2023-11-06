@@ -1,3 +1,4 @@
+/// Utility functions
 module polymedia_circles::utils
 {
     use std::vector::{Self};
