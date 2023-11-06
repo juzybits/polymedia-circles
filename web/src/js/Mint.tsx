@@ -8,13 +8,13 @@ export const Mint: React.FC = () => // TODO
 {
     const {
         currentAccount,
-        signTransactionBlock,
+        // signTransactionBlock,
     } = useWalletKit();
 
     const [errorMsg, _setErrorMsg] = useState<string|null>(null);
 
     const {
-        circlesManager,
+        // circlesManager,
         openConnectModal,
     } = useOutletContext<AppContext>();
 
@@ -23,7 +23,7 @@ export const Mint: React.FC = () => // TODO
     }, []);
 
     const onClickMint = async () => {
-        circlesManager.mint({signTransactionBlock, collection: '0x123', payCoin: '0x123'})
+        // circlesManager.mint({signTransactionBlock, collection: '0x123', payCoin: '0x123'})
     };
 
     const onClickConnect = async () => {

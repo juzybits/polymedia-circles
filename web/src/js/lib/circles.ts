@@ -1,10 +1,10 @@
 import { SuiClient } from '@mysten/sui.js/client';
-import { TransactionBlock } from '@mysten/sui.js/transactions';
+// import { TransactionBlock } from '@mysten/sui.js/transactions';
+// import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
-import { WalletKitCore } from '@mysten/wallet-kit-core';
-import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
-import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
-import { ObjectArg } from './sui-client-sdk/_framework/util';
+// import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
+// import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
+// import { ObjectArg } from './sui-client-sdk/_framework/util';
 
 export const POLYMEDIA_CIRCLES_PACKAGE_ID_LOCALNET = '0x123';
 export const POLYMEDIA_CIRCLES_PACKAGE_ID_DEVNET = '0x123';
@@ -57,31 +57,31 @@ export class CirclesManager {
     }
 
     // @ts-ignore
-    public async mint({
-        signTransactionBlock,
-        collection,
-        payCoin,
-    }: {
-        signTransactionBlock: WalletKitCore['signTransactionBlock'],
-        collection: ObjectArg;
-        payCoin: ObjectArg;
-    }): Promise<Artwork|any>
-    {
-        const txb = new TransactionBlock()
-        mintArtwork(txb, {
-            collection,
-            payCoin,
-        });
+    // public async mint({
+    //     signTransactionBlock,
+    //     collection,
+    //     payCoin,
+    // }: {
+    //     signTransactionBlock: WalletKitCore['signTransactionBlock'],
+    //     collection: ObjectArg;
+    //     payCoin: ObjectArg;
+    // }): Promise<Artwork|any>
+    // {
+    //     const txb = new TransactionBlock()
+    //     mintArtwork(txb, {
+    //         collection,
+    //         payCoin,
+    //     });
 
-        const signedTx = await signTransactionBlock({
-            transactionBlock: txb,
-        });
-        return this.suiClient.executeTransactionBlock({
-            transactionBlock: signedTx.transactionBlockBytes,
-            signature: signedTx.signature,
-            options: {
-                showEffects: true,
-            },
-        })
-    }
+    //     const signedTx = await signTransactionBlock({
+    //         transactionBlock: txb,
+    //     });
+    //     return this.suiClient.executeTransactionBlock({
+    //         transactionBlock: signedTx.transactionBlockBytes,
+    //         signature: signedTx.signature,
+    //         options: {
+    //             showEffects: true,
+    //         },
+    //     })
+    // }
 }
