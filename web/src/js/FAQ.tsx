@@ -53,7 +53,7 @@ export const FAQ: React.FC = () =>
             <h1>F.A.Q.</h1>
 
             <div id='note'>
-                * Last update: September 21, 2023
+                * Last update: November 6, 2023
                 <br/>
                 * This document is subject to change.
             </div>
@@ -89,10 +89,10 @@ export const FAQ: React.FC = () =>
                 <h2>How is the artwork dynamic?</h2>
 
                 <p>By "dynamic" we mean that the artwork can change over time. These dynamic features introduce an element of human selection on top of the algorithmic randomness, which can lead to more aesthetic and interesting outcomes. So far I have implemented the following features, but many more are possible (suggestions are welcome). </p>
-                <p><b>1) Recycle.</b> Holders can destroy existing artworks in order to mint new ones at a big discount. If a holder is not happy with an artwork they minted, they can recycle it into a new one for just 10% of the full price.</p>
-                <p><b>2) Blend.</b> Holders can combine two artworks by swapping circles between them. In this way holders can refine their artwork according to their personal taste, while simultaneously shaping and curating the entire Polymedia Circles collection.</p>
-                <p><b>3) Freeze.</b> Holders can use this function to prevent further changes to their artwork. Once an artwork has been frozen, it can no longer be blended or recycled.</p>
-                <p><b>4) Autograph.</b> The programmer/artist who created this project (@juzybits) can autograph a holder's artwork with a personalized message.</p>
+                <p><b>• Blend:</b> Owners can combine two artworks by swapping individual circles between them. By refining their artworks according to their personal taste, owners are also curating the entire collection.</p>
+                <p><b>• Recycle:</b> Owners can destroy their artworks in order to mint new ones at a discount. An artwork can be recycled into a new one for only 10% of the full price.</p>
+                <p><b>• Freeze:</b> Owners can use this function to prevent further changes to their artwork. Once an artwork has been frozen, it can no longer be blended or recycled.</p>
+                <p><b>• Autograph:</b> The programmer-artist who created this project (@juzybits) can autograph a holder's artwork with a personalized message.</p>
             </div>
 
             <div className='question'>
