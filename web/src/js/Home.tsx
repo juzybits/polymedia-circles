@@ -1,11 +1,24 @@
 import { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
+import '../css/Home.less';
 import { AppContext } from './App';
 import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
-import '../css/Home.less';
+import { isDev } from './lib/isDev';
+
+const HomeNew: React.FC = () => {
+    return (
+        <div id='home-page'>
+            Coming soon...
+        </div>
+    )
+}
 
 export const Home: React.FC = () =>
 {
+    if (isDev()) {
+        return <HomeNew />;
+    }
+
     const { layoutRef } = useOutletContext<AppContext>();
 
     useEffect(() =>
@@ -49,7 +62,6 @@ export const Home: React.FC = () =>
             </div>
             <div id='home-buttons'>
                 <Link to='/faq' className='btn'>Read F.A.Q.</Link>
-                <Link to='/mint' className='btn'>Mint</Link>
             </div>
         </div>
     </div>
