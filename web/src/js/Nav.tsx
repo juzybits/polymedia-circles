@@ -1,20 +1,39 @@
+import { useWalletKit } from '@mysten/wallet-kit';
 import { NetworkSelector } from '@polymedia/react-components';
-import { NetworkName } from '@polymedia/webutils';
-import { isDev } from './lib/isDev';
-
+import { NetworkName, shortenAddress } from '@polymedia/webutils';
 import '../css/Nav.less';
+import { isDev } from './lib/isDev';
 
 export const Nav: React.FC<{
     network: NetworkName;
-    // openConnectModal: () => void;
+    openConnectModal: () => void;
 }> = ({
     network,
-    // openConnectModal,
+    openConnectModal,
 }) =>
 {
-    return !isDev() ? null : (
+    if (!isDev()) return null;
+
+    const { currentAccount, disconnect } = useWalletKit();
+
+    const showNetworkSelector = isDev();
+
+    return (
         <header id='nav'>
-            <NetworkSelector currentNetwork={network} />
+        <div id='nav-user' className='nav-section'>
+        {
+            !currentAccount
+            ?
+            <span id='nav-btn-connect' onClick={openConnectModal}>
+                LOG IN
+            </span>
+            :
+            <span onClick={disconnect}>
+                Logged in as {shortenAddress(currentAccount.address)}
+            </span>
+        }
+        {showNetworkSelector && <NetworkSelector currentNetwork={network} />}
+        </div>
         </header>
     );
 }

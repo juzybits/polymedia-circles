@@ -56,7 +56,7 @@ export const App: React.FC = () =>
         onClose={() => setShowConnectModal(false)}
     />
     <div ref={layoutRef} id='layout'>
-        <Nav network={network} />
+        <Nav network={network} openConnectModal={openConnectModal} />
         <div id='page'>
             <Outlet context={appContext} />
         </div>
