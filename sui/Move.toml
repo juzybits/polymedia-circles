@@ -11,4 +11,3 @@ Sui = { local = "../../sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
 polymedia_circles = "0x0"
-capsules = "0x0"

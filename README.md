@@ -4,7 +4,7 @@
 
 ## Wallet support
 
-Sui official: image doesn't render (TODO: report / file bug / pull request)
+Sui official: OK
 Ethos: OK
 Suiet: OK
 Martian: OK

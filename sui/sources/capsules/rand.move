@@ -11,7 +11,7 @@
 //
 // Eventually this should be replaced by a VRF from Switchboard (work in progress)
 
-module capsules::rand {
+module polymedia_circles::rand {
     use std::hash;
     use std::vector;
 
@@ -61,11 +61,11 @@ module capsules::rand {
 }
 
 #[test_only]
-module capsules::rand_tests {
+module polymedia_circles::rand_tests {
     use sui::test_scenario;
     use sui::tx_context::TxContext;
 
-    use capsules::rand;
+    use polymedia_circles::rand;
 
     const EOUTSIDE_RANGE: u64 = 0;
     const EONE_IN_A_MILLION_ERROR: u64 = 1;

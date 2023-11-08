@@ -12,8 +12,6 @@ pnpm serve
 ## Structure
 
 /
-    info, images, calls to action
-/explore
     collection stats
         link to explorer
     list all artworks (paginated)
@@ -28,6 +26,7 @@ pnpm serve
         link to /art
     list available autographs
     /:ownerId to see someone else's artworks
+/faq
 /art
     view (default)
     freeze (button)
@@ -35,7 +34,6 @@ pnpm serve
     recycle (button)
     autograph claim if available (button)
     blend (page)
-/faq
 /admin
     create autographs
     delete autographs

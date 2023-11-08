@@ -3,7 +3,7 @@ module polymedia_circles::utils
 {
     use std::vector::{Self};
     use sui::tx_context::{TxContext};
-    use capsules::rand;
+    use polymedia_circles::rand;
 
     friend polymedia_circles::artwork;
     friend polymedia_circles::circle;

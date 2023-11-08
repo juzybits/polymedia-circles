@@ -8,8 +8,8 @@ module polymedia_circles::artwork
     use sui::package;
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
-    use capsules::rand;
     use polymedia_circles::circle::{Self, Circle};
+    use polymedia_circles::rand;
     use polymedia_circles::utils;
 
     friend polymedia_circles::controller;
@@ -200,7 +200,7 @@ module polymedia_circles::circles_art_tests
 {
     use std::debug;
     use sui::test_scenario;
-    use capsules::rand;
+    use polymedia_circles::rand;
 
     #[test]
     fun test_foo()
