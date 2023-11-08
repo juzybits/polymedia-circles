@@ -1,42 +1,30 @@
-import { SuiClient } from '@mysten/sui.js/client';
-// import { TransactionBlock } from '@mysten/sui.js/transactions';
-// import { WalletKitCore } from '@mysten/wallet-kit-core';
+import { SuiClient, SuiTransactionBlockResponse } from '@mysten/sui.js/client';
+import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
-// import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
-// import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
-// import { ObjectArg } from './sui-client-sdk/_framework/util';
+import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
+import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
+import { ObjectArg } from './sui-client-sdk/_framework/util';
 
-export const POLYMEDIA_CIRCLES_PACKAGE_ID_LOCALNET = '0x123';
-export const POLYMEDIA_CIRCLES_PACKAGE_ID_DEVNET = '0x123';
-export const POLYMEDIA_CIRCLES_PACKAGE_ID_TESTNET = '0x123';
-export const POLYMEDIA_CIRCLES_PACKAGE_ID_MAINNET = '0x123';
+export const PACKAGE_LOCALNET = '0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8';
+export const COLLECTION_LOCALNET = '0x2eacbc2c3eb0bc46d5ba6f79c0da8e79d488c52fb1cb85b48b5a98fcd001abb6';
 
-/*
-export type Circle = {
-    red: number,
-    green: number,
-    blue: number,
-    radius: number,
-    x_axis: number,
-    y_axis: number,
-};
+export const PACKAGE_DEVNET = '0x123';
+export const COLLECTION_DEVNET = '0x123';
 
-export type Artwork = {
-    id: SuiAddress;
-    number: number,
-    background_color: string,
-    circles: Circle[],
-    svg: string,
-    frozen: boolean,
-};
-*/
+export const PACKAGE_TESTNET = '0x123';
+export const COLLECTION_TESTNET = '0x123';
+
+export const PACKAGE_MAINNET = '0x123';
+export const COLLECTION_MAINNET = '0x123';
 
 /**
- * Helper to interact with the `polymedia_circles` Sui package
+ * Helper to interact with the `polymedia_circles` Sui package via the `sui-client-gen` SDK
  */
 export class CirclesManager {
     public readonly suiClient: SuiClient;
     public readonly packageId: string;
+    public readonly collectionId: string;
 
     constructor({ network, suiClient }: {
         network: NetworkName,
@@ -44,44 +32,48 @@ export class CirclesManager {
     }) {
         this.suiClient = suiClient;
         if (network === 'localnet') {
-            this.packageId = POLYMEDIA_CIRCLES_PACKAGE_ID_LOCALNET;
+            this.packageId = PACKAGE_LOCALNET;
+            this.collectionId = COLLECTION_LOCALNET;
         } else if (network === 'devnet') {
-            this.packageId = POLYMEDIA_CIRCLES_PACKAGE_ID_DEVNET;
+            this.packageId = PACKAGE_DEVNET;
+            this.collectionId = COLLECTION_DEVNET;
         } else if (network === 'testnet') {
-            this.packageId = POLYMEDIA_CIRCLES_PACKAGE_ID_TESTNET;
+            this.packageId = PACKAGE_TESTNET;
+            this.collectionId = COLLECTION_TESTNET;
         } else if (network === 'mainnet') {
-            this.packageId = POLYMEDIA_CIRCLES_PACKAGE_ID_MAINNET;
+            this.packageId = PACKAGE_MAINNET;
+            this.collectionId = COLLECTION_MAINNET;
         } else {
             throw new Error('Network not recognized: ' + network);
         }
     }
 
-    // @ts-ignore
-    // public async mint({
-    //     signTransactionBlock,
-    //     collection,
-    //     payCoin,
-    // }: {
-    //     signTransactionBlock: WalletKitCore['signTransactionBlock'],
-    //     collection: ObjectArg;
-    //     payCoin: ObjectArg;
-    // }): Promise<Artwork|any>
-    // {
-    //     const txb = new TransactionBlock()
-    //     mintArtwork(txb, {
-    //         collection,
-    //         payCoin,
-    //     });
-
-    //     const signedTx = await signTransactionBlock({
-    //         transactionBlock: txb,
-    //     });
-    //     return this.suiClient.executeTransactionBlock({
-    //         transactionBlock: signedTx.transactionBlockBytes,
-    //         signature: signedTx.signature,
-    //         options: {
-    //             showEffects: true,
-    //         },
-    //     })
-    // }
+    public async mintArtwork({
+        signTransactionBlock,
+        recipient,
+        payCoin,
+    }: {
+        signTransactionBlock: WalletKitCore['signTransactionBlock'],
+        recipient: string;
+        payCoin: string;
+    }): Promise<SuiTransactionBlockResponse>
+    {
+        const txb = new TransactionBlock()
+        const [artwork, change] = mintArtwork(txb, {
+            collection: this.collectionId,
+            payCoin,
+        });
+        txb.transferObjects([artwork], txb.pure(recipient));
+        txb.transferObjects([change], txb.pure(recipient));
+        const signedTx = await signTransactionBlock({
+            transactionBlock: txb,
+        });
+        return this.suiClient.executeTransactionBlock({
+            transactionBlock: signedTx.transactionBlockBytes,
+            signature: signedTx.signature,
+            options: {
+                showEffects: true,
+            },
+        })
+    }
 }
