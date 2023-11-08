@@ -226,66 +226,6 @@ module polymedia_circles::controller
         let autograph_text = collection::remove_autograph(collection, artwork_addr);
         artwork::set_autograph(artwork, autograph_text);
     }
-
-    /* Entry wrappers around public functions */
-
-    #[lint_allow(self_transfer)]
-    entry fun mint_artwork_entry(
-        collection: &mut Collection,
-        recipient: address,
-        pay_coin: Coin<SUI>,
-        ctx: &mut TxContext,
-    ) {
-        let (artwork, change) = mint_artwork(collection, pay_coin, ctx);
-        transfer::public_transfer(artwork, recipient);
-        if (coin::value(&change) > 0) {
-            // return change to sender
-            transfer::public_transfer(change, tx_context::sender(ctx));
-        } else {
-            // destroy empty coin
-            coin::destroy_zero(change);
-        };
-    }
-
-    entry fun freeze_artwork_entry(
-        artwork: &mut Artwork,
-    ) {
-        freeze_artwork(artwork);
-    }
-
-    entry fun burn_artwork_entry(
-        collection: &mut Collection,
-        artwork: Artwork,
-    ) {
-        burn_artwork(collection, artwork);
-    }
-
-    #[lint_allow(self_transfer)]
-    entry fun recycle_artwork_entry(
-        collection: &mut Collection,
-        recipient: address,
-        pay_coin: Coin<SUI>,
-        recycle: Artwork,
-        ctx: &mut TxContext,
-    ) {
-        let (artwork, change) = recycle_artwork(collection, pay_coin, recycle, ctx);
-        transfer::public_transfer(artwork, recipient);
-        if (coin::value(&change) > 0) {
-            // return change to sender
-            transfer::public_transfer(change, tx_context::sender(ctx));
-        } else {
-            // destroy empty coin
-            coin::destroy_zero(change);
-        };
-    }
-
-    entry fun blend_artwork_entry(
-        a: &mut Artwork,
-        b: &mut Artwork,
-        swaps: vector<vector<u64>>,
-    ) {
-        blend_artwork(a, b, swaps);
-    }
 }
 
 #[test_only]
@@ -297,6 +237,7 @@ module polymedia_circles::controller_tests
     use sui::object::{Self, ID};
     use sui::sui::{SUI};
     use sui::test_scenario::{Self as ts};
+    use sui::transfer;
     use polymedia_circles::artwork::{Self, Artwork};
     use polymedia_circles::circle::{Circle};
     use polymedia_circles::collection::{Self, Collection};
@@ -335,12 +276,13 @@ module polymedia_circles::controller_tests
         {
             let ctx = ts::ctx(&mut scen);
             let pay_coin = coin::mint_for_testing<SUI>(minter_balance_0, ctx);
-            controller::mint_artwork_entry(
+            let (artwork, change) = controller::mint_artwork(
                 &mut coll,
-                addr_minter,
                 pay_coin,
                 ctx,
             );
+            transfer::public_transfer(artwork, addr_minter);
+            transfer::public_transfer(change, addr_minter);
         };
 
         let artw_id_1: ID;
@@ -384,12 +326,13 @@ module polymedia_circles::controller_tests
         // mint Artwork #2
         ts::next_tx(&mut scen, addr_minter);
         {
-            controller::mint_artwork_entry(
+            let (artwork, change) = controller::mint_artwork(
                 &mut coll,
-                addr_minter,
                 ts::take_from_sender<Coin<SUI>>(&scen),
                 ts::ctx(&mut scen),
             );
+            transfer::public_transfer(artwork, addr_minter);
+            transfer::public_transfer(change, addr_minter);
         };
 
         let artw_id_2: ID;
@@ -433,13 +376,14 @@ module polymedia_circles::controller_tests
 
         ts::next_tx(&mut scen, addr_minter);
         {
-            controller::recycle_artwork_entry(
+            let (artwork, change) = controller::recycle_artwork(
                 &mut coll,
-                addr_minter,
                 ts::take_from_sender<Coin<SUI>>(&scen),
                 ts::take_from_sender<Artwork>(&scen),
                 ts::ctx(&mut scen),
             );
+            transfer::public_transfer(artwork, addr_minter);
+            transfer::public_transfer(change, addr_minter);
         };
 
         let artw_id_3: ID;
@@ -504,7 +448,7 @@ module polymedia_circles::controller_tests
                 vector[0, 0], // 1st Circle of each Artwork
                 vector[1, 1] //  2nd Circle of each Artwork
             ];
-            controller::blend_artwork_entry(&mut artw_1, &mut artw_3, swaps);
+            controller::blend_artwork(&mut artw_1, &mut artw_3, swaps);
 
             ts::return_to_sender(&scen, artw_1);
             ts::return_to_sender(&scen, artw_3);
@@ -534,7 +478,7 @@ module polymedia_circles::controller_tests
         ts::next_tx(&mut scen, addr_minter);
         {
             let artwork = ts::take_from_sender_by_id<Artwork>(&scen, artw_id_1);
-            controller::freeze_artwork_entry(
+            controller::freeze_artwork(
                 &mut artwork,
             );
             ts::return_to_sender(&scen, artwork);
@@ -551,7 +495,7 @@ module polymedia_circles::controller_tests
         ts::next_tx(&mut scen, addr_minter);
         {
             let artwork = ts::take_from_sender_by_id<Artwork>(&scen, artw_id_3);
-            controller::burn_artwork_entry(
+            controller::burn_artwork(
                 &mut coll,
                 artwork,
             );
@@ -576,3 +520,64 @@ module polymedia_circles::controller_tests
     }
 
 }
+
+    /* Entry wrappers around public functions
+
+    #[lint_allow(self_transfer)]
+    entry fun mint_artwork_entry(
+        collection: &mut Collection,
+        recipient: address,
+        pay_coin: Coin<SUI>,
+        ctx: &mut TxContext,
+    ) {
+        let (artwork, change) = mint_artwork(collection, pay_coin, ctx);
+        transfer::public_transfer(artwork, recipient);
+        if (coin::value(&change) > 0) {
+            // return change to sender
+            transfer::public_transfer(change, tx_context::sender(ctx));
+        } else {
+            // destroy empty coin
+            coin::destroy_zero(change);
+        };
+    }
+
+    entry fun freeze_artwork_entry(
+        artwork: &mut Artwork,
+    ) {
+        freeze_artwork(artwork);
+    }
+
+    entry fun burn_artwork_entry(
+        collection: &mut Collection,
+        artwork: Artwork,
+    ) {
+        burn_artwork(collection, artwork);
+    }
+
+    #[lint_allow(self_transfer)]
+    entry fun recycle_artwork_entry(
+        collection: &mut Collection,
+        recipient: address,
+        pay_coin: Coin<SUI>,
+        recycle: Artwork,
+        ctx: &mut TxContext,
+    ) {
+        let (artwork, change) = recycle_artwork(collection, pay_coin, recycle, ctx);
+        transfer::public_transfer(artwork, recipient);
+        if (coin::value(&change) > 0) {
+            // return change to sender
+            transfer::public_transfer(change, tx_context::sender(ctx));
+        } else {
+            // destroy empty coin
+            coin::destroy_zero(change);
+        };
+    }
+
+    entry fun blend_artwork_entry(
+        a: &mut Artwork,
+        b: &mut Artwork,
+        swaps: vector<vector<u64>>,
+    ) {
+        blend_artwork(a, b, swaps);
+    }
+    */

@@ -2,9 +2,7 @@ import { SuiClient, SuiTransactionBlockResponse } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
-import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
-import { ObjectArg } from './sui-client-sdk/_framework/util';
 
 export const PACKAGE_LOCALNET = '0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8';
 export const COLLECTION_LOCALNET = '0x2eacbc2c3eb0bc46d5ba6f79c0da8e79d488c52fb1cb85b48b5a98fcd001abb6';
