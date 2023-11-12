@@ -50,8 +50,8 @@ export const Mint: React.FC = () =>
     <div id='mint-page'>
         {
             currentAccount
-            ? <button className='btn' onClick={onClickMint}>Mint</button>
-            : <button className='btn' onClick={onClickConnect}>Connect</button>
+            ? <button className='big-btn' onClick={onClickMint}>Mint</button>
+            : <button className='big-btn' onClick={onClickConnect}>Connect</button>
         }
         <ErrorBox msg={errorMsg} />
     </div>

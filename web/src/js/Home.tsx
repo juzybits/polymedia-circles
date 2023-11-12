@@ -61,7 +61,7 @@ export const Home: React.FC = () =>
                 <h2>by <a id='by_polymedia' href='https://polymedia.app/' target='_blank' rel='noopener'>Polymedia</a></h2>
             </div>
             <div id='home-buttons'>
-                <Link to='/faq' className='btn'>Read F.A.Q.</Link>
+                <Link to='/faq' className='big-btn'>Read F.A.Q.</Link>
             </div>
         </div>
     </div>

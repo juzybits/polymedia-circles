@@ -19,7 +19,7 @@ body {
         & a {
             color: rgb(56 141 214);
         }
-        & .btn {
+        & .big-btn {
             color: black;
         }
     }
@@ -29,7 +29,7 @@ body {
         & a {
             color: rgb(121 238 255);
         }
-        & .btn {
+        & .big-btn {
             color: black;
         }
     }
@@ -39,7 +39,7 @@ body {
 * {
     cursor: @cursor-default;
 }
-.btn, button, a, select, input, textarea {
+.big-btn, button, a, select, input, textarea {
     cursor: @cursor-pointer !important;
 }
 
@@ -62,7 +62,7 @@ a {
     z-index: -1;
 }
 
-.btn {
+.big-btn {
     background-color: rgb(243 198 36);
     border-radius: 2rem;
     border: 2.5px solid black;
@@ -73,9 +73,14 @@ a {
     padding: 0.5rem 1rem 0.6rem;
     text-decoration: none;
     user-select: none;
+
+    @duration: 0.14s;
+    transition:
+        box-shadow @duration ease,
+        transform @duration ease;
     &:hover {
-        text-decoration: none;
         box-shadow: 0px 0px 0px black;
-        background-color: rgb(245 207 84);
+        transform: translateY(3px) translateX(3px);
+        text-decoration: none;
     }
 }

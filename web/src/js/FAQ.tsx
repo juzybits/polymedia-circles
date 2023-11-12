@@ -43,7 +43,7 @@ export const FAQ: React.FC = () =>
     return <>
     <div id='faq-page'>
         <div id='faq-bar'>
-            <Link to='/' id='faq-back' className='btn'>Back</Link>
+            <Link to='/' id='faq-back' className='big-btn'>Back</Link>
             <a id='faq-logo' href='https://polymedia.app' target='_blank' rel='noopener'>
                 <img src='https://assets.polymedia.app/img/all/logo-nomargin-transparent-512x512.webp' alt='Polymedia logo' />
             </a>
