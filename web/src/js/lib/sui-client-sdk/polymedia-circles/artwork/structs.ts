@@ -8,7 +8,7 @@ import { SuiClient, SuiParsedData } from "@mysten/sui.js/client";
 /* ============================== ARTWORK =============================== */
 
 bcs.registerStructType(
-  "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::artwork::ARTWORK",
+  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::artwork::ARTWORK",
   {
     dummy_field: `bool`,
   },
@@ -18,7 +18,7 @@ export function isARTWORK(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::artwork::ARTWORK"
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::artwork::ARTWORK"
   );
 }
 
@@ -28,7 +28,7 @@ export interface ARTWORKFields {
 
 export class ARTWORK {
   static readonly $typeName =
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::artwork::ARTWORK";
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::artwork::ARTWORK";
   static readonly $numTypeParams = 0;
 
   readonly dummyField: boolean;
@@ -56,12 +56,12 @@ export class ARTWORK {
 /* ============================== Artwork =============================== */
 
 bcs.registerStructType(
-  "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::artwork::Artwork",
+  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::artwork::Artwork",
   {
     id: `0x2::object::UID`,
     number: `u64`,
     background_color: `0x1::string::String`,
-    circles: `vector<0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::circle::Circle>`,
+    circles: `vector<0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle>`,
     svg: `0x1::string::String`,
     frozen: `bool`,
     autograph: `0x1::string::String`,
@@ -72,7 +72,7 @@ export function isArtwork(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::artwork::Artwork"
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::artwork::Artwork"
   );
 }
 
@@ -88,7 +88,7 @@ export interface ArtworkFields {
 
 export class Artwork {
   static readonly $typeName =
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::artwork::Artwork";
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::artwork::Artwork";
   static readonly $numTypeParams = 0;
 
   readonly id: string;

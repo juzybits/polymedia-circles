@@ -7,7 +7,7 @@ import { SuiClient, SuiParsedData } from "@mysten/sui.js/client";
 /* ============================== ArtistCap =============================== */
 
 bcs.registerStructType(
-  "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::collection::ArtistCap",
+  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::ArtistCap",
   {
     id: `0x2::object::UID`,
   },
@@ -17,7 +17,7 @@ export function isArtistCap(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::collection::ArtistCap"
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::ArtistCap"
   );
 }
 
@@ -27,7 +27,7 @@ export interface ArtistCapFields {
 
 export class ArtistCap {
   static readonly $typeName =
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::collection::ArtistCap";
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::ArtistCap";
   static readonly $numTypeParams = 0;
 
   readonly id: string;
@@ -83,7 +83,7 @@ export class ArtistCap {
 /* ============================== Collection =============================== */
 
 bcs.registerStructType(
-  "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::collection::Collection",
+  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::Collection",
   {
     id: `0x2::object::UID`,
     supply: `u64`,
@@ -99,7 +99,7 @@ export function isCollection(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::collection::Collection"
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::Collection"
   );
 }
 
@@ -115,7 +115,7 @@ export interface CollectionFields {
 
 export class Collection {
   static readonly $typeName =
-    "0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8::collection::Collection";
+    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::Collection";
   static readonly $numTypeParams = 0;
 
   readonly id: string;

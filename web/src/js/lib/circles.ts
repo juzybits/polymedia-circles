@@ -4,8 +4,8 @@ import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
 
-export const PACKAGE_LOCALNET = '0x19de22f2de622b99b8266d23a40dbc69244683c5e48b7bfa3d014c1b1ae157f8';
-export const COLLECTION_LOCALNET = '0x2eacbc2c3eb0bc46d5ba6f79c0da8e79d488c52fb1cb85b48b5a98fcd001abb6';
+export const PACKAGE_LOCALNET = '0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1';
+export const COLLECTION_LOCALNET = '0x323a4d193fc0e5bbba1d35ea4d017308d69b2eeb26463fac2dcc8d0a5e9a32df';
 
 export const PACKAGE_DEVNET = '0x123';
 export const COLLECTION_DEVNET = '0x123';
