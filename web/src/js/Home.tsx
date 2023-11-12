@@ -1,14 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import '../css/Home.less';
 import { AppContext } from './App';
 import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
 import { isDev } from './lib/isDev';
+import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';
 
-const HomeNew: React.FC = () => {
+const HomeNew: React.FC = () =>
+{
+    const { circlesManager } = useOutletContext<AppContext>();
+
+    const [collection, setCollection] = useState<Collection|null|undefined>(undefined);
+
+    useEffect(() => {
+        (async function initialize() {
+            const collection = await circlesManager.fetchCollection();
+            setCollection(collection);
+        })();
+    }, []);
+
     return (
         <div id='home-page'>
-            Coming soon...
+            <h2>Collection:</h2>
+            <div>{String(collection)}</div>
         </div>
     )
 }

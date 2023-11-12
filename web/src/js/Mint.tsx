@@ -11,12 +11,12 @@ export const Mint: React.FC = () =>
         signTransactionBlock,
     } = useWalletKit();
 
-    const [errorMsg, _setErrorMsg] = useState<string|null>(null);
-
     const {
         circlesManager,
         openConnectModal,
     } = useOutletContext<AppContext>();
+
+    const [errorMsg, _setErrorMsg] = useState<string|null>(null);
 
     useEffect(() => {
         document.title = 'Circles - Mint';

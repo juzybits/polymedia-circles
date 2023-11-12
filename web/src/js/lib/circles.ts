@@ -1,7 +1,12 @@
-import { SuiClient, SuiTransactionBlockResponse } from '@mysten/sui.js/client';
+import {
+    SuiClient,
+    SuiObjectResponse,
+    SuiTransactionBlockResponse,
+} from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
+import { Collection, isCollection } from './sui-client-sdk/polymedia-circles/collection/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
 
 export const PACKAGE_LOCALNET = '0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1';
@@ -73,5 +78,36 @@ export class CirclesManager {
                 showEffects: true,
             },
         })
+    }
+
+    public async fetchCollection(): Promise<Collection|null> {
+        return this.suiClient.getObject({
+            id: this.collectionId,
+            options: {
+                showContent: true,
+            },
+        })
+        .then((resp: SuiObjectResponse) => {
+            if (resp.error) {
+                console.warn('[CirclesManager.fetchCollection] response error:', resp.error);
+                return null;
+            }
+            if (resp.data?.content?.dataType !== 'moveObject') {
+                console.warn('[CirclesManager.fetchCollection] content missing:', resp);
+                return null;
+            }
+            if (!isCollection(resp.data.content.type)) {
+                console.warn('[CirclesManager.fetchCollection] not a collection:', resp);
+                return null;
+            }
+            return Collection.fromFieldsWithTypes({
+                fields: resp.data.content.fields,
+                type: resp.data.content.type,
+            });
+        })
+        .catch((error: any) => {
+            console.warn('[CirclesManager.fetchCollection] unexpected error:\n', error);
+            return null;
+        });
     }
 }
