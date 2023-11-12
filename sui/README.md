@@ -7,11 +7,12 @@ sui client publish --gas-budget 100000000
 
 ## Run unit tests
 ```
-clear && sui move test --coverage && sui move coverage summary
+sui move test --coverage && sui move coverage summary
 sui move coverage source --module controller
 sui move coverage bytecode --module controller
 ```
 
+<!--
 ## Command line usage
 
 ### controller::mint_and_transfer()
@@ -28,3 +29,4 @@ sui client call --gas-budget 1000000000 --package $PACKAGE --module controller -
 ARTWORK=
 sui client call --gas-budget 1000000000 --package $PACKAGE --module mint --function burn --args $COLLECTION $ARTWORK
 ```
+-->
