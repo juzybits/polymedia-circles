@@ -19,7 +19,7 @@ pnpm serve
     list all artworks (paginated) // TODO
         link to /art
 /mint
-    next price // TODO
+    next price
     mint button
 /owner
     list owner's artworks

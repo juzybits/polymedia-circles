@@ -3,30 +3,24 @@ import { useWalletKit } from '@mysten/wallet-kit';
 import '../css/Mint.less';
 import { useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
+import { formatSui } from './lib/utils';
 
 export const Mint: React.FC = () =>
 {
-    const {
-        currentAccount,
-        signTransactionBlock,
-    } = useWalletKit();
+    const { currentAccount, signTransactionBlock } = useWalletKit();
+    const { circlesClient, collection, openConnectModal } = useOutletContext<AppContext>();
+    const [ errorMsg, _setErrorMsg ] = useState<string|null>(null);
 
-    const {
-        circlesClient,
-        openConnectModal,
-    } = useOutletContext<AppContext>();
-
-    const [errorMsg, _setErrorMsg] = useState<string|null>(null);
 
     const onClickMint = async () => {
-        if (!currentAccount) {
+        if (!currentAccount || !collection) {
             return;
         }
         try {
             const res = await circlesClient.mintArtwork({
                 signTransactionBlock,
                 recipient: currentAccount.address,
-                payCoin: '0x0961b5e2a9a7f7fef82df1b387206a960af2c36ebfd24f0248ea6b5dda43f0c7', // TODO
+                price: Number(collection.nextPrice), // MAYBE: send a little extra SUI to prevent race conditions
             });
             if (res.effects?.status.status === 'success') {
                 console.debug('[onClickMint] transaction success:', res);
@@ -44,11 +38,15 @@ export const Mint: React.FC = () =>
 
     return <>
     <div id='mint-page'>
-        {
-            currentAccount
-            ? <button className='big-btn' onClick={onClickMint}>Mint</button>
-            : <button className='big-btn' onClick={onClickConnect}>Connect</button>
-        }
+        {(() => {
+            if (!currentAccount) {
+                return <button className='big-btn' onClick={onClickConnect}>Connect</button>;
+            }
+            if (!collection) {
+                return 'Loading...';
+            }
+            return <button className='big-btn' onClick={onClickMint}>Mint for {formatSui(collection.nextPrice)}</button>
+        })()}
         <ErrorBox msg={errorMsg} />
     </div>
     </>;

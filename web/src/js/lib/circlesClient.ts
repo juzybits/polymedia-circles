@@ -58,14 +58,15 @@ export class CirclesClient { // TODO: cache
     public async mintArtwork({
         signTransactionBlock,
         recipient,
-        payCoin,
+        price,
     }: {
         signTransactionBlock: WalletKitCore['signTransactionBlock'],
         recipient: string;
-        payCoin: string;
+        price: number;
     }): Promise<SuiTransactionBlockResponse>
     {
         const txb = new TransactionBlock()
+        const payCoin = txb.splitCoins(txb.gas, [price]);
         const [artwork, change] = mintArtwork(txb, {
             collection: this.collectionId,
             payCoin,
