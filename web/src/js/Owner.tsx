@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import '../css/Owner.less';
 import { AppContext } from './App';
-import { ArtworkWithDisplay } from './lib/circles';
+import { ArtworkWithDisplay } from './lib/circlesClient';
 
 export const Owner: React.FC = () =>
 {
     const { currentAccount } = useWalletKit();
-    const { circlesManager } = useOutletContext<AppContext>();
+    const { circlesClient } = useOutletContext<AppContext>();
     const [artworks, setArtworks] = useState<ArtworkWithDisplay[]|null|undefined>(undefined);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ export const Owner: React.FC = () =>
             return;
         }
         (async () => {
-            const artworks = await circlesManager.fetchArtworksByOwner(currentAccount.address);
+            const artworks = await circlesClient.fetchArtworksByOwner(currentAccount.address);
             setArtworks(artworks);
         })();
     }, [currentAccount]);

@@ -10,18 +10,18 @@ import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/st
 
 const HomeNew: React.FC = () =>
 {
-    const { circlesManager, network } = useOutletContext<AppContext>();
+    const { circlesClient, network } = useOutletContext<AppContext>();
 
     const [collection, setCollection] = useState<Collection|null|undefined>(undefined);
     const [events, setEvents] = useState<SuiEvent[]|null|undefined>(undefined);
 
     useEffect(() => {
         (async () => {
-            const collection = await circlesManager.fetchCollection();
+            const collection = await circlesClient.fetchCollection();
             setCollection(collection);
         })();
         (async () => {
-            const events = await circlesManager.fetchEvents();
+            const events = await circlesClient.fetchEvents();
             setEvents(events);
         })();
     }, []);

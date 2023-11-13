@@ -4,13 +4,13 @@ import { SuiClient } from '@mysten/sui.js/client';
 import { ConnectModal, WalletKitProvider } from '@mysten/wallet-kit';
 import { NetworkName, isLocalhost, loadNetwork, getRpcConfig } from '@polymedia/webutils';
 import { Nav } from './Nav';
-import { CirclesManager } from './lib/circles';
+import { CirclesClient } from './lib/circlesClient';
 import '../css/App.less';
 
 export type AppContext = {
     layoutRef: RefObject<HTMLDivElement>;
     network: NetworkName;
-    circlesManager: CirclesManager;
+    circlesClient: CirclesClient;
     openConnectModal: () => void;
 };
 
@@ -21,7 +21,7 @@ export const App: React.FC = () =>
 {
     const layoutRef = useRef<HTMLDivElement>(null);
     const [network, setNetwork] = useState<NetworkName>();
-    const [circlesManager, setCirclesManager] = useState<CirclesManager>();
+    const [circlesClient, setCirclesClient] = useState<CirclesClient>();
     const [showConnectModal, setShowConnectModal] = useState(false);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export const App: React.FC = () =>
             const rpcConfig = await getRpcConfig({network, fetch: false});
             const suiClient = new SuiClient({url: rpcConfig.fullnode});
             setNetwork(network);
-            setCirclesManager( new CirclesManager({network, suiClient}) );
+            setCirclesClient( new CirclesClient({network, suiClient}) );
         };
         initialize();
     }, []);
@@ -39,14 +39,14 @@ export const App: React.FC = () =>
         setShowConnectModal(true);
     };
 
-    if (!network || !circlesManager) {
+    if (!network || !circlesClient) {
         return <></>;
     }
 
     const appContext: AppContext = {
         layoutRef,
         network,
-        circlesManager,
+        circlesClient: circlesClient,
         openConnectModal,
     };
 

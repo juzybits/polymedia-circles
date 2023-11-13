@@ -12,7 +12,7 @@ export const Mint: React.FC = () =>
     } = useWalletKit();
 
     const {
-        circlesManager,
+        circlesClient,
         openConnectModal,
     } = useOutletContext<AppContext>();
 
@@ -23,7 +23,7 @@ export const Mint: React.FC = () =>
             return;
         }
         try {
-            const res = await circlesManager.mintArtwork({
+            const res = await circlesClient.mintArtwork({
                 signTransactionBlock,
                 recipient: currentAccount.address,
                 payCoin: '0x0961b5e2a9a7f7fef82df1b387206a960af2c36ebfd24f0248ea6b5dda43f0c7', // TODO

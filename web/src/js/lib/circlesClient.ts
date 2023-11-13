@@ -28,7 +28,7 @@ export const COLLECTION_MAINNET = '0x123';
 /**
  * Helper to interact with the `polymedia_circles` Sui package via the `sui-client-gen` SDK
  */
-export class CirclesManager {
+export class CirclesClient { // TODO: cache
     public readonly suiClient: SuiClient;
     public readonly packageId: string;
     public readonly collectionId: string;
@@ -93,15 +93,15 @@ export class CirclesManager {
         })
         .then((resp: SuiObjectResponse) => {
             if (resp.error) {
-                console.warn('[CirclesManager.fetchCollection] response error:', resp.error);
+                console.warn('[CirclesClient.fetchCollection] response error:', resp.error);
                 return null;
             }
             if (resp.data?.content?.dataType !== 'moveObject') {
-                console.warn('[CirclesManager.fetchCollection] content missing:', resp);
+                console.warn('[CirclesClient.fetchCollection] content missing:', resp);
                 return null;
             }
             if (!isCollection(resp.data.content.type)) {
-                console.warn('[CirclesManager.fetchCollection] not a collection:', resp);
+                console.warn('[CirclesClient.fetchCollection] not a collection:', resp);
                 return null;
             }
             return Collection.fromFieldsWithTypes({
@@ -110,7 +110,7 @@ export class CirclesManager {
             });
         })
         .catch((error: any) => {
-            console.warn('[CirclesManager.fetchCollection] unexpected error:\n', error);
+            console.warn('[CirclesClient.fetchCollection] unexpected error:\n', error);
             return null;
         });
     }
@@ -128,7 +128,7 @@ export class CirclesManager {
             return events.data;
         })
         .catch((error: any) => {
-            console.warn('[CirclesManager.fetchEvents] unexpected error:\n', error);
+            console.warn('[CirclesClient.fetchEvents] unexpected error:\n', error);
             return null;
         })
     }
@@ -148,11 +148,11 @@ export class CirclesManager {
             const artworks = new Array<ArtworkWithDisplay>();
             for (const suiObjRes of events.data) {
                 if (suiObjRes.data?.content?.dataType !== 'moveObject') {
-                    console.warn('[CirclesManager.fetchArtworksByOwner] content missing:', suiObjRes);
+                    console.warn('[CirclesClient.fetchArtworksByOwner] content missing:', suiObjRes);
                     continue;
                 }
                 if (!suiObjRes.data.display?.data) {
-                    console.warn('[CirclesManager.fetchArtworksByOwner] display missing:', suiObjRes);
+                    console.warn('[CirclesClient.fetchArtworksByOwner] display missing:', suiObjRes);
                     continue;
                 }
                 const artwork = Artwork.fromFieldsWithTypes({
@@ -168,7 +168,7 @@ export class CirclesManager {
             return artworks;
         })
         .catch((error: any) => {
-            console.warn('[CirclesManager.fetchArtworksByOwner] unexpected error:\n', error);
+            console.warn('[CirclesClient.fetchArtworksByOwner] unexpected error:\n', error);
             return null;
         })
     }
