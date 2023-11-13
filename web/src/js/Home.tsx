@@ -5,21 +5,14 @@ import { Link, useOutletContext } from 'react-router-dom';
 import '../css/Home.less';
 import { AppContext } from './App';
 import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
-import { isDev } from './lib/isDev';
-import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';
+import { formatSui, isDev } from './lib/utils';
 
 const HomeNew: React.FC = () =>
 {
-    const { circlesClient, network } = useOutletContext<AppContext>();
-
-    const [collection, setCollection] = useState<Collection|null|undefined>(undefined);
-    const [events, setEvents] = useState<SuiEvent[]|null|undefined>(undefined);
+    const { circlesClient, collection, network } = useOutletContext<AppContext>();
+    const [ events, setEvents ] = useState<SuiEvent[]|null|undefined>(undefined);
 
     useEffect(() => {
-        (async () => {
-            const collection = await circlesClient.fetchCollection();
-            setCollection(collection);
-        })();
         (async () => {
             const events = await circlesClient.fetchEvents();
             setEvents(events);
@@ -61,10 +54,6 @@ const HomeNew: React.FC = () =>
         </div>
     )
 }
-
-const formatSui = (num: BigInt): string => {
-    return (Number(num)/1_000_000_000).toPrecision(4);
-};
 
 const LinkToExplorer: React.FC<{
     network: NetworkName,
