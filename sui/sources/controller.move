@@ -2,7 +2,6 @@
 /// All access control is done here.
 module polymedia_circles::controller
 {
-    use std::string::{String, utf8};
     use std::vector::{Self};
     use sui::coin::{Self, Coin};
     use sui::event::{Self};
@@ -11,7 +10,7 @@ module polymedia_circles::controller
     use sui::transfer::{Self};
     use sui::tx_context::{Self, TxContext};
     use polymedia_circles::artwork::{Self, Artwork};
-    use polymedia_circles::collection::{Self, ArtistCap, Collection};
+    use polymedia_circles::collection::{Self, Collection};
 
     /* Errors */
 
@@ -53,7 +52,6 @@ module polymedia_circles::controller
         collection: &mut Collection,
         pay_coin: Coin<SUI>,
         price: u64,
-        autograph: String,
         ctx: &mut TxContext
     ) : (Artwork, Coin<SUI>)
     {
@@ -63,7 +61,6 @@ module polymedia_circles::controller
 
         let artwork = artwork::create(
             collection::next_number(collection),
-            autograph,
             ctx,
         );
         collection::increase_supply(collection);
@@ -84,12 +81,10 @@ module polymedia_circles::controller
         let sender = tx_context::sender(ctx);
         let is_whitelisted = collection::remove_from_whitelist(collection, sender);
         let price = if (is_whitelisted) { 0 } else { collection::next_price(collection) };
-        let autograph = utf8(b"");
         let (artwork, change) = create_artwork(
             collection,
             pay_coin,
             price,
-            autograph,
             ctx,
         );
         event::emit(ArtworkMinted {
@@ -134,12 +129,10 @@ module polymedia_circles::controller
     ): (Artwork, Coin<SUI>) {
         assert!( !artwork::frozen(&old_artwork), E_CANT_MODIFY_FROZEN_ARTWORK );
         let discounted_price = collection::next_price_discounted(collection);
-        let autograph = utf8(b"");
         let (new_artwork, change) = create_artwork(
             collection,
             pay_coin,
             discounted_price,
-            autograph,
             ctx,
         );
         event::emit(ArtworkRecycled {
@@ -205,24 +198,6 @@ module polymedia_circles::controller
             artwork_b_id: object::id(b),
             artwork_b_number: artwork::number(b),
         });
-    }
-
-    public fun save_autograph(
-        _: &ArtistCap,
-        collection: &mut Collection,
-        artwork_addr: address,
-        autograph_text: vector<u8>,
-    ) {
-        collection::add_autograph(collection, artwork_addr, autograph_text);
-    }
-
-    public fun claim_autograph(
-        collection: &mut Collection,
-        artwork: &mut Artwork,
-    ) {
-        let artwork_addr = object::id_to_address( &object::id(artwork) );
-        let autograph_text = collection::remove_autograph(collection, artwork_addr);
-        artwork::set_autograph(artwork, autograph_text);
     }
 }
 

@@ -24,7 +24,6 @@ pnpm serve
 /owner
     list owner's artworks
         link to /art
-    list available autographs
     /:ownerId to see someone else's artworks
 /faq
 /art
@@ -32,10 +31,7 @@ pnpm serve
     freeze (button)
     burn (button)
     recycle (button)
-    autograph claim if available (button)
     blend (page)
 /admin
-    create autographs
-    delete autographs
     add to whitelist
     delete from whitelist

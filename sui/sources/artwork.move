@@ -30,12 +30,10 @@ module polymedia_circles::artwork
         circles: vector<Circle>,
         svg: String,
         frozen: bool,
-        autograph: String,
     }
 
     public(friend) fun create(
         number: u64,
-        autograph: String,
         ctx: &mut TxContext,
     ): Artwork {
         // Create `num_circles` `Circle` objects with random values
@@ -62,7 +60,6 @@ module polymedia_circles::artwork
             circles,
             svg: utf8(circle::vector_to_svg(&circles)),
             frozen: false,
-            autograph,
         }
     }
 
@@ -82,7 +79,6 @@ module polymedia_circles::artwork
             circles: _,
             svg: _,
             frozen: _,
-            autograph: _,
         } = self;
         object::delete(id);
     }
@@ -97,13 +93,6 @@ module polymedia_circles::artwork
         self.circles = circles;
         // Update SVG representation
         self.svg = utf8(circle::vector_to_svg(&circles));
-    }
-
-    public(friend) fun set_autograph(
-        self: &mut Artwork,
-        autograph_text: String,
-    ) {
-        self.autograph = autograph_text;
     }
 
     /* Accessors */
@@ -176,7 +165,7 @@ module polymedia_circles::artwork
         let scen = ts::begin(sender);
         let ctx = ts::ctx(&mut scen);
 
-        let artw = create(55, utf8(b"to my biggest fan"), ctx);
+        let artw = create(55, ctx);
 
         assert!( 55 == number(&artw), 0 );
 

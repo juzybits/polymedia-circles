@@ -2,10 +2,8 @@
 /// of a series of `Artwork` owned objects.
 module polymedia_circles::collection
 {
-    use std::string::{String, utf8};
     use std::vector::{Self};
     use sui::object::{Self, UID};
-    use sui::table::{Self, Table};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
@@ -18,13 +16,6 @@ module polymedia_circles::collection
     const PRICE_INCREASE_BPS: u64 = 100; // basis points (1%)
     const RECYCLED_DIVISOR: u64 = 10; // recycled Artwork costs 10% of Collection.next_price
 
-    /* Capabilities */
-
-    /// Allows the artist to create autographs
-    struct ArtistCap has key {
-        id: UID
-    }
-
     /* Structs */
 
     struct Collection has key, store {
@@ -35,9 +26,6 @@ module polymedia_circles::collection
         pay_address: address, // TODO: multisig vault
         // addresses that can mint for free
         whitelist: vector<address>,
-        // `address` is an artwork object ID
-        // `String` is an autograph by the artist
-        autographs: Table<address, String>,
     }
 
     /* Functionality */
@@ -74,23 +62,6 @@ module polymedia_circles::collection
             i = i + 1;
         };
         return false
-    }
-
-    /// Aborts with `sui::dynamic_field::EFieldAlreadyExists` if the table already contains `artwork_addr`
-    public(friend) fun add_autograph(
-        self: &mut Collection,
-        artwork_addr: address,
-        autograph_text: vector<u8>,
-    ) {
-        table::add(&mut self.autographs, artwork_addr, utf8(autograph_text));
-    }
-
-    /// Aborts with `sui::dynamic_field::EFieldDoesNotExist` if the table does not contain `artwork_addr`
-    public(friend) fun remove_autograph(
-        self: &mut Collection,
-        artwork_addr: address,
-    ): String {
-        return table::remove(&mut self.autographs, artwork_addr)
     }
 
     /* Collection accessors */
@@ -140,15 +111,8 @@ module polymedia_circles::collection
                 @0xAAA,
                 @0xBBB,
             ],
-            autographs: table::new(ctx),
         };
         transfer::public_share_object(collection);
-
-        // Create and transfer ArtistCap to the sender
-        let artistCap = ArtistCap {
-            id: object::new(ctx)
-        };
-        transfer::transfer(artistCap, sender);
     }
 
     /* Tests */

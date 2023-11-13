@@ -53,7 +53,7 @@ export const FAQ: React.FC = () =>
             <h1>F.A.Q.</h1>
 
             <div id='note'>
-                * Last update: November 6, 2023
+                * Last update: November 13, 2023
                 <br/>
                 * This document is subject to change.
             </div>
@@ -92,7 +92,6 @@ export const FAQ: React.FC = () =>
                 <p><b>• Blend:</b> Owners can combine two artworks by swapping individual circles between them. By refining their artworks according to their personal taste, owners are also curating the entire collection.</p>
                 <p><b>• Recycle:</b> Owners can destroy their artworks in order to mint new ones at a discount. An artwork can be recycled into a new one for only 10% of the full price.</p>
                 <p><b>• Freeze:</b> Owners can use this function to prevent further changes to their artwork. Once an artwork has been frozen, it can no longer be blended or recycled.</p>
-                <p><b>• Autograph:</b> The programmer-artist who created this project (@juzybits) can autograph a holder's artwork with a personalized message.</p>
             </div>
 
             <div className='question'>
