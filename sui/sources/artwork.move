@@ -133,7 +133,7 @@ module polymedia_circles::artwork
                 utf8(b"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%201000%201000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22{background_color}%22%3E%3C%2Frect%3E{svg}%3Ctext%20x%3D%22989%22%20y%3D%22987%22%20font-family%3D%22monospace%22%20font-size%3D%2220%22%20fill%3D%22white%22%20text-anchor%3D%22end%22%3EPolymedia%20Circles%20%23{number}%3C%2Ftext%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%2212%22%20%2F%3E%3C%2Fsvg%3E"), // image_url
                 utf8(b"Polymedia Circles #{number}"), // name
                 utf8(b"Generative art by Polymedia"), // description
-                utf8(b"https://circles.polymedia.app/view/{id}"), // link
+                utf8(b"https://circles.polymedia.app/art/{id}"), // link
                 utf8(b"Polymedia Circles"), // project_name
                 utf8(b"https://circles.polymedia.app"), // project_url
                 utf8(b"https://polymedia.app"), // creator

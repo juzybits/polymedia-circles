@@ -1,11 +1,10 @@
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppWrap } from './js/App';
-
-import { Home } from './js/Home';
-import { FAQ } from './js/FAQ';
-import { Mint } from './js/Mint';
 import { Demo } from './js/Demo';
+import { FAQ } from './js/FAQ';
+import { Home } from './js/Home';
+import { Mint } from './js/Mint';
 import { NotFound } from './js/NotFound';
 
 ReactDOM

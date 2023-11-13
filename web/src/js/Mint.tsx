@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useWalletKit } from '@mysten/wallet-kit';
 import '../css/Mint.less';
 import { useOutletContext } from 'react-router-dom';
@@ -17,10 +17,6 @@ export const Mint: React.FC = () =>
     } = useOutletContext<AppContext>();
 
     const [errorMsg, _setErrorMsg] = useState<string|null>(null);
-
-    useEffect(() => {
-        document.title = 'Circles - Mint';
-    }, []);
 
     const onClickMint = async () => {
         if (!currentAccount) {

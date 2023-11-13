@@ -13,7 +13,7 @@ const HomeNew: React.FC = () =>
     const { circlesManager, network } = useOutletContext<AppContext>();
 
     const [collection, setCollection] = useState<Collection|null|undefined>(undefined);
-    const [events, setEvents] = useState<SuiEvent[]>([]);
+    const [events, setEvents] = useState<SuiEvent[]|null|undefined>(undefined);
 
     useEffect(() => {
         (async () => {
@@ -44,13 +44,19 @@ const HomeNew: React.FC = () =>
             </div>
             <h2>Events:</h2>
             <div>
-            {
-                events.map(event => {
-                    const eventName = event.type.split('::')[2];
-                    const eventFields = JSON.stringify(event.parsedJson);
-                    return <div key={event.id.txDigest}>{eventName}: {eventFields}</div>;
-                })
-            }
+            {(() => {
+                if (typeof events === 'undefined')
+                    return 'Loading...';
+                if (events === null)
+                    return 'Error';
+                return <>{
+                    events.map(event => {
+                        const eventName = event.type.split('::')[2];
+                        const eventFields = JSON.stringify(event.parsedJson);
+                        return <div key={event.id.txDigest}>{eventName}: {eventFields}</div>;
+                    })
+                }</>;
+            })()}
             </div>
         </div>
     )

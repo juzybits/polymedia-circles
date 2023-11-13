@@ -113,7 +113,7 @@ export class CirclesManager {
         });
     }
 
-    public async fetchEvents(): Promise<SuiEvent[]> {
+    public async fetchEvents(): Promise<SuiEvent[]|null> {
         return this.suiClient.queryEvents({
             query: {
                 MoveModule: {
