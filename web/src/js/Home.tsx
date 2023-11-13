@@ -1,4 +1,5 @@
 import { SuiEvent } from '@mysten/sui.js/client';
+import { NetworkName, linkToExplorer, shortenAddress } from '@polymedia/webutils';
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import '../css/Home.less';
@@ -9,7 +10,7 @@ import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/st
 
 const HomeNew: React.FC = () =>
 {
-    const { circlesManager } = useOutletContext<AppContext>();
+    const { circlesManager, network } = useOutletContext<AppContext>();
 
     const [collection, setCollection] = useState<Collection|null|undefined>(undefined);
     const [events, setEvents] = useState<SuiEvent[]>([]);
@@ -28,7 +29,19 @@ const HomeNew: React.FC = () =>
     return (
         <div id='home-page'>
             <h2>Collection:</h2>
-            <div>{String(collection)}</div>
+            <div>
+            {(() => {
+                if (typeof collection === 'undefined')
+                    return 'Loading...';
+                if (collection === null)
+                    return 'Error';
+                return <>
+                    <div>Object ID: <LinkToExplorer network={network} objectId={collection.id} /></div>
+                    <div>Current supply: {String(collection.supply)}</div>
+                    <div>Next price: {formatSui(collection.nextPrice)}</div>
+                </>;
+            })()}
+            </div>
             <h2>Events:</h2>
             <div>
             {
@@ -42,6 +55,26 @@ const HomeNew: React.FC = () =>
         </div>
     )
 }
+
+const formatSui = (num: BigInt): string => {
+    return (Number(num)/1_000_000_000).toPrecision(4);
+};
+
+const LinkToExplorer: React.FC<{
+    network: NetworkName,
+    objectId: string;
+}> = ({
+    network,
+    objectId,
+}) => {
+    return <a
+        href={linkToExplorer(network, 'object', objectId)}
+        target='_blank'
+        rel='noopener'
+    >
+        {shortenAddress(objectId)}
+    </a>
+};
 
 export const Home: React.FC = () =>
 {

@@ -14,9 +14,9 @@ pnpm serve
 /
     collection stats
         link to explorer
-    list all artworks (paginated)
-        link to /art
     recent events
+        link to /art
+    list all artworks (paginated) // TODO
         link to /art
 /mint
     next price
