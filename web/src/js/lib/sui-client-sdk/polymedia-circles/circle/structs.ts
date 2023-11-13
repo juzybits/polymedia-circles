@@ -4,7 +4,7 @@ import { FieldsWithTypes, Type, compressSuiType } from "../../_framework/util";
 /* ============================== Circle =============================== */
 
 bcs.registerStructType(
-  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle",
+  "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::circle::Circle",
   {
     red: `u8`,
     green: `u8`,
@@ -19,7 +19,7 @@ export function isCircle(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle"
+    "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::circle::Circle"
   );
 }
 
@@ -34,7 +34,7 @@ export interface CircleFields {
 
 export class Circle {
   static readonly $typeName =
-    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle";
+    "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::circle::Circle";
   static readonly $numTypeParams = 0;
 
   readonly red: number;

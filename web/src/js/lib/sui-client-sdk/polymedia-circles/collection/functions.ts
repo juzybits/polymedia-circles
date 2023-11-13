@@ -33,23 +33,6 @@ export function init(txb: TransactionBlock) {
   });
 }
 
-export interface AddAutographArgs {
-  self: ObjectArg;
-  artworkAddr: string | TransactionArgument;
-  autographText: Array<number | TransactionArgument> | TransactionArgument;
-}
-
-export function addAutograph(txb: TransactionBlock, args: AddAutographArgs) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::collection::add_autograph`,
-    arguments: [
-      obj(txb, args.self),
-      pure(txb, args.artworkAddr, `address`),
-      pure(txb, args.autographText, `vector<u8>`),
-    ],
-  });
-}
-
 export function increaseNumber(txb: TransactionBlock, self: ObjectArg) {
   return txb.moveCall({
     target: `${PUBLISHED_AT}::collection::increase_number`,
@@ -103,21 +86,6 @@ export function recycledDivisor(txb: TransactionBlock) {
   return txb.moveCall({
     target: `${PUBLISHED_AT}::collection::recycled_divisor`,
     arguments: [],
-  });
-}
-
-export interface RemoveAutographArgs {
-  self: ObjectArg;
-  artworkAddr: string | TransactionArgument;
-}
-
-export function removeAutograph(
-  txb: TransactionBlock,
-  args: RemoveAutographArgs,
-) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::collection::remove_autograph`,
-    arguments: [obj(txb, args.self), pure(txb, args.artworkAddr, `address`)],
   });
 }
 

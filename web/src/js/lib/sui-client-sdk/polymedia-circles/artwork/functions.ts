@@ -5,18 +5,13 @@ import {
   TransactionBlock,
 } from "@mysten/sui.js/transactions";
 
-export interface CreateArgs {
-  number: bigint | TransactionArgument;
-  autograph: string | TransactionArgument;
-}
-
-export function create(txb: TransactionBlock, args: CreateArgs) {
+export function create(
+  txb: TransactionBlock,
+  number: bigint | TransactionArgument,
+) {
   return txb.moveCall({
     target: `${PUBLISHED_AT}::artwork::create`,
-    arguments: [
-      pure(txb, args.number, `u64`),
-      pure(txb, args.autograph, `0x1::string::String`),
-    ],
+    arguments: [pure(txb, number, `u64`)],
   });
 }
 
@@ -76,21 +71,6 @@ export function init(txb: TransactionBlock, otw: ObjectArg) {
   });
 }
 
-export interface SetAutographArgs {
-  self: ObjectArg;
-  autographText: string | TransactionArgument;
-}
-
-export function setAutograph(txb: TransactionBlock, args: SetAutographArgs) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::artwork::set_autograph`,
-    arguments: [
-      obj(txb, args.self),
-      pure(txb, args.autographText, `0x1::string::String`),
-    ],
-  });
-}
-
 export interface SetCirclesArgs {
   self: ObjectArg;
   circles: Array<ObjectArg> | TransactionArgument;
@@ -103,7 +83,7 @@ export function setCircles(txb: TransactionBlock, args: SetCirclesArgs) {
       obj(txb, args.self),
       vector(
         txb,
-        `0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle`,
+        `0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::circle::Circle`,
         args.circles,
       ),
     ],

@@ -1,89 +1,12 @@
 import { UID } from "../../_dependencies/source/0x2/object/structs";
-import { Table } from "../../_dependencies/source/0x2/table/structs";
 import { Encoding, bcsSource as bcs } from "../../_framework/bcs";
 import { FieldsWithTypes, Type, compressSuiType } from "../../_framework/util";
 import { SuiClient, SuiParsedData } from "@mysten/sui.js/client";
 
-/* ============================== ArtistCap =============================== */
-
-bcs.registerStructType(
-  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::ArtistCap",
-  {
-    id: `0x2::object::UID`,
-  },
-);
-
-export function isArtistCap(type: Type): boolean {
-  type = compressSuiType(type);
-  return (
-    type ===
-    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::ArtistCap"
-  );
-}
-
-export interface ArtistCapFields {
-  id: string;
-}
-
-export class ArtistCap {
-  static readonly $typeName =
-    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::ArtistCap";
-  static readonly $numTypeParams = 0;
-
-  readonly id: string;
-
-  constructor(id: string) {
-    this.id = id;
-  }
-
-  static fromFields(fields: Record<string, any>): ArtistCap {
-    return new ArtistCap(UID.fromFields(fields.id).id);
-  }
-
-  static fromFieldsWithTypes(item: FieldsWithTypes): ArtistCap {
-    if (!isArtistCap(item.type)) {
-      throw new Error("not a ArtistCap type");
-    }
-    return new ArtistCap(item.fields.id.id);
-  }
-
-  static fromBcs(data: Uint8Array | string, encoding?: Encoding): ArtistCap {
-    return ArtistCap.fromFields(bcs.de([ArtistCap.$typeName], data, encoding));
-  }
-
-  static fromSuiParsedData(content: SuiParsedData) {
-    if (content.dataType !== "moveObject") {
-      throw new Error("not an object");
-    }
-    if (!isArtistCap(content.type)) {
-      throw new Error(
-        `object at ${(content.fields as any).id} is not a ArtistCap object`,
-      );
-    }
-    return ArtistCap.fromFieldsWithTypes(content);
-  }
-
-  static async fetch(client: SuiClient, id: string): Promise<ArtistCap> {
-    const res = await client.getObject({ id, options: { showContent: true } });
-    if (res.error) {
-      throw new Error(
-        `error fetching ArtistCap object at id ${id}: ${res.error.code}`,
-      );
-    }
-    if (
-      res.data?.content?.dataType !== "moveObject" ||
-      !isArtistCap(res.data.content.type)
-    ) {
-      throw new Error(`object at id ${id} is not a ArtistCap object`);
-    }
-    return ArtistCap.fromFieldsWithTypes(res.data.content);
-  }
-}
-
 /* ============================== Collection =============================== */
 
 bcs.registerStructType(
-  "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::Collection",
+  "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::collection::Collection",
   {
     id: `0x2::object::UID`,
     supply: `u64`,
@@ -91,7 +14,6 @@ bcs.registerStructType(
     next_price: `u64`,
     pay_address: `address`,
     whitelist: `vector<address>`,
-    autographs: `0x2::table::Table<address, 0x1::string::String>`,
   },
 );
 
@@ -99,7 +21,7 @@ export function isCollection(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::Collection"
+    "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::collection::Collection"
   );
 }
 
@@ -110,12 +32,11 @@ export interface CollectionFields {
   nextPrice: bigint;
   payAddress: string;
   whitelist: Array<string>;
-  autographs: Table;
 }
 
 export class Collection {
   static readonly $typeName =
-    "0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::collection::Collection";
+    "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::collection::Collection";
   static readonly $numTypeParams = 0;
 
   readonly id: string;
@@ -124,7 +45,6 @@ export class Collection {
   readonly nextPrice: bigint;
   readonly payAddress: string;
   readonly whitelist: Array<string>;
-  readonly autographs: Table;
 
   constructor(fields: CollectionFields) {
     this.id = fields.id;
@@ -133,7 +53,6 @@ export class Collection {
     this.nextPrice = fields.nextPrice;
     this.payAddress = fields.payAddress;
     this.whitelist = fields.whitelist;
-    this.autographs = fields.autographs;
   }
 
   static fromFields(fields: Record<string, any>): Collection {
@@ -144,10 +63,6 @@ export class Collection {
       nextPrice: BigInt(fields.next_price),
       payAddress: `0x${fields.pay_address}`,
       whitelist: fields.whitelist.map((item: any) => `0x${item}`),
-      autographs: Table.fromFields(
-        [`address`, `0x1::string::String`],
-        fields.autographs,
-      ),
     });
   }
 
@@ -162,7 +77,6 @@ export class Collection {
       nextPrice: BigInt(item.fields.next_price),
       payAddress: `0x${item.fields.pay_address}`,
       whitelist: item.fields.whitelist.map((item: any) => `0x${item}`),
-      autographs: Table.fromFieldsWithTypes(item.fields.autographs),
     });
   }
 

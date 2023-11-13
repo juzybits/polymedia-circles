@@ -36,26 +36,10 @@ export function burnArtwork(txb: TransactionBlock, args: BurnArtworkArgs) {
   });
 }
 
-export interface ClaimAutographArgs {
-  collection: ObjectArg;
-  artwork: ObjectArg;
-}
-
-export function claimAutograph(
-  txb: TransactionBlock,
-  args: ClaimAutographArgs,
-) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::controller::claim_autograph`,
-    arguments: [obj(txb, args.collection), obj(txb, args.artwork)],
-  });
-}
-
 export interface CreateArtworkArgs {
   collection: ObjectArg;
   payCoin: ObjectArg;
   price: bigint | TransactionArgument;
-  autograph: string | TransactionArgument;
 }
 
 export function createArtwork(txb: TransactionBlock, args: CreateArtworkArgs) {
@@ -65,7 +49,6 @@ export function createArtwork(txb: TransactionBlock, args: CreateArtworkArgs) {
       obj(txb, args.collection),
       obj(txb, args.payCoin),
       pure(txb, args.price, `u64`),
-      pure(txb, args.autograph, `0x1::string::String`),
     ],
   });
 }
@@ -105,25 +88,6 @@ export function recycleArtwork(
       obj(txb, args.collection),
       obj(txb, args.payCoin),
       obj(txb, args.oldArtwork),
-    ],
-  });
-}
-
-export interface SaveAutographArgs {
-  artistCap: ObjectArg;
-  collection: ObjectArg;
-  artworkAddr: string | TransactionArgument;
-  autographText: Array<number | TransactionArgument> | TransactionArgument;
-}
-
-export function saveAutograph(txb: TransactionBlock, args: SaveAutographArgs) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::controller::save_autograph`,
-    arguments: [
-      obj(txb, args.artistCap),
-      obj(txb, args.collection),
-      pure(txb, args.artworkAddr, `address`),
-      pure(txb, args.autographText, `vector<u8>`),
     ],
   });
 }

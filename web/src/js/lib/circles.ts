@@ -11,8 +11,8 @@ import { NetworkName } from '@polymedia/webutils';
 import { Collection, isCollection } from './sui-client-sdk/polymedia-circles/collection/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
 
-export const PACKAGE_LOCALNET = '0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1';
-export const COLLECTION_LOCALNET = '0x323a4d193fc0e5bbba1d35ea4d017308d69b2eeb26463fac2dcc8d0a5e9a32df';
+export const PACKAGE_LOCALNET = '0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd';
+export const COLLECTION_LOCALNET = '0xc8277d014ac46e752fd92fa41a37f1b8177e3b9c29d16cca1db0e7bf889fefb5';
 
 export const PACKAGE_DEVNET = '0x123';
 export const COLLECTION_DEVNET = '0x123';

@@ -75,7 +75,7 @@ export function sortByRadiusDesc(
     arguments: [
       vector(
         txb,
-        `0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle`,
+        `0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::circle::Circle`,
         v,
       ),
     ],
@@ -98,7 +98,7 @@ export function vectorToSvg(
     arguments: [
       vector(
         txb,
-        `0x293794c66bd50bd7e2bdef561367419c1298b315775e31dfab38a2eb6b08ece1::circle::Circle`,
+        `0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::circle::Circle`,
         circles,
       ),
     ],

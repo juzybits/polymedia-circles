@@ -30,7 +30,7 @@ export const Mint: React.FC = () =>
             const res = await circlesManager.mintArtwork({
                 signTransactionBlock,
                 recipient: currentAccount.address,
-                payCoin: '0x1048d81f48f2a509eaee2ee1ee7d13ed46b8074d6c27834eb35c36f852a26fe5', // TODO
+                payCoin: '0x0961b5e2a9a7f7fef82df1b387206a960af2c36ebfd24f0248ea6b5dda43f0c7', // TODO
             });
             if (res.effects?.status.status === 'success') {
                 console.debug('[onClickMint] transaction success:', res);
