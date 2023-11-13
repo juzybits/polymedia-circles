@@ -19,12 +19,12 @@ pnpm serve
     list all artworks (paginated) // TODO
         link to /art
 /mint
-    next price
+    next price // TODO
     mint button
 /owner
     list owner's artworks
         link to /art
-    /:ownerId to see someone else's artworks
+    /:ownerId to see someone else's artworks // TODO
 /faq
 /art
     view (default)

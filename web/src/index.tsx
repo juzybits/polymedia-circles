@@ -6,6 +6,7 @@ import { FAQ } from './js/FAQ';
 import { Home } from './js/Home';
 import { Mint } from './js/Mint';
 import { NotFound } from './js/NotFound';
+import { Owner } from './js/Owner';
 
 ReactDOM
     .createRoot( document.getElementById('app') as Element )
@@ -16,6 +17,7 @@ ReactDOM
                 <Route index element={<Home />} />
                 <Route path='faq' element={<FAQ />} />
                 <Route path='mint' element={<Mint />} />
+                <Route path='owner' element={<Owner />} />
                 <Route path='demo' element={<Demo />} />
                 <Route path='*' element={<NotFound />} />
             </Route>

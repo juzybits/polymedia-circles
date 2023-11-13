@@ -1,5 +1,6 @@
 import {
     PaginatedEvents,
+    PaginatedObjectsResponse,
     SuiClient,
     SuiEvent,
     SuiObjectResponse,
@@ -8,6 +9,7 @@ import {
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
+import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
 import { Collection, isCollection } from './sui-client-sdk/polymedia-circles/collection/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
 
@@ -127,7 +129,53 @@ export class CirclesManager {
         })
         .catch((error: any) => {
             console.warn('[CirclesManager.fetchEvents] unexpected error:\n', error);
-            return [];
+            return null;
+        })
+    }
+
+    public async fetchArtworksByOwner(ownerAddr: string): Promise<ArtworkWithDisplay[]|null> {
+        return this.suiClient.getOwnedObjects({
+            owner: ownerAddr,
+            filter: {
+                StructType: Artwork.$typeName,
+            },
+            options: {
+                showContent: true,
+                showDisplay: true,
+            },
+        })
+        .then((events: PaginatedObjectsResponse) => {
+            const artworks = new Array<ArtworkWithDisplay>();
+            for (const suiObjRes of events.data) {
+                if (suiObjRes.data?.content?.dataType !== 'moveObject') {
+                    console.warn('[CirclesManager.fetchArtworksByOwner] content missing:', suiObjRes);
+                    continue;
+                }
+                if (!suiObjRes.data.display?.data) {
+                    console.warn('[CirclesManager.fetchArtworksByOwner] display missing:', suiObjRes);
+                    continue;
+                }
+                const artwork = Artwork.fromFieldsWithTypes({
+                    fields: suiObjRes.data.content.fields,
+                    type: suiObjRes.data.content.type,
+                });
+                const artworkWithDisplay: ArtworkWithDisplay = {
+                    ...artwork,
+                    display: suiObjRes.data.display.data,
+                };
+                artworks.push(artworkWithDisplay);
+            }
+            return artworks;
+        })
+        .catch((error: any) => {
+            console.warn('[CirclesManager.fetchArtworksByOwner] unexpected error:\n', error);
+            return null;
         })
     }
 }
+
+export type ArtworkWithDisplay = Artwork & {
+    display: {
+        [key: string]: string;
+    };
+};
