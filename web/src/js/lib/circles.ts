@@ -1,5 +1,7 @@
 import {
+    PaginatedEvents,
     SuiClient,
+    SuiEvent,
     SuiObjectResponse,
     SuiTransactionBlockResponse,
 } from '@mysten/sui.js/client';
@@ -109,5 +111,23 @@ export class CirclesManager {
             console.warn('[CirclesManager.fetchCollection] unexpected error:\n', error);
             return null;
         });
+    }
+
+    public async fetchEvents(): Promise<SuiEvent[]> {
+        return this.suiClient.queryEvents({
+            query: {
+                MoveModule: {
+                    module: 'controller',
+                    package: this.packageId,
+                },
+            }
+        })
+        .then((events: PaginatedEvents) => {
+            return events.data;
+        })
+        .catch((error: any) => {
+            console.warn('[CirclesManager.fetchEvents] unexpected error:\n', error);
+            return [];
+        })
     }
 }

@@ -22,8 +22,6 @@ module polymedia_circles::controller
 
     /* Events */
 
-    // TODO: remove events that can be replaced by looking at transaction effects
-
     struct ArtworkMinted has copy, drop {
         artwork_id: ID,
         artwork_number: u64,

@@ -1,3 +1,4 @@
+import { SuiEvent } from '@mysten/sui.js/client';
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import '../css/Home.less';
@@ -11,11 +12,16 @@ const HomeNew: React.FC = () =>
     const { circlesManager } = useOutletContext<AppContext>();
 
     const [collection, setCollection] = useState<Collection|null|undefined>(undefined);
+    const [events, setEvents] = useState<SuiEvent[]>([]);
 
     useEffect(() => {
-        (async function initialize() {
+        (async () => {
             const collection = await circlesManager.fetchCollection();
             setCollection(collection);
+        })();
+        (async () => {
+            const events = await circlesManager.fetchEvents();
+            setEvents(events);
         })();
     }, []);
 
@@ -23,6 +29,16 @@ const HomeNew: React.FC = () =>
         <div id='home-page'>
             <h2>Collection:</h2>
             <div>{String(collection)}</div>
+            <h2>Events:</h2>
+            <div>
+            {
+                events.map(event => {
+                    const eventName = event.type.split('::')[2];
+                    const eventFields = JSON.stringify(event.parsedJson);
+                    return <div key={event.id.txDigest}>{eventName}: {eventFields}</div>;
+                })
+            }
+            </div>
         </div>
     )
 }
