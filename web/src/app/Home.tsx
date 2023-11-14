@@ -72,9 +72,7 @@ const LinkToExplorer: React.FC<{
 
 export const Home: React.FC = () =>
 {
-    if (isDev()) {
-        return <HomeNew />;
-    }
+    if (isDev()) { return <HomeNew />; }
 
     const { layoutRef } = useOutletContext<AppContext>();
 
