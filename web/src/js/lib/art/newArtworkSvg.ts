@@ -20,7 +20,6 @@ export function newArtworkSvg({
     minRadius,
     maxRadius,
     strokeWidth,
-    withFrame,
     withFooter,
 }: {
     canvasWidth: number,
@@ -30,7 +29,6 @@ export function newArtworkSvg({
     minRadius: number,
     maxRadius: number,
     strokeWidth: number,
-    withFrame: boolean,
     withFooter: boolean,
 }): SVGSVGElement
 {
@@ -62,10 +60,10 @@ export function newArtworkSvg({
     // <text> footer
     if (withFooter) {
         const footer = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        footer.setAttribute('x', String(canvasWidth - strokeWidth - 5)); // Near the right edge
-        footer.setAttribute('y', String(canvasHeight - strokeWidth - 7)); // Near the bottom edge
+        footer.setAttribute('x', String(canvasWidth - 16)); // Near the right edge
+        footer.setAttribute('y', String(canvasHeight - 16)); // Near the bottom edge
         footer.setAttribute('font-family', 'monospace');
-        footer.setAttribute('font-size', '20');
+        footer.setAttribute('font-size', '22');
         footer.setAttribute('fill', 'white');
         footer.setAttribute('text-anchor', 'end');
         footer.textContent = 'Polymedia Circles #000';
@@ -73,15 +71,15 @@ export function newArtworkSvg({
     }
 
     // <rect> black frame
-    if (withFrame) {
-        const frame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        frame.setAttribute('width', '100%');
-        frame.setAttribute('height', '100%');
-        frame.setAttribute('fill', 'none');
-        frame.setAttribute('stroke', 'black');
-        frame.setAttribute('stroke-width', String(strokeWidth * 2));
-        svg.appendChild(frame);
-    }
+    // if (withFrame) {
+    //     const frame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    //     frame.setAttribute('width', '100%');
+    //     frame.setAttribute('height', '100%');
+    //     frame.setAttribute('fill', 'none');
+    //     frame.setAttribute('stroke', 'black');
+    //     frame.setAttribute('stroke-width', String(strokeWidth * 2));
+    //     svg.appendChild(frame);
+    // }
 
     return svg;
 }

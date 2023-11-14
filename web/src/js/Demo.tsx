@@ -21,7 +21,6 @@ export const Demo: React.FC = () => {
             minRadius: CIRCLE_MIN_RADIUS,
             maxRadius: CIRCLE_MAX_RADIUS,
             strokeWidth: STROKE_WIDTH,
-            withFrame: true,
             withFooter: true,
         });
         const page = pageRef.current;

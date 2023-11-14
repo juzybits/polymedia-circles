@@ -26,7 +26,6 @@ export function addArtworkToContainer({
         minRadius: maxRadius / 4,
         maxRadius,
         strokeWidth: 5,
-        withFrame: false,
         withFooter: false,
     });
     // Remove old svg if it exists
