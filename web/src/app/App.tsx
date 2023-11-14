@@ -1,5 +1,5 @@
 import { SuiClient } from '@mysten/sui.js/client';
-import { ConnectModal, WalletKitProvider } from '@mysten/wallet-kit';
+import { ConnectModal } from '@mysten/wallet-kit';
 import { NetworkName, getRpcConfig, isLocalhost, loadNetwork } from '@polymedia/webutils';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -15,9 +15,6 @@ export type AppContext = {
     collection: Collection|null|undefined;
     openConnectModal: () => void;
 };
-
-export const AppWrap: React.FC = () =>
-    <WalletKitProvider><App /></WalletKitProvider>;
 
 export const App: React.FC = () =>
 {
@@ -59,15 +56,15 @@ export const App: React.FC = () =>
     };
 
     return <>
-    <ConnectModal
-        open={showConnectModal}
-        onClose={() => setShowConnectModal(false)}
-    />
-    <div ref={layoutRef} id='layout'>
-        <Nav network={network} openConnectModal={openConnectModal} />
-        <div id='page'>
-            <Outlet context={appContext} />
+        <ConnectModal
+            open={showConnectModal}
+            onClose={() => setShowConnectModal(false)}
+        />
+        <div ref={layoutRef} id='layout'>
+            <Nav network={network} openConnectModal={openConnectModal} />
+            <div id='page'>
+                <Outlet context={appContext} />
+            </div>
         </div>
-    </div>
     </>;
 }

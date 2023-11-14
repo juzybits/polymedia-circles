@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppWrap } from './App';
+import { WalletKitProvider } from '@mysten/wallet-kit';
+import { App } from './App';
 import { Demo } from './Demo';
 import { FAQ } from './FAQ';
 import { Home } from './Home';
@@ -11,9 +12,10 @@ import { Owner } from './Owner';
 ReactDOM
     .createRoot( document.getElementById('app') as Element )
     .render(
+        <WalletKitProvider>
         <BrowserRouter>
         <Routes>
-            <Route path='/' element={<AppWrap />} >
+            <Route path='/' element={<App />} >
                 <Route index element={<Home />} />
                 <Route path='faq' element={<FAQ />} />
                 <Route path='mint' element={<Mint />} />
@@ -23,4 +25,5 @@ ReactDOM
             </Route>
         </Routes>
         </BrowserRouter>
+        </WalletKitProvider>
     );
