@@ -6,7 +6,7 @@ import { SuiClient, SuiParsedData } from "@mysten/sui.js/client";
 /* ============================== Collection =============================== */
 
 bcs.registerStructType(
-  "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::collection::Collection",
+  "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::collection::Collection",
   {
     id: `0x2::object::UID`,
     supply: `u64`,
@@ -21,7 +21,7 @@ export function isCollection(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::collection::Collection"
+    "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::collection::Collection"
   );
 }
 
@@ -36,7 +36,7 @@ export interface CollectionFields {
 
 export class Collection {
   static readonly $typeName =
-    "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd::collection::Collection";
+    "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::collection::Collection";
   static readonly $numTypeParams = 0;
 
   readonly id: string;

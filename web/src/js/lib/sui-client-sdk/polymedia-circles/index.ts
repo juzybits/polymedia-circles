@@ -1,4 +1,4 @@
 export const PACKAGE_ID =
-  "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd";
+  "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b";
 export const PUBLISHED_AT =
-  "0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd";
+  "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b";

@@ -15,8 +15,8 @@ zuifaucet 0x5d8133281aa26ad73542c0b53014c6831c37b9d98e7603fd0db2e1cc4453934a | c
 echo -e "\n3) ----- Publishing package -----\n"
 sui client publish --gas-budget 100000000
 
-echo -e "\n4) ----- Opening Move.toml and circles.ts -----\n"
-code ./Move.toml ../web/src/js/lib/circles.ts
+echo -e "\n4) ----- Opening Move.toml and circlesClient.ts -----\n"
+code ./Move.toml ../web/src/js/lib/circlesClient.ts
 
 # echo "3) ----- Merging all gas coins"
 # sc pay-all-sui --gas-budget 1000000000 --recipient $(sc active-address) --input-coins $(sc gas | tail -n +3 | awk '{print $1}' | tr '\n' ' ')
