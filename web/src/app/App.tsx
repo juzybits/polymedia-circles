@@ -3,7 +3,7 @@ import { ConnectModal, WalletKitProvider } from '@mysten/wallet-kit';
 import { NetworkName, getRpcConfig, isLocalhost, loadNetwork } from '@polymedia/webutils';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import '../css/App.less';
+import './App.less';
 import { Nav } from './Nav';
 import { CirclesClient } from './lib/circlesClient';
 import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';

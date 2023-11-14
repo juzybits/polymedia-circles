@@ -1,7 +1,6 @@
 import { useWalletKit } from '@mysten/wallet-kit';
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import '../css/Owner.less';
 import { AppContext } from './App';
 import { ArtworkWithDisplay } from './lib/circlesClient';
 

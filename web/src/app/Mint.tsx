@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useWalletKit } from '@mysten/wallet-kit';
-import '../css/Mint.less';
 import { useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
 import { formatSui } from './lib/utils';

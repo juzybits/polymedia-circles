@@ -2,7 +2,6 @@ import { useWalletKit } from '@mysten/wallet-kit';
 import { NetworkSelector } from '@polymedia/react-components';
 import { NetworkName, shortenAddress } from '@polymedia/webutils';
 import { Link } from 'react-router-dom';
-import '../css/Nav.less';
 import { isDev } from './lib/utils';
 
 export const Nav: React.FC<{
