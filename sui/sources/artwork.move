@@ -14,7 +14,8 @@ module polymedia_circles::artwork
 
     friend polymedia_circles::controller;
 
-    /* Artwork settings */
+    /* Settings */
+
     const CANVAS_SIZE: u64 = 1000;
     const CIRCLE_MIN_RADIUS: u64 = 42;
     const CIRCLE_MAX_RADIUS: u64 = 420;
@@ -96,6 +97,7 @@ module polymedia_circles::artwork
     }
 
     /* Accessors */
+
     public fun number(self: &Artwork): u64 {
         self.number
     }
@@ -111,11 +113,14 @@ module polymedia_circles::artwork
     public fun frozen(self: &Artwork): bool {
         self.frozen
     }
-    // One-Time-Witness
+
+    /* Initialization */
+
     struct ARTWORK has drop {}
 
     fun init(otw: ARTWORK, ctx: &mut TxContext)
     {
+        let sender = tx_context::sender(ctx);
         let publisher = package::claim(otw, ctx);
         let profile_display = display::new_with_fields<Artwork>(
             &publisher,
@@ -140,11 +145,11 @@ module polymedia_circles::artwork
             ], ctx
         );
         display::update_version(&mut profile_display);
-        transfer::public_transfer(profile_display, tx_context::sender(ctx));
-        transfer::public_transfer(publisher, tx_context::sender(ctx));
+        transfer::public_transfer(profile_display, sender);
+        transfer::public_transfer(publisher, sender);
     }
 
-    /* Testing */
+    /* Tests */
 
     #[test_only]
     use sui::test_scenario::{Self as ts};

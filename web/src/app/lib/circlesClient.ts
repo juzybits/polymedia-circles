@@ -81,8 +81,7 @@ export class CirclesClient { // TODO: cache
             collection: this.collectionId,
             payCoin,
         });
-        txb.transferObjects([artwork], txb.pure(recipient));
-        txb.transferObjects([change], txb.pure(recipient));
+        txb.transferObjects([artwork, change], txb.pure(recipient));
         const signedTx = await signTransactionBlock({
             transactionBlock: txb,
         });

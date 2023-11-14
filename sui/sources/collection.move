@@ -9,7 +9,7 @@ module polymedia_circles::collection
 
     friend polymedia_circles::controller;
 
-    /* settings */
+    /* Settings */
 
     const INITIAL_NUMBER: u64 = 1; // number of the first artwork
     const INITIAL_PRICE: u64 = 1_000_000_000; // price of the first artwork (1 SUI)
@@ -23,7 +23,7 @@ module polymedia_circles::collection
         supply: u64,
         next_number: u64,
         next_price: u64,
-        pay_address: address, // TODO: multisig vault
+        pay_address: address, // TODO: multisig vault. AdminCap to change it.
         // addresses that can mint for free
         whitelist: vector<address>,
     }

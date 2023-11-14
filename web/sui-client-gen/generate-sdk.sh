@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-SDK_PATH='src/js/lib/sui-client-sdk'
+SDK_PATH='src/app/lib/sui-client-sdk'
 
 # Generate the TS SDK
 sui-client-gen \
