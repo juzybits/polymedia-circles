@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppWrap } from './app/App';
-import { Demo } from './app/Demo';
-import { FAQ } from './app/FAQ';
-import { Home } from './app/Home';
-import { Mint } from './app/Mint';
-import { NotFound } from './app/NotFound';
-import { Owner } from './app/Owner';
+import { AppWrap } from './App';
+import { Demo } from './Demo';
+import { FAQ } from './FAQ';
+import { Home } from './Home';
+import { Mint } from './Mint';
+import { NotFound } from './NotFound';
+import { Owner } from './Owner';
 
 ReactDOM
     .createRoot( document.getElementById('app') as Element )

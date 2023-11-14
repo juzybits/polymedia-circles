@@ -11,6 +11,7 @@ pnpm serve
 
 ## Structure
 
+```
 /
     collection stats
         link to explorer
@@ -35,3 +36,4 @@ pnpm serve
 /admin
     add to whitelist
     delete from whitelist
+```
