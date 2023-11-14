@@ -13,6 +13,8 @@ import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
 import { Collection, isCollection } from './sui-client-sdk/polymedia-circles/collection/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
 
+/* Constants */
+
 export const PACKAGE_LOCALNET = '0xfbe14b58a0d88b43908491f87f59b07375a2618df5a5fef855c84f01ff4739bd';
 export const COLLECTION_LOCALNET = '0xc8277d014ac46e752fd92fa41a37f1b8177e3b9c29d16cca1db0e7bf889fefb5';
 
@@ -24,6 +26,14 @@ export const COLLECTION_TESTNET = '0x123';
 
 export const PACKAGE_MAINNET = '0x123';
 export const COLLECTION_MAINNET = '0x123';
+
+/* Types */
+
+export type ArtworkWithDisplay = Artwork & {
+    display: {
+        [key: string]: string;
+    };
+};
 
 /**
  * Helper to interact with the `polymedia_circles` Sui package via the `sui-client-gen` SDK
@@ -174,9 +184,3 @@ export class CirclesClient { // TODO: cache
         })
     }
 }
-
-export type ArtworkWithDisplay = Artwork & {
-    display: {
-        [key: string]: string;
-    };
-};

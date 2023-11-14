@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import '../css/Home.less';
 import { AppContext } from './App';
-import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
+import { addArtworkToContainer, removeArtworkFromContainer } from './lib/art/addArtworkToContainer';
 import { formatSui, isDev } from './lib/utils';
 
 const HomeNew: React.FC = () =>

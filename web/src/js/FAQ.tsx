@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
-import { addArtworkToContainer, removeArtworkFromContainer } from './lib/addArtworkToContainer';
+import { addArtworkToContainer, removeArtworkFromContainer } from './lib/art/addArtworkToContainer';
 import '../css/FAQ.less';
 
 export const FAQ: React.FC = () =>

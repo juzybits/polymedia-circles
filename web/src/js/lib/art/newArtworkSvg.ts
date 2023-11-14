@@ -1,4 +1,7 @@
 /**
+ * Simulates polymedia_circles::artwork::create().
+ * This function is manually kept in sync with the Sui code.
+ *
  * Example output:
 <svg class="svg-artwork" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
    <rect width="100%" height="100%" fill="rgb(100,224,100)" />

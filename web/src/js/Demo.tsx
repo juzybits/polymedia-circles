@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { newArtworkSvg } from './lib/newArtworkSvg';
+import { newArtworkSvg } from './lib/art/newArtworkSvg';
 import '../css/Demo.less';
 
 const CANVAS_SIZE = 1000;
