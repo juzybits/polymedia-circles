@@ -26,10 +26,10 @@ export function supply(txb: TransactionBlock, self: ObjectArg) {
   });
 }
 
-export function init(txb: TransactionBlock) {
+export function init(txb: TransactionBlock, otw: ObjectArg) {
   return txb.moveCall({
     target: `${PUBLISHED_AT}::collection::init`,
-    arguments: [],
+    arguments: [obj(txb, otw)],
   });
 }
 

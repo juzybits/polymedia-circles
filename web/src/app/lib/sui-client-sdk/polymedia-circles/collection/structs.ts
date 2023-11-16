@@ -3,10 +3,60 @@ import { Encoding, bcsSource as bcs } from "../../_framework/bcs";
 import { FieldsWithTypes, Type, compressSuiType } from "../../_framework/util";
 import { SuiClient, SuiParsedData } from "@mysten/sui.js/client";
 
+/* ============================== COLLECTION =============================== */
+
+bcs.registerStructType(
+  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::collection::COLLECTION",
+  {
+    dummy_field: `bool`,
+  },
+);
+
+export function isCOLLECTION(type: Type): boolean {
+  type = compressSuiType(type);
+  return (
+    type ===
+    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::collection::COLLECTION"
+  );
+}
+
+export interface COLLECTIONFields {
+  dummyField: boolean;
+}
+
+export class COLLECTION {
+  static readonly $typeName =
+    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::collection::COLLECTION";
+  static readonly $numTypeParams = 0;
+
+  readonly dummyField: boolean;
+
+  constructor(dummyField: boolean) {
+    this.dummyField = dummyField;
+  }
+
+  static fromFields(fields: Record<string, any>): COLLECTION {
+    return new COLLECTION(fields.dummy_field);
+  }
+
+  static fromFieldsWithTypes(item: FieldsWithTypes): COLLECTION {
+    if (!isCOLLECTION(item.type)) {
+      throw new Error("not a COLLECTION type");
+    }
+    return new COLLECTION(item.fields.dummy_field);
+  }
+
+  static fromBcs(data: Uint8Array | string, encoding?: Encoding): COLLECTION {
+    return COLLECTION.fromFields(
+      bcs.de([COLLECTION.$typeName], data, encoding),
+    );
+  }
+}
+
 /* ============================== Collection =============================== */
 
 bcs.registerStructType(
-  "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::collection::Collection",
+  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::collection::Collection",
   {
     id: `0x2::object::UID`,
     supply: `u64`,
@@ -21,7 +71,7 @@ export function isCollection(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::collection::Collection"
+    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::collection::Collection"
   );
 }
 
@@ -36,7 +86,7 @@ export interface CollectionFields {
 
 export class Collection {
   static readonly $typeName =
-    "0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::collection::Collection";
+    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::collection::Collection";
   static readonly $numTypeParams = 0;
 
   readonly id: string;

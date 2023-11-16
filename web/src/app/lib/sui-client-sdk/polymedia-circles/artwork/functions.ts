@@ -83,7 +83,7 @@ export function setCircles(txb: TransactionBlock, args: SetCirclesArgs) {
       obj(txb, args.self),
       vector(
         txb,
-        `0x80e2692471f5d79cd5f2dd9e8fa9ee1166de688fecd9abf65494d5d633bdf71b::circle::Circle`,
+        `0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::circle::Circle`,
         args.circles,
       ),
     ],
