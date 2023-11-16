@@ -31,6 +31,7 @@ module polymedia_circles::artwork
         circles: vector<Circle>,
         svg: String,
         frozen: bool,
+        // time_created: u64, // MAYBE
     }
 
     public(friend) fun create(

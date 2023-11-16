@@ -9,7 +9,7 @@ import {
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { WalletKitCore } from '@mysten/wallet-kit-core';
 import { NetworkName } from '@polymedia/webutils';
-import { Artwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
+import { Artwork, isArtwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
 import { Collection, isCollection } from './sui-client-sdk/polymedia-circles/collection/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
 
@@ -94,37 +94,6 @@ export class CirclesClient { // TODO: cache
         })
     }
 
-    public async fetchCollection(): Promise<Collection|null> {
-        return this.suiClient.getObject({
-            id: this.collectionId,
-            options: {
-                showContent: true,
-            },
-        })
-        .then((resp: SuiObjectResponse) => {
-            if (resp.error) {
-                console.warn('[CirclesClient.fetchCollection] response error:', resp.error);
-                return null;
-            }
-            if (resp.data?.content?.dataType !== 'moveObject') {
-                console.warn('[CirclesClient.fetchCollection] content missing:', resp);
-                return null;
-            }
-            if (!isCollection(resp.data.content.type)) {
-                console.warn('[CirclesClient.fetchCollection] not a collection:', resp);
-                return null;
-            }
-            return Collection.fromFieldsWithTypes({
-                fields: resp.data.content.fields,
-                type: resp.data.content.type,
-            });
-        })
-        .catch((error: any) => {
-            console.warn('[CirclesClient.fetchCollection] unexpected error:\n', error);
-            return null;
-        });
-    }
-
     public async fetchEvents(): Promise<SuiEvent[]|null> {
         return this.suiClient.queryEvents({
             query: {
@@ -141,6 +110,78 @@ export class CirclesClient { // TODO: cache
             console.warn('[CirclesClient.fetchEvents] unexpected error:\n', error);
             return null;
         })
+    }
+
+    public async fetchCollection(): Promise<Collection|null> {
+        return this.suiClient.getObject({
+            id: this.collectionId,
+            options: {
+                showContent: true,
+            },
+        })
+        .then((suiObjRes: SuiObjectResponse) => {
+            if (suiObjRes.error) {
+                console.warn('[CirclesClient.fetchCollection] response error:', suiObjRes.error);
+                return null;
+            }
+            if (suiObjRes.data?.content?.dataType !== 'moveObject') {
+                console.warn('[CirclesClient.fetchCollection] content missing:', suiObjRes);
+                return null;
+            }
+            if (!isCollection(suiObjRes.data.content.type)) {
+                console.warn('[CirclesClient.fetchCollection] not a collection:', suiObjRes);
+                return null;
+            }
+            return Collection.fromFieldsWithTypes({
+                fields: suiObjRes.data.content.fields,
+                type: suiObjRes.data.content.type,
+            });
+        })
+        .catch((error: any) => {
+            console.warn('[CirclesClient.fetchCollection] unexpected error:\n', error);
+            return null;
+        });
+    }
+
+    public async fetchArtworkById(artId: string): Promise<ArtworkWithDisplay|null> {
+        return this.suiClient.getObject({
+            id: artId,
+            options: {
+                showContent: true,
+                showDisplay: true,
+            },
+        })
+        .then((suiObjRes: SuiObjectResponse) => {
+            if (suiObjRes.error) {
+                console.warn('[CirclesClient.fetchArtworkById] response error:', suiObjRes.error);
+                return null;
+            }
+            if (suiObjRes.data?.content?.dataType !== 'moveObject') {
+                console.warn('[CirclesClient.fetchArtworkById] content missing:', suiObjRes);
+                return null;
+            }
+            if (!suiObjRes.data.display?.data) {
+                console.warn('[CirclesClient.fetchArtworkById] display missing:', suiObjRes);
+                return null;
+            }
+            if (!isArtwork(suiObjRes.data.content.type)) {
+                console.warn('[CirclesClient.fetchArtworkById] not an artwork:', suiObjRes);
+                return null;
+            }
+            const artwork = Artwork.fromFieldsWithTypes({
+                fields: suiObjRes.data.content.fields,
+                type: suiObjRes.data.content.type,
+            });
+            const artworkWithDisplay: ArtworkWithDisplay = {
+                ...artwork,
+                display: suiObjRes.data.display.data,
+            };
+            return artworkWithDisplay;
+        })
+        .catch((error: any) => {
+            console.warn('[CirclesClient.fetchArtworkById] unexpected error:\n', error);
+            return null;
+        });
     }
 
     public async fetchArtworksByOwner(ownerAddr: string): Promise<ArtworkWithDisplay[]|null> {

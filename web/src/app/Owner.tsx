@@ -1,6 +1,6 @@
 import { useWalletKit } from '@mysten/wallet-kit';
 import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
 import { ArtworkWithDisplay } from './lib/circlesClient';
 
@@ -34,7 +34,9 @@ export const Owner: React.FC = () =>
             return <>{
                 artworks.map(artwork =>
                     <div key={artwork.number}>
-                        <img width='250' src={artwork.display.image_url} />
+                        <Link to={`/art/${artwork.id}`}>
+                            <img width='250' src={artwork.display.image_url} />
+                        </Link>
                     </div>
                 )
             }</>;
