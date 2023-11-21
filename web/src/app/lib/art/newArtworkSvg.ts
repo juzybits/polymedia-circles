@@ -4,31 +4,39 @@
  *
  * Example output:
 <svg class="svg-artwork" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-   <rect width="100%" height="100%" fill="rgb(100,224,100)" />
-   <circle cx="232" cy="286" r="360" fill="rgb(131,193,224)" stroke="black" stroke-width="6" />
-   <circle cx="624" cy="689" r="207" fill="rgb(131,162,131)" stroke="black" stroke-width="6" />
-   <circle cx="898" cy="769" r="131" fill="rgb(162,100,162)" stroke="black" stroke-width="6" />
-   <text x="989" y="987" font-family="monospace" font-size="20" fill="white" text-anchor="end">Polymedia Circles #000</text>
-   <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="12" />
+    <rect width="100%" height="100%" fill="rgb(255,224,224)"></rect>
+    <circle cx="500" cy="750" r="450" fill="rgb(255,224,162)" stroke="black" stroke-width="6"></circle>
+    <circle cx="875" cy="625" r="250" fill="rgb(255,162,255)" stroke="black" stroke-width="6"></circle>
+    <circle cx="375" cy="250" r="150" fill="rgb(162,193,255)" stroke="black" stroke-width="6"></circle>
+    <text x="984" y="984" font-family="monospace" font-size="22" fill="white" text-anchor="end">Polymedia Circles #000</text>
 </svg>
  */
+
+const CANVAS_SIZE = 1000;
+const MIN_CIRCLES = 2;
+const MAX_CIRCLES = 7;
+const CIRCLE_MIN_RADIUS = 50;
+const CIRCLE_MAX_RADIUS = 450;
+const STEPS = 8;
+const STROKE_WIDTH = 6;
+
 export function newArtworkSvg({
-    canvasWidth,
-    canvasHeight,
-    minCircles,
-    maxCircles,
-    minRadius,
-    maxRadius,
-    strokeWidth,
+    canvasWidth = CANVAS_SIZE,
+    canvasHeight = CANVAS_SIZE,
+    minCircles = MIN_CIRCLES,
+    maxCircles = MAX_CIRCLES,
+    minRadius = CIRCLE_MIN_RADIUS,
+    maxRadius = CIRCLE_MAX_RADIUS,
+    strokeWidth = STROKE_WIDTH,
     withFooter,
 }: {
-    canvasWidth: number,
-    canvasHeight: number,
-    minCircles: number,
-    maxCircles: number,
-    minRadius: number,
-    maxRadius: number,
-    strokeWidth: number,
+    canvasWidth?: number,
+    canvasHeight?: number,
+    minCircles?: number,
+    maxCircles?: number,
+    minRadius?: number,
+    maxRadius?: number,
+    strokeWidth?: number,
     withFooter: boolean,
 }): SVGSVGElement
 {
@@ -98,10 +106,10 @@ function newCircle({
     strokeWidth: number,
 }): SVGCircleElement
 {
-    const radius = getRandomNumber(minRadius, maxRadius+1);
     const color = getRandomColor();
-    const cx = getRandomNumber(radius/2, canvasWidth - radius/2); // x position
-    const cy = getRandomNumber(radius/2, canvasHeight - radius/2); // y position
+    const radius = getRandomStep(minRadius, maxRadius, STEPS);
+    const cx = getRandomStep(0, canvasWidth, STEPS); // x position
+    const cy = getRandomStep(0, canvasHeight, STEPS); // y position
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', String(cx));
@@ -116,14 +124,24 @@ function newCircle({
 
 // Generate a random integer between `min` (inclusive) and `max` (exclusive)
 function getRandomNumber(min: number, max: number): number {
-    return Math.floor(Math.random() * (max - min) + min);
+    return Math.trunc(Math.random() * (max - min) + min);
 }
 
-// Generate a random CSS color like 'rgb(35,123,207)'
+// Generate a random number
+function getRandomStep(minVal: number, maxVal: number, steps: number): number {
+    const stepPosition = getRandomNumber(0, steps+1);
+    const stepSize = Math.trunc((maxVal - minVal) / steps);
+    const value = minVal + stepPosition * stepSize;
+    return value;
+}
+
+// Generate a random CSS color like 'rgb(162,193,224)'
 function getRandomColor(): string {
-    const red   = 7 + getRandomNumber(3, 9) * 31;
-    const green = 7 + getRandomNumber(3, 9) * 31;
-    const blue  = 7 + getRandomNumber(3, 9) * 31;
+    // possible values: 162, 193, 224, 255
+    // unique colors = 4*4*4 = 64
+    const red   = 7 + getRandomNumber(5, 9) * 31;
+    const green = 7 + getRandomNumber(5, 9) * 31;
+    const blue  = 7 + getRandomNumber(5, 9) * 31;
     return `rgb(${red},${green},${blue})`;
 }
 

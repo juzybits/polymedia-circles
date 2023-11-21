@@ -1,13 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { newArtworkSvg } from './lib/art/newArtworkSvg';
 
-const CANVAS_SIZE = 1000;
-const CIRCLE_MIN_RADIUS = 42;
-const CIRCLE_MAX_RADIUS = 420;
-const MIN_CIRCLES = 3;
-const MAX_CIRCLES = 5;
-const STROKE_WIDTH = 6;
-
 export const Demo: React.FC = () => {
     const pageRef = useRef<HTMLDivElement | null>(null);
     const [ svgs, setSvgs ] = useState<SVGSVGElement[]>([]);
@@ -38,13 +31,6 @@ function makeSvgs(amount: number): SVGSVGElement[]
     for (let i = 0; i < amount; i++) {
         svgs.push(
             newArtworkSvg({
-                canvasWidth: CANVAS_SIZE,
-                canvasHeight: CANVAS_SIZE,
-                minCircles: MIN_CIRCLES,
-                maxCircles: MAX_CIRCLES,
-                minRadius: CIRCLE_MIN_RADIUS,
-                maxRadius: CIRCLE_MAX_RADIUS,
-                strokeWidth: STROKE_WIDTH,
                 withFooter: true,
             }
         ));
