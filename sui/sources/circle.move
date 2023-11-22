@@ -25,7 +25,7 @@ module polymedia_circles::circle
     }
 
     /// Represent a Circle as an SVG <circle> (URL-encoded).
-    /// <circle cx="139" cy="402" r="204" fill="rgb(131,162,224)" stroke="black" stroke-width="6" />
+    /// <circle cx="375" cy="250" r="150" fill="rgb(162,193,255)" stroke="black" stroke-width="6" />
     public(friend) fun to_svg(self: &Circle): vector<u8> {
         let svg = b"%3Ccircle%20r%3D%22"; // <circle r="
         vector::append(&mut svg, utils::u64_to_ascii(self.radius));

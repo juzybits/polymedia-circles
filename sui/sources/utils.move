@@ -11,9 +11,9 @@ module polymedia_circles::utils
     /// Return a random RGB color like `vector[100, 193, 255]`
     public(friend) fun random_rgb(ctx: &mut TxContext): vector<u8>
     {
-        let red = 7 + (rand::rng(3, 9, ctx) * 31 as u8);
-        let green = 7 + (rand::rng(3, 9, ctx) * 31 as u8);
-        let blue = 7 + (rand::rng(3, 9, ctx) * 31 as u8);
+        let red = 7 + (rand::rng(5, 9, ctx) * 31 as u8);
+        let green = 7 + (rand::rng(5, 9, ctx) * 31 as u8);
+        let blue = 7 + (rand::rng(5, 9, ctx) * 31 as u8);
         return vector[red, green, blue]
     }
 

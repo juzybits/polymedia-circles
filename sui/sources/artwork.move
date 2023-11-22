@@ -17,10 +17,11 @@ module polymedia_circles::artwork
     /* Settings */
 
     const CANVAS_SIZE: u64 = 1000;
-    const CIRCLE_MIN_RADIUS: u64 = 42;
-    const CIRCLE_MAX_RADIUS: u64 = 420;
     const MIN_CIRCLES: u64 = 3;
-    const MAX_CIRCLES: u64 = 5;
+    const MAX_CIRCLES: u64 = 7;
+    const CIRCLE_MIN_RADIUS: u64 = 50;
+    const CIRCLE_MAX_RADIUS: u64 = 450;
+    const STEPS: u64 = 8;
 
     /* Structs */
 
@@ -34,6 +35,8 @@ module polymedia_circles::artwork
         // time_created: u64, // MAYBE
     }
 
+    /* Core functionality */
+
     public(friend) fun create(
         number: u64,
         ctx: &mut TxContext,
@@ -44,9 +47,9 @@ module polymedia_circles::artwork
         let i = 0;
         while (i < num_circles) {
             let rgb_color = utils::random_rgb(ctx);
-            let radius = rand::rng(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS+1, ctx);
-            let x_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
-            let y_axis = rand::rng(radius/2, CANVAS_SIZE - radius/2, ctx);
+            let radius = random_step(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS, STEPS, ctx);
+            let x_axis = random_step(0, CANVAS_SIZE, STEPS, ctx);
+            let y_axis = random_step(0, CANVAS_SIZE, STEPS, ctx);
             let circle = circle::new(&rgb_color, radius, x_axis, y_axis);
             vector::push_back(&mut circles, circle);
             i = i + 1;
@@ -95,6 +98,15 @@ module polymedia_circles::artwork
         self.circles = circles;
         // Update SVG representation
         self.svg = utf8(circle::vector_to_svg(&circles));
+    }
+
+    /* Helpers */
+
+    fun random_step(min_val: u64, max_val: u64, steps: u64, ctx: &mut TxContext): u64 {
+        let step_position = rand::rng(0, steps+1, ctx);
+        let step_size = (max_val - min_val) / steps;
+        let value = min_val + step_position * step_size;
+        return value
     }
 
     /* Accessors */
