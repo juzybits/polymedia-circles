@@ -131,6 +131,7 @@ module polymedia_circles::artwork
 
     struct ARTWORK has drop {}
 
+    #[allow(unused_function)]
     fun init(otw: ARTWORK, ctx: &mut TxContext)
     {
         let sender = tx_context::sender(ctx);
