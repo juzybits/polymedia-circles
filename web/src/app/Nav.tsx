@@ -34,7 +34,9 @@ export const Nav: React.FC<{
                 {shortenAddress(currentAccount.address)}
             </div>
         }
-        {/* {showNetworkSelector && <NetworkSelector currentNetwork={network} />} */}
+        {showNetworkSelector && <div className='nav-item'>
+            <NetworkSelector currentNetwork={network} />
+        </div>}
     </header>
     );
 }

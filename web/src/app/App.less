@@ -118,13 +118,13 @@ a {
     }
 
     #network-selector {
-        .network-options {
-            .network-option {
-                .text:hover:not(.selected) {
-                    cursor: @cursor-pointer;
-                    text-decoration: underline;
-                }
-            }
+        * {
+            font-family: 'Pricedown', serif;
+        }
+        .network-option:not(.selected) .text:hover {
+            cursor: @cursor-pointer;
+            text-decoration: underline;
+            color: yellow;
         }
     }
 }
