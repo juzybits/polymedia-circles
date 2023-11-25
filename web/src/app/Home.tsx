@@ -20,7 +20,7 @@ const HomeNew: React.FC = () =>
 
     return (
         <div id='home-page'>
-            <h2>Collection:</h2>
+            <h2 className='gta'>COLLECTION INFO:</h2>
             <div>
             {(() => {
                 if (typeof collection === 'undefined')
@@ -34,7 +34,7 @@ const HomeNew: React.FC = () =>
                 </>;
             })()}
             </div>
-            <h2>Events:</h2>
+            <h2 className='gta'>RECENT EVENTS:</h2>
             <div>
             {(() => {
                 if (typeof events === 'undefined')
@@ -45,7 +45,7 @@ const HomeNew: React.FC = () =>
                     events.map(event => {
                         const eventName = event.type.split('::')[2];
                         const eventFields = JSON.stringify(event.parsedJson);
-                        return <div key={event.id.txDigest}>{eventName}: {eventFields}</div>;
+                        return <div key={event.id.txDigest} style={{overflowWrap: 'anywhere'}}>{eventName}: {eventFields}</div>;
                     })
                 }</>;
             })()}
@@ -109,7 +109,7 @@ export const Home: React.FC = () =>
     }, []);
 
     return <>
-    <div id='home-page'>
+    <div id='home-page-old'>
         <div id='home-container'>
             <div id='home-title'>
                 <h1>Circles.</h1>

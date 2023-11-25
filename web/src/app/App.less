@@ -20,7 +20,7 @@ html {
 }
 
 html, body, p, h1, h2, h3, h4, h5, input, button, div, textarea, * {
-    font-family: 'Literata', serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -75,6 +75,15 @@ a {
     }
 }
 
+.gta {
+    color: white;
+    font-family: 'Pricedown', serif;
+    font-size: 2.2rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 2px black, 3px 3px 1px black;
+    text-transform: lowercase;
+}
+
 /* #layout */
 
 #layout {
@@ -92,23 +101,15 @@ a {
 /* #nav */
 
 #nav {
-    * {
-        font-family: 'Pricedown', serif;
-    }
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     padding: 2rem;
     .nav-item {
         border-radius: 4px;
-        color: white;
         display: block;
-        font-size: 2.2rem;
-        letter-spacing: 0.5px;
         padding: 0.2rem 2rem 0.5rem;
         text-align: center;
-        text-shadow: 0 0 2px black, 3px 3px 1px black;
-        text-transform: lowercase;
         &:hover {
             background-color: rgb(255 126 179);
             box-shadow: 3px 3px 1px black;
@@ -210,42 +211,39 @@ a {
 
 /* Home */
 
-#home-container {
-    height: 100svh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
+#home-page-old {
+    #home-container {
+        height: 100svh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
 
-@shadow-offset: 1.5px;
-@shadow-blur: 1px;
-@shadow-color: rgb(255 255 255 / 30%);
-#home-title {
-    margin: 1em 0 0.5em;
-    text-shadow:
-        0 -@shadow-offset @shadow-blur @shadow-color,
-        @shadow-offset 0 @shadow-blur @shadow-color,
-        0 @shadow-offset @shadow-blur @shadow-color,
-        -@shadow-offset 0 @shadow-blur @shadow-color;
-    h1 {
-        font-size: 4.5em;
+    @shadow-offset: 1.5px;
+    @shadow-blur: 1px;
+    @shadow-color: rgb(255 255 255 / 30%);
+    #home-title {
+        margin: 1em 0 0.5em;
+        text-shadow:
+            0 -@shadow-offset @shadow-blur @shadow-color,
+            @shadow-offset 0 @shadow-blur @shadow-color,
+            0 @shadow-offset @shadow-blur @shadow-color,
+            -@shadow-offset 0 @shadow-blur @shadow-color;
+        h1 {
+            font-size: 4.5em;
+        }
+        h2 {
+            font-size: 1.2em;
+            margin-top: -0.9em;
+            #by_polymedia {
+                color: @text-color;
+            }
+        }
     }
-    h2 {
-        font-size: 1.2em;
-        margin-top: -1.1em;
+    #home-buttons {
+        margin-top: 1em;
     }
-}
-#by_polymedia {
-    color: @text-color;
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-@duration: 0.15s;
-#home-buttons {
-    margin-top: 1em;
 }
 
 /* Mint */

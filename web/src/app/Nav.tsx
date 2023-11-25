@@ -20,21 +20,21 @@ export const Nav: React.FC<{
 
     return (
     <header id='nav'>
-        <Link to='/' className='nav-item'>HOME</Link>
-        <Link to='/mint' className='nav-item'>MINT</Link>
-        <Link to='/owner' className='nav-item'>OWNER</Link>
-        <Link to='/faq' className='nav-item'>FAQ</Link>
+        <Link to='/' className='nav-item gta'>HOME</Link>
+        <Link to='/mint' className='nav-item gta'>MINT</Link>
+        <Link to='/owner' className='nav-item gta'>OWNER</Link>
+        <Link to='/faq' className='nav-item gta'>FAQ</Link>
         {
         !currentAccount ?
-            <div className='nav-item' onClick={openConnectModal} style={{color: '#ffdcea'}}>
+            <div className='nav-item gta' onClick={openConnectModal} style={{color: '#ffdcea'}}>
                 LOG IN
             </div>
         :
-            <div className='nav-item' onClick={disconnect} style={{color: '#bfffbf'}}>
+            <div className='nav-item gta' onClick={disconnect} style={{color: '#bfffbf'}}>
                 {shortenAddress(currentAccount.address)}
             </div>
         }
-        {showNetworkSelector && <div className='nav-item'>
+        {showNetworkSelector && <div className='nav-item gta'>
             <NetworkSelector currentNetwork={network} />
         </div>}
     </header>
