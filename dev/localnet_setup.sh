@@ -15,6 +15,7 @@ zuifaucet $(sc active-address) | cut -c 1-63
 zuifaucet 0x5d8133281aa26ad73542c0b53014c6831c37b9d98e7603fd0db2e1cc4453934a | cut -c 1-63
 
 echo -e "\n3) ----- Publishing package -----\n"
+cd ./sui/
 sui client publish --gas-budget 700700700 | grep -v Display | grep -B3 ObjectType.*Collection
 
 echo -e "\n4) ----- Opening Move.toml and circlesClient.ts -----\n"
