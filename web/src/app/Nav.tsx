@@ -20,34 +20,21 @@ export const Nav: React.FC<{
 
     return (
     <header id='nav'>
-        <div id='nav-user' className='nav-section'>
+        <Link to='/' className='nav-item'>HOME</Link>
+        <Link to='/mint' className='nav-item'>MINT</Link>
+        <Link to='/owner' className='nav-item'>OWNER</Link>
+        <Link to='/faq' className='nav-item'>FAQ</Link>
         {
         !currentAccount ?
-            <span id='nav-btn-connect' onClick={openConnectModal}>
+            <div className='nav-item' onClick={openConnectModal} style={{color: '#ffdcea'}}>
                 LOG IN
-            </span>
+            </div>
         :
-            <span onClick={disconnect}>
-                Logged in as {shortenAddress(currentAccount.address)}
-            </span>
+            <div className='nav-item' onClick={disconnect} style={{color: '#bfffbf'}}>
+                {shortenAddress(currentAccount.address)}
+            </div>
         }
-            {showNetworkSelector && <NetworkSelector currentNetwork={network} />}
-        </div>
-
-        <div id='nav-pages' className='nav-section'>
-            <div className='nav-page-link'>
-                <Link to='/'>HOME</Link>
-            </div>
-            <div className='nav-page-link'>
-                <Link to='/mint'>MINT</Link>
-            </div>
-            <div className='nav-page-link'>
-                <Link to='/owner'>OWNER</Link>
-            </div>
-            <div className='nav-page-link'>
-                <Link to='/faq'>FAQ</Link>
-            </div>
-        </div>
+        {/* {showNetworkSelector && <NetworkSelector currentNetwork={network} />} */}
     </header>
     );
 }
