@@ -15,8 +15,8 @@ import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/funct
 
 /* Constants */
 
-export const PACKAGE_LOCALNET = '0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83';
-export const COLLECTION_LOCALNET = '0xdacd7f8166d487ce2fd2003812ff1f6bd0b0c161acba00bbbbffc0e732c1ccaa';
+export const PACKAGE_LOCALNET = '0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4';
+export const COLLECTION_LOCALNET = '0xddce029cbaa2b2448962190923b48c01497d3d7c42f9d03b2d36084edaf4d04a';
 
 export const PACKAGE_DEVNET = '0x123';
 export const COLLECTION_DEVNET = '0x123';

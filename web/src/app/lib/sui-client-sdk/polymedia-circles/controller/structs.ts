@@ -5,7 +5,7 @@ import { FieldsWithTypes, Type, compressSuiType } from "../../_framework/util";
 /* ============================== ArtworkBlended =============================== */
 
 bcs.registerStructType(
-  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkBlended",
+  "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkBlended",
   {
     artwork_a_id: `0x2::object::ID`,
     artwork_a_number: `u64`,
@@ -18,7 +18,7 @@ export function isArtworkBlended(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkBlended"
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkBlended"
   );
 }
 
@@ -31,7 +31,7 @@ export interface ArtworkBlendedFields {
 
 export class ArtworkBlended {
   static readonly $typeName =
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkBlended";
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkBlended";
   static readonly $numTypeParams = 0;
 
   readonly artworkAId: string;
@@ -80,7 +80,7 @@ export class ArtworkBlended {
 /* ============================== ArtworkBurned =============================== */
 
 bcs.registerStructType(
-  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkBurned",
+  "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkBurned",
   {
     artwork_id: `0x2::object::ID`,
     artwork_number: `u64`,
@@ -91,7 +91,7 @@ export function isArtworkBurned(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkBurned"
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkBurned"
   );
 }
 
@@ -102,7 +102,7 @@ export interface ArtworkBurnedFields {
 
 export class ArtworkBurned {
   static readonly $typeName =
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkBurned";
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkBurned";
   static readonly $numTypeParams = 0;
 
   readonly artworkId: string;
@@ -143,7 +143,7 @@ export class ArtworkBurned {
 /* ============================== ArtworkFrozen =============================== */
 
 bcs.registerStructType(
-  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkFrozen",
+  "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkFrozen",
   {
     artwork_id: `0x2::object::ID`,
     artwork_number: `u64`,
@@ -154,7 +154,7 @@ export function isArtworkFrozen(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkFrozen"
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkFrozen"
   );
 }
 
@@ -165,7 +165,7 @@ export interface ArtworkFrozenFields {
 
 export class ArtworkFrozen {
   static readonly $typeName =
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkFrozen";
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkFrozen";
   static readonly $numTypeParams = 0;
 
   readonly artworkId: string;
@@ -206,7 +206,7 @@ export class ArtworkFrozen {
 /* ============================== ArtworkMinted =============================== */
 
 bcs.registerStructType(
-  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkMinted",
+  "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkMinted",
   {
     artwork_id: `0x2::object::ID`,
     artwork_number: `u64`,
@@ -217,7 +217,7 @@ export function isArtworkMinted(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkMinted"
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkMinted"
   );
 }
 
@@ -228,7 +228,7 @@ export interface ArtworkMintedFields {
 
 export class ArtworkMinted {
   static readonly $typeName =
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkMinted";
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkMinted";
   static readonly $numTypeParams = 0;
 
   readonly artworkId: string;
@@ -269,7 +269,7 @@ export class ArtworkMinted {
 /* ============================== ArtworkRecycled =============================== */
 
 bcs.registerStructType(
-  "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkRecycled",
+  "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkRecycled",
   {
     old_artwork_id: `0x2::object::ID`,
     old_artwork_number: `u64`,
@@ -282,7 +282,7 @@ export function isArtworkRecycled(type: Type): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkRecycled"
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkRecycled"
   );
 }
 
@@ -295,7 +295,7 @@ export interface ArtworkRecycledFields {
 
 export class ArtworkRecycled {
   static readonly $typeName =
-    "0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::controller::ArtworkRecycled";
+    "0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::controller::ArtworkRecycled";
   static readonly $numTypeParams = 0;
 
   readonly oldArtworkId: string;

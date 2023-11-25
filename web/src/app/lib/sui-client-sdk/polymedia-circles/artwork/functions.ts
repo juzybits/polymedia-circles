@@ -71,6 +71,23 @@ export function init(txb: TransactionBlock, otw: ObjectArg) {
   });
 }
 
+export interface RandomStepArgs {
+  minVal: bigint | TransactionArgument;
+  maxVal: bigint | TransactionArgument;
+  steps: bigint | TransactionArgument;
+}
+
+export function randomStep(txb: TransactionBlock, args: RandomStepArgs) {
+  return txb.moveCall({
+    target: `${PUBLISHED_AT}::artwork::random_step`,
+    arguments: [
+      pure(txb, args.minVal, `u64`),
+      pure(txb, args.maxVal, `u64`),
+      pure(txb, args.steps, `u64`),
+    ],
+  });
+}
+
 export interface SetCirclesArgs {
   self: ObjectArg;
   circles: Array<ObjectArg> | TransactionArgument;
@@ -83,7 +100,7 @@ export function setCircles(txb: TransactionBlock, args: SetCirclesArgs) {
       obj(txb, args.self),
       vector(
         txb,
-        `0x72bf42d0555e5aee57fb603e844100af900826059c033f142bfd0a57de0a8b83::circle::Circle`,
+        `0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::circle::Circle`,
         args.circles,
       ),
     ],
