@@ -20,7 +20,7 @@ html {
 }
 
 html, body, p, h1, h2, h3, h4, h5, input, button, div, textarea, * {
-    font-family: 'Literata', serif !important;
+    font-family: 'Literata', serif;
     margin: 0;
     padding: 0;
 }
@@ -41,13 +41,6 @@ body {
 * {
     cursor: @cursor-default;
 }
-.big-btn, button, a, select, input, textarea {
-    cursor: @cursor-pointer !important;
-}
-
-#page {
-    text-align: center;
-}
 
 a {
     text-decoration: none;
@@ -56,12 +49,8 @@ a {
     }
 }
 
-#layout > .svg-artwork {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0.6;
-    z-index: -1;
+.big-btn, button, a, select, input, textarea {
+    cursor: @cursor-pointer !important;
 }
 
 .big-btn {
@@ -85,6 +74,40 @@ a {
         transform: translateY(3px) translateX(3px);
         text-decoration: none;
     }
+}
+
+/* #layout */
+
+#layout > .svg-artwork {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.6;
+    z-index: -1;
+}
+
+/* #nav */
+
+#nav {
+    * {
+        font-family: 'Pricedown', serif;
+    }
+    #network-selector {
+        .network-options {
+            .network-option {
+                .text:hover:not(.selected) {
+                    cursor: @cursor-pointer;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+/* #page */
+
+#page {
+    text-align: center;
 }
 
 /* Demo */
@@ -198,19 +221,6 @@ a {
 }
 
 /* Mint */
-
-/* Nav */
-
-#network-selector {
-    .network-options {
-        .network-option {
-            .text:hover:not(.selected) {
-                cursor: @cursor-pointer;
-                text-decoration: underline;
-            }
-        }
-    }
-}
 
 /* NotFound */
 
