@@ -41,7 +41,7 @@ export const Mint: React.FC = () =>
         <div className='page-content'>
             {(() => {
                 if (!currentAccount) {
-                    return <button className='big-btn' onClick={onClickConnect}>Connect</button>;
+                    return <button className='big-btn' onClick={onClickConnect}>LOG IN</button>;
                 }
                 if (typeof collection === 'undefined')
                     return 'Loading...';
