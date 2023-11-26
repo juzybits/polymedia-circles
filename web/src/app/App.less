@@ -1,7 +1,7 @@
 /* Constants */
 
 @text-color: black;
-@mobile-width: 840px;
+@mobile-width: 860px;
 @cursor-default: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVRYR9WXURLDIAhE6/0PbSdOtUpcd1Gnpv1KGpTHBpCE1/cXq+vrMph7dGvXZTtpfW10DCA5jrH1H0Jhs5E0hnZdCR+vb5S8Nn8mQCeS9BdSalYJqMBjAGzq59xAESN7VFVUgV8AZB/dZBR7QTFDCqGquvUBVVoEtgIwpQRzmANSFHgWQKExHdIrPeuMvQNDarXe6nC/AutgV3JW+6bgqQLeV8FekRtgV+ToDKEKnACYKsfZjjkam7a0ZpYTytwmgainpC3HvwBocgKOxqRjehoR9DFKNFYtOwCGYCszobeCbl26N6yyQ6g8X/Wex/rBPsNEV6qAMaJPMynIHQCoSqS9JSMmwef51LflTgCRszU7DvAGiV6mHWfsaVUAAAAASUVORK5CYII=), auto;
 @cursor-pointer: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2X0Q6AIAhF5f8/2jYXZkwEjNSVvVUjDpcrGgT7FUkI2D9xRfQETwNIiWO85wfINfQUEyxBG2ArsLwC0jioGt5zFcwF4OYDPi/mBYKm4t0U8ATgRm3ThFoAqkhNgWkA0jJLvaOVSs7j3qMnSgXWBMiWPXe94QqMBMBc1VZIvaTu5u5pQewq0EqNZvIEMCmxAawK0DNkay9QmfFNAJUXfgGgUkLaE7j/h8fnASkxHTz0DGIBMCnBeeM7AArpUd3mz2x3C7wADglA8BcWMZhZAAAAAElFTkSuQmCC) 14 0, pointer;
 
@@ -50,7 +50,7 @@ a {
 }
 
 .big-btn, button, a, select, input, textarea {
-    cursor: @cursor-pointer !important;
+    cursor: @cursor-pointer;
 }
 
 .big-btn {
@@ -112,21 +112,24 @@ a {
     user-select: none;
     .nav-item {
         display: block;
-        padding: 0.2rem 0.5rem 0.5rem;
+        padding: 0.2rem 0.8rem 0.5rem;
         text-align: center;
         font-size: 1.9rem;
-        &:hover {
+        &.selected, &:hover {
             &:nth-child(even) {
                 transform: perspective(280px) rotateX(10deg) rotateY(-10deg) rotateZ(2deg);
             }
             &:nth-child(odd) {
                 transform: perspective(280px) rotateX(10deg) rotateY(10deg) rotateZ(-2deg);
             }
+            cursor: @cursor-pointer;
             background-color: rgb(255, 130, 182);
             box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8);
-            cursor: @cursor-pointer;
             text-decoration: none;
             text-shadow: 0 0 1px black;
+        }
+        &.selected {
+            cursor: @cursor-default;
         }
     }
 }
@@ -138,11 +141,12 @@ a {
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 0.3rem 0.4rem 0.5rem;
+        padding: 0.3rem 0.1rem 0.5rem;
         box-sizing: border-box;
         text-align: center;
         background: rgb(116 213 229);
         .nav-item {
+            margin: 0 0.3rem;
             display: inline-block;
             font-size: 1.6rem;
             padding: 0.2rem 0.7rem;
