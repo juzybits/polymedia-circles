@@ -1,56 +1,9 @@
-import { useEffect } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
-import { AppContext } from './App';
-import { addArtworkToContainer, removeArtworkFromContainer } from './lib/art/addArtworkToContainer';
-
 export const FAQ: React.FC = () =>
 {
-    const { layoutRef } = useOutletContext<AppContext>();
-
-    useEffect(() =>
-    {
-        // Callback to handle resizing of the #faq-page div
-        const observer = new ResizeObserver((entries) =>
-        {
-            if (!layoutRef.current) {
-                return;
-            }
-            for (let entry of entries) {
-                addArtworkToContainer({
-                    container: layoutRef.current,
-                    canvasWidth: entry.contentRect.width,
-                    canvasHeight: entry.contentRect.height,
-                    minCircles: 30,
-                    maxCircles: 30,
-                });
-            }
-        });
-
-        // Start observing the div
-        if (layoutRef.current)
-            observer.observe(layoutRef.current);
-
-        // Cleanup function
-        return () => {
-            if (layoutRef.current) {
-                observer.unobserve(layoutRef.current);
-                removeArtworkFromContainer(layoutRef.current);
-            }
-        };
-    }, []);
-
     return <>
     <div id='faq-page'>
-        <div id='faq-bar'>
-            <Link to='/' id='faq-back' className='big-btn'>Back</Link>
-            <a id='faq-logo' href='https://polymedia.app' target='_blank' rel='noopener'>
-                <img src='https://assets.polymedia.app/img/all/logo-nomargin-transparent-512x512.webp' alt='Polymedia logo' />
-            </a>
-        </div>
-
-        <div id='faq-faq'>
-            <h1>F.A.Q.</h1>
-
+        <h1 className='gta' style={{textTransform: 'uppercase'}}>F.A.Q.</h1>
+        <div className='page-content'>
             <div id='note'>
                 * Last update: November 13, 2023
                 <br/>
@@ -59,7 +12,8 @@ export const FAQ: React.FC = () =>
 
 
             <div className='question'>
-                <h2>What is Polymedia Circles?</h2>
+                <br />
+                <h2 className='gta'>What is Polymedia Circles?</h2>
 
                 <p>Polymedia Circles is a generative art project on Sui.</p>
                 <p>From one point of view, it is a series of digital collectables.</p>
@@ -67,13 +21,15 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>What is generative art?</h2>
+                <br />
+                <h2 className='gta'>What is generative art?</h2>
 
-                <p>"Generative art involves thinking about artwork systematically. It's about designing a process that creates the artwork. The artist is focused on that system, rather than on an individual image that might come out of it. You purposefully relax your grip on that final image, allowing for randomness to play a role in exactly what image is produced by the system." — Tyler Hobbs</p>
+                <p><i>"Generative art involves thinking about artwork systematically. It's about designing a process that creates the artwork. The artist is focused on that system, rather than on an individual image that might come out of it. You purposefully relax your grip on that final image, allowing for randomness to play a role in exactly what image is produced by the system."</i> — Tyler Hobbs</p>
             </div>
 
             <div className='question'>
-                <h2>What are the project's goals?</h2>
+                <br />
+                <h2 className='gta'>What are the project's goals?</h2>
 
                     <p>1. The artwork should be <b>created on-chain</b>, on the fly, within a mint transaction. No preprocessing is allowed.</p>
 
@@ -85,7 +41,8 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>How is the artwork dynamic?</h2>
+                <br />
+                <h2 className='gta'>How is the artwork dynamic?</h2>
 
                 <p>By "dynamic" we mean that the artwork can change over time. These dynamic features introduce an element of human selection on top of the algorithmic randomness, which can lead to more aesthetic and interesting outcomes. So far I have implemented the following features, but many more are possible (suggestions are welcome). </p>
                 <p><b>• Blend:</b> Owners can combine two artworks by swapping individual circles between them. By refining their artworks according to their personal taste, owners are also curating the entire collection.</p>
@@ -94,7 +51,8 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>How does it work?</h2>
+                <br />
+                <h2 className='gta'>How does it work?</h2>
 
                 <p>Artworks are Sui <A text='objects' href='https://docs.sui.io/concepts/object-model' />. An artwork object contains both its <A text='SVG' href='https://developer.mozilla.org/en-US/docs/Web/SVG' /> representation, which allows it to be displayed visually, as well as its components and their properties (like circle colors and sizes), which enables the dynamic nature of Polymedia Circles.</p>
 
@@ -104,7 +62,8 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>Are some artworks rarer than others?</h2>
+                <br />
+                <h2 className='gta'>Are some artworks rarer than others?</h2>
 
                 <p>While all artwork combinations are equally likely to be produced by the algorithm, some arrangements may be more popular than others. For example:</p>
                 <div id='faq-artwork-showcase'>
@@ -134,26 +93,30 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>What kind of ownership do holders have?</h2>
+                <br />
+                <h2 className='gta'>What kind of ownership do holders have?</h2>
 
                 <p>From a copyright perspective, holders are free to use the artwork however they like, even commercially. The exact license is yet to be decided, but I am leaning towards something like <A text='CC BY-SA' href='https://creativecommons.org/licenses/by-sa/4.0/'/>.</p>
                 <p>From a technical perspective, artworks are "owned" objects and they are completely controlled by their holders. There is no "shared" object wrapper that limits what you can do with your artwork.</p>
             </div>
 
             <div className='question'>
-                <h2>Are there any royalties?</h2>
+                <br />
+                <h2 className='gta'>Are there any royalties?</h2>
 
                 <p>Provided I implement artwork ownership in the manner I described in the previous question, royalties will not be enforceable.</p>
             </div>
 
             <div className='question'>
-                <h2>Is the code open source?</h2>
+                <br />
+                <h2 className='gta'>Is the code open source?</h2>
 
                 <p>It will be (stay tuned).</p>
             </div>
 
             <div className='question'>
-                <h2>How much does it cost?</h2>
+                <br />
+                <h2 className='gta'>How much does it cost?</h2>
 
                 <p>Polymedia Circles has a unique minting mechanism. Instead of setting a fixed mint price, each artwork will be slightly more expensive than the previous one. This means that the mint price will increase exponentially.
                 </p>
@@ -172,13 +135,15 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>What is the total supply?</h2>
+                <br />
+                <h2 className='gta'>What is the total supply?</h2>
 
                 <p>While technically there is no supply limit, in practice the increasing mint price (see previous question) will limit the total supply to most likely just a few hundred artworks.</p>
             </div>
 
             <div className='question'>
-                <h2>Is there a whitelist?</h2>
+                <br />
+                <h2 className='gta'>Is there a whitelist?</h2>
 
                 <p>There will be if there is interest.</p>
                 <p>If you have been a Polymedia supporter and want to be included, please reach out. If I follow you on Twitter, or we've had a positive interaction before, there is a good chance that you are eligible for the whitelist.</p>
@@ -186,7 +151,8 @@ export const FAQ: React.FC = () =>
             </div>
 
             <div className='question'>
-                <h2>Still have questions?</h2>
+                <br />
+                <h2 className='gta'>Still have questions?</h2>
 
                 <p>Ask on Twitter or Discord:</p>
                 <p><A text='@juzybits' href='https://twitter.com/juzybits' /></p>
@@ -195,19 +161,22 @@ export const FAQ: React.FC = () =>
             </div>
 
             {/* <div className='question'>
-                <h2>Where will it trade?</h2>
+            <br />
+                <h2 className='gta'>Where will it trade?</h2>
 
                 <p>Any venues that want to enable trading of Polymedia Circles are free to do so, as I will not be placing any constraints on the collection.</p>
             </div> */}
 
             {/* <div className='question'>
-                <h2>Where will it mint?</h2>
+            <br />
+                <h2 className='gta'>Where will it mint?</h2>
 
                 <p><Link to={'/mint'}>https://circles.polymedia.app/mint</Link></p>
             </div> */}
 
             {/* <div className='question'>
-                <h2>What are the security risks?</h2>
+            <br />
+                <h2 className='gta'>What are the security risks?</h2>
 
                 <p>During mint: there is always a risk when you connect your wallet to a website, so please take the usual precautions: ideally use a burner wallet; read the transaction description in your wallet before approving it; make sure you are minting on https://circles.polymedia.app/mint.</p>
 
