@@ -23,25 +23,28 @@ export const Owner: React.FC = () =>
 
     return <>
     <div id='owner-page'>
-        <h2>Your collection:</h2>
-        {
-        !currentAccount ? <>Log in to see your collection</>
-        : (() => {
-            if (typeof artworks === 'undefined')
-                return 'Loading...';
-            if (artworks === null)
-                return 'Error';
-            return <>{
-                artworks.map(artwork =>
-                    <div key={artwork.number}>
-                        <Link to={`/art/${artwork.id}`}>
-                            <img width='250' src={artwork.display.image_url} />
-                        </Link>
-                    </div>
-                )
-            }</>;
-        })()
-        }
+        <h1 className='gta'>OWNER</h1>
+        <div className='page-content'>
+            <h2>Your collection:</h2>
+            {
+            !currentAccount ? <>Log in to see your collection</>
+            : (() => {
+                if (typeof artworks === 'undefined')
+                    return 'Loading...';
+                if (artworks === null)
+                    return 'Error';
+                return <>{
+                    artworks.map(artwork =>
+                        <div key={artwork.number}>
+                            <Link to={`/art/${artwork.id}`}>
+                                <img width='250' src={artwork.display.image_url} />
+                            </Link>
+                        </div>
+                    )
+                }</>;
+            })()
+            }
+        </div>
     </div>
     </>;
 }

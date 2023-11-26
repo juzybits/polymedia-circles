@@ -13,7 +13,8 @@ export const Demo: React.FC = () => {
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         gridGap: '10px',
-        padding: '1em',
+        width: '100%',
+        height: '100%',
     };
 
     return <>

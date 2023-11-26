@@ -89,6 +89,8 @@ a {
 #layout {
     display: flex;
     flex-direction: row;
+    gap: 2rem;
+    padding: 2rem;
     > .svg-artwork {
         position: absolute;
         top: 0;
@@ -104,28 +106,23 @@ a {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 2rem;
+    user-select: none;
     .nav-item {
-        border-radius: 4px;
         display: block;
         padding: 0.2rem 2rem 0.5rem;
         text-align: center;
         &:hover {
-            background-color: rgb(255 126 179);
-            box-shadow: 3px 3px 1px black;
+            &:nth-child(even) {
+                transform: perspective(280px) rotateX(10deg) rotateY(-10deg) rotateZ(2deg);
+            }
+            &:nth-child(odd) {
+                transform: perspective(280px) rotateX(10deg) rotateY(10deg) rotateZ(-2deg);
+            }
+            background-color: rgb(255, 130, 182);
+            box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8);
             cursor: @cursor-pointer;
             text-decoration: none;
-        }
-    }
-
-    #network-selector {
-        * {
-            font-family: 'Pricedown', serif;
-        }
-        .network-option:not(.selected) .text:hover {
-            cursor: @cursor-pointer;
-            text-decoration: underline;
-            color: yellow;
+            text-shadow: 0 0 1px black;
         }
     }
 }
@@ -133,11 +130,25 @@ a {
 /* #page */
 
 #page {
-    display: flex;
-    justify-content: center;
-    text-align: center;
+    color: #007589;
     flex-grow: 1;
+    font-weight: 500;
+    text-align: center;
+    .page-content {
+        background: rgba(255, 255, 255, 0.5);
+        padding: 1rem 1rem 1rem;
+    }
+    h1 {
+        background: rgba(255, 255, 255, 0.5);
+        color: #008aa3;
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.2rem;
+        text-shadow: none;
+    }
 }
+
+/* Home */
 
 /* Demo */
 
@@ -209,9 +220,15 @@ a {
     }
 }
 
-/* Home */
+/* Mint */
 
-#home-page-old {
+/* NotFound */
+
+/* Owner */
+
+/* Old homepage */
+
+#home-page-old { // TODO remove
     #home-container {
         height: 100svh;
         display: flex;
@@ -224,6 +241,10 @@ a {
     @shadow-blur: 1px;
     @shadow-color: rgb(255 255 255 / 30%);
     #home-title {
+        * {
+            color: black;
+            background: none;
+        }
         margin: 1em 0 0.5em;
         text-shadow:
             0 -@shadow-offset @shadow-blur @shadow-color,
@@ -246,8 +267,14 @@ a {
     }
 }
 
-/* Mint */
+/* dev-only */
 
-/* NotFound */
-
-/* Owner */
+#network-selector {
+    * {
+        font-family: 'Pricedown', serif;
+    }
+    .network-option:not(.selected) .text:hover {
+        cursor: @cursor-pointer;
+        color: yellow;
+    }
+}

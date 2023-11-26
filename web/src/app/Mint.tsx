@@ -37,17 +37,20 @@ export const Mint: React.FC = () =>
 
     return <>
     <div id='mint-page'>
-        {(() => {
-            if (!currentAccount) {
-                return <button className='big-btn' onClick={onClickConnect}>Connect</button>;
-            }
-            if (typeof collection === 'undefined')
-                return 'Loading...';
-            if (collection === null)
-                return 'Error';
-            return <button className='big-btn' onClick={onClickMint}>Mint for {formatSui(collection.nextPrice)}</button>
-        })()}
-        <ErrorBox msg={errorMsg} />
+        <h1 className='gta'>MINT</h1>
+        <div className='page-content'>
+            {(() => {
+                if (!currentAccount) {
+                    return <button className='big-btn' onClick={onClickConnect}>Connect</button>;
+                }
+                if (typeof collection === 'undefined')
+                    return 'Loading...';
+                if (collection === null)
+                    return 'Error';
+                return <button className='big-btn' onClick={onClickMint}>Mint for {formatSui(collection.nextPrice)}</button>
+            })()}
+            <ErrorBox msg={errorMsg} />
+        </div>
     </div>
     </>;
 }
