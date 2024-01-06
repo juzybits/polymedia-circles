@@ -44,9 +44,5 @@
         "prettier": "3.0.0",
         "process": "latest",
         "react-devtools": "latest"
-    },
-    "alias": {
-        "react": "./node_modules/react",
-        "react-dom": "./node_modules/react-dom"
     }
 }

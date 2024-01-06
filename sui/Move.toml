@@ -1,7 +1,7 @@
 [package]
 name = "PolymediaCircles"
 version = "1.0.0"
-authors = ["juzybits <https://twitter.com/juzybits>"]
+authors = ["@juzybits (https://polymedia.app)"]
 license = "CC-BY-SA-4.0"
 published-at = "0x0" # localnet
 

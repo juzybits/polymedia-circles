@@ -1,6 +1,6 @@
-export function NotFound()
+export const NotFound: React.FC = () =>
 {
-    return <div id='owner-page'>
+    return <div id='notfound-page'>
         <h1 className='gta'>404</h1>
         <div className='page-content'>
             <div>
