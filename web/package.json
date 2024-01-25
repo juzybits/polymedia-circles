@@ -26,7 +26,8 @@
         "@mysten/wallet-kit": "latest",
         "@mysten/wallet-kit-core": "latest",
         "@polymedia/react-components": "latest",
-        "@polymedia/webutils": "^2.4.1",
+        "@polymedia/suits": "latest",
+        "@polymedia/webutils": "latest",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.21.3"
@@ -37,12 +38,16 @@
         "@types/react-dom": "^18.2.18",
         "@typescript-eslint/eslint-plugin": "latest",
         "@typescript-eslint/parser": "latest",
+        "buffer": "latest",
+        "crypto-browserify": "latest",
         "eslint": "latest",
         "eslint-plugin-deprecation": "latest",
         "events": "latest",
         "parcel": "latest",
         "prettier": "latest",
         "process": "latest",
-        "react-devtools": "latest"
+        "react-devtools": "latest",
+        "stream-browserify": "latest",
+        "string_decoder": "latest"
     }
 }

@@ -1,6 +1,6 @@
 import { useWalletKit } from '@mysten/wallet-kit';
 import { NetworkSelector } from '@polymedia/react-components';
-import { NetworkName, shortenAddress } from '@polymedia/webutils';
+import { NetworkName, shortenSuiAddress } from '@polymedia/suits';
 import { Link, useLocation } from 'react-router-dom';
 import { isDev } from './lib/utils';
 
@@ -33,7 +33,7 @@ export const Nav: React.FC<{
             </div>
         :
             <div className='nav-item gta' onClick={disconnect} style={{color: '#bfffbf'}}>
-                {shortenAddress(currentAccount.address)}
+                {shortenSuiAddress(currentAccount.address)}
             </div>
         }
         {showNetworkSelector && <div className='nav-item gta'>

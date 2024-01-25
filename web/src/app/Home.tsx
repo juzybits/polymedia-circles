@@ -1,5 +1,5 @@
 import { SuiEvent } from '@mysten/sui.js/client';
-import { NetworkName, linkToExplorer, shortenAddress } from '@polymedia/webutils';
+import { NetworkName, makeSuiExplorerUrl, shortenSuiAddress } from '@polymedia/suits';
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
@@ -65,11 +65,11 @@ const LinkToExplorer: React.FC<{
     objectId,
 }) => {
     return <a
-        href={linkToExplorer(network, 'object', objectId)}
+        href={makeSuiExplorerUrl(network, 'object', objectId)}
         target='_blank'
         rel='noopener'
     >
-        {shortenAddress(objectId)}
+        {shortenSuiAddress(objectId)}
     </a>
 };
 

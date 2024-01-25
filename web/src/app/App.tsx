@@ -1,6 +1,7 @@
 import { SuiClient } from '@mysten/sui.js/client';
 import { ConnectModal } from '@mysten/wallet-kit';
-import { NetworkName, getRpcConfig, isLocalhost, loadNetwork } from '@polymedia/webutils';
+import { NetworkName } from '@polymedia/suits';
+import { getRpcConfig, isLocalhost, loadNetwork } from '@polymedia/webutils';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.less';

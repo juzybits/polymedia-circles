@@ -8,7 +8,7 @@ import {
 } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { WalletKitCore } from '@mysten/wallet-kit-core';
-import { NetworkName } from '@polymedia/webutils';
+import { NetworkName } from '@polymedia/suits';
 import { Artwork, isArtwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
 import { Collection, isCollection } from './sui-client-sdk/polymedia-circles/collection/structs';
 import { mintArtwork } from './sui-client-sdk/polymedia-circles/controller/functions';
