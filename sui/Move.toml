@@ -3,11 +3,11 @@ name = "PolymediaCircles"
 version = "1.0.0"
 authors = ["@juzybits (https://polymedia.app)"]
 license = "CC-BY-SA-4.0"
-published-at = "0x0" # localnet
+published-at = "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092" # devnet
 
 [dependencies]
 # Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "mainnet" }
-Sui = { local = "../../sui/crates/sui-framework/packages/sui-framework" }
+Sui = { local = "/Users/juzy/data/code/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
-polymedia_circles = "0x0" # localnet
+polymedia_circles = "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092" # devnet
