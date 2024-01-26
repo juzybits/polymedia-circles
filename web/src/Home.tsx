@@ -66,7 +66,7 @@ const LinkToExplorer: React.FC<{
     return <a
         href={makeSuiExplorerUrl(network, 'object', objectId)}
         target='_blank'
-        rel='noopener'
+        rel='noopener noreferrer'
     >
         {shortenSuiAddress(objectId)}
     </a>
