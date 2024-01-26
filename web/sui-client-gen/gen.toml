@@ -3,4 +3,4 @@
 rpc = "https://fullnode.devnet.sui.io:443"
 
 [packages]
-PolymediaCircles = { local = "../../sui/" }
+PolymediaCircles = { local = "/Users/juzy/data/code/polymedia-circles/sui/" }

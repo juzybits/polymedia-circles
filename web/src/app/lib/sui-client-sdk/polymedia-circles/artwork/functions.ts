@@ -29,13 +29,6 @@ export function circles(txb: TransactionBlock, self: ObjectArg) {
   });
 }
 
-export function svg(txb: TransactionBlock, self: ObjectArg) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::artwork::svg`,
-    arguments: [obj(txb, self)],
-  });
-}
-
 export function backgroundColor(txb: TransactionBlock, self: ObjectArg) {
   return txb.moveCall({
     target: `${PUBLISHED_AT}::artwork::background_color`,
@@ -100,9 +93,16 @@ export function setCircles(txb: TransactionBlock, args: SetCirclesArgs) {
       obj(txb, args.self),
       vector(
         txb,
-        `0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::circle::Circle`,
+        `0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle`,
         args.circles,
       ),
     ],
+  });
+}
+
+export function svg(txb: TransactionBlock, self: ObjectArg) {
+  return txb.moveCall({
+    target: `${PUBLISHED_AT}::artwork::svg`,
+    arguments: [obj(txb, self)],
   });
 }

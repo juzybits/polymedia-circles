@@ -1,14 +1,10 @@
-import { normalizeSuiAddress } from "@mysten/sui.js/utils";
 import {
   TransactionArgument,
   TransactionBlock,
   TransactionObjectArgument,
 } from "@mysten/sui.js/transactions";
 import { bcs, ObjectArg as SuiObjectArg } from "@mysten/sui.js/bcs";
-import { BCS } from "@mysten/bcs";
-
-/** A Move type, e.g., `address`, `bool`, `u64`, `vector<u64>`, `0x2::sui::SUI`... */
-export type Type = string;
+import { BcsType } from "@mysten/bcs";
 
 export interface FieldsWithTypes {
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -37,9 +33,9 @@ export type GenericArg =
   | Array<PureArg>
   | Array<GenericArg>;
 
-export function parseTypeName(name: Type): {
+export function parseTypeName(name: string): {
   typeName: string;
-  typeArgs: Type[];
+  typeArgs: string[];
 } {
   const parsed = bcs.parseTypeName(name);
   return { typeName: parsed.name, typeArgs: parsed.params as string[] };
@@ -73,25 +69,39 @@ export function obj(txb: TransactionBlock, arg: ObjectArg) {
   return isTransactionArgument(arg) ? arg : txb.object(arg);
 }
 
-export function pure(txb: TransactionBlock, arg: PureArg, type: Type) {
+export function pure(txb: TransactionBlock, arg: PureArg, type: string) {
   if (isTransactionArgument(arg)) {
     return obj(txb, arg);
   }
 
-  function convertType(type: Type): string {
+  function getBcsForType(type: string): BcsType<any> {
     const { typeName, typeArgs } = parseTypeName(type);
     switch (typeName) {
+      case "u8":
+        return bcs.U8;
+      case "u16":
+        return bcs.U16;
+      case "u32":
+        return bcs.U32;
+      case "u64":
+        return bcs.U64;
+      case "u128":
+        return bcs.U128;
+      case "u256":
+        return bcs.U256;
+      case "address":
+        return bcs.Address;
       case "0x1::string::String":
       case "0x1::ascii::String":
-        return BCS.STRING;
+        return bcs.String;
       case "0x2::object::ID":
-        return BCS.ADDRESS;
+        return bcs.Address;
       case "0x1::option::Option":
-        return `vector<${convertType(typeArgs[0])}>`;
+        return bcs.option(getBcsForType(typeArgs[0]));
       case "vector":
-        return `vector<${convertType(typeArgs[0])}>`;
+        return bcs.vector(getBcsForType(typeArgs[0]));
       default:
-        return type;
+        throw new Error(`invalid primitive type ${type}`);
     }
   }
 
@@ -102,34 +112,15 @@ export function pure(txb: TransactionBlock, arg: PureArg, type: Type) {
     return isTransactionArgument(arg);
   }
 
-  function convertArg(arg: PureArg, type: Type): PureArg {
-    const { typeName, typeArgs } = parseTypeName(type);
-    if (typeName === "0x1::option::Option") {
-      if (arg === null) {
-        return [];
-      } else {
-        return [convertArg(arg, typeArgs[0])];
-      }
-    } else if (typeName === "vector" && Array.isArray(arg)) {
-      return arg.map((item) => convertArg(item, typeArgs[0]));
-    } else if (typeName === "0x2::object::ID" || typeName === "address") {
-      return normalizeSuiAddress(arg as string);
-    } else {
-      return arg;
-    }
-  }
-
   // handle some cases when TransactionArgument is nested within a vector or option
   const { typeName, typeArgs } = parseTypeName(type);
   switch (typeName) {
     case "0x1::option::Option":
       if (arg === null) {
-        return txb.pure([], `vector<${convertType(typeArgs[0])}>`);
+        return txb.pure(bcs.option(bcs.Bool).serialize(null)); // bcs.Bool is arbitrary
       }
       if (isOrHasNestedTransactionArgument(arg)) {
-        throw new Error(
-          "nesting TransactionArgument is not currently supported",
-        );
+        throw new Error("nesting TransactionArgument is not supported");
       }
       break;
     case "vector":
@@ -137,23 +128,21 @@ export function pure(txb: TransactionBlock, arg: PureArg, type: Type) {
         throw new Error("expected an array for vector type");
       }
       if (arg.length === 0) {
-        return txb.pure([], `vector<${convertType(typeArgs[0])}>`);
+        return txb.pure(bcs.vector(bcs.Bool).serialize([])); // bcs.Bool is arbitrary
       }
       if (
         arg.some(
           (arg) => Array.isArray(arg) && isOrHasNestedTransactionArgument(arg),
         )
       ) {
-        throw new Error(
-          "nesting TransactionArgument is not currently supported",
-        );
+        throw new Error("nesting TransactionArgument is not supported");
       }
       if (
         isTransactionArgument(arg[0]) &&
         arg.filter((arg) => !isTransactionArgument(arg)).length > 0
       ) {
         throw new Error(
-          "mixing TransactionArgument with other types is not currently supported",
+          "mixing TransactionArgument with other types is not supported",
         );
       }
       if (isTransactionObjectArgument(arg[0])) {
@@ -164,12 +153,12 @@ export function pure(txb: TransactionBlock, arg: PureArg, type: Type) {
       }
   }
 
-  return txb.pure(convertArg(arg, type), convertType(type));
+  return txb.pure(getBcsForType(type).serialize(arg));
 }
 
 export function option(
   txb: TransactionBlock,
-  type: Type,
+  type: string,
   arg: GenericArg | null,
 ) {
   if (arg === null) {
@@ -199,7 +188,7 @@ export function option(
   }
 }
 
-export function generic(txb: TransactionBlock, type: Type, arg: GenericArg) {
+export function generic(txb: TransactionBlock, type: string, arg: GenericArg) {
   if (typeArgIsPure(type)) {
     return pure(txb, arg as PureArg | TransactionArgument, type);
   } else {
@@ -221,7 +210,7 @@ export function generic(txb: TransactionBlock, type: Type, arg: GenericArg) {
 
 export function vector(
   txb: TransactionBlock,
-  itemType: Type,
+  itemType: string,
   items: Array<GenericArg> | TransactionArgument,
 ) {
   if (typeArgIsPure(itemType)) {
@@ -248,7 +237,7 @@ export function vector(
   }
 }
 
-export function typeArgIsPure(type: Type): boolean {
+export function typeArgIsPure(type: string): boolean {
   const { typeName, typeArgs } = parseTypeName(type);
   switch (typeName) {
     case "bool":
@@ -285,6 +274,8 @@ export function compressSuiAddress(addr: string): string {
   return "0x0";
 }
 
+// Recursively removes leading zeros from a type.
+// e.g. `0x00000002::module::Name<0x00001::a::C>` -> `0x2::module::Name<0x1::a::C>`
 export function compressSuiType(type: string): string {
   const { typeName, typeArgs } = parseTypeName(type);
   switch (typeName) {
@@ -305,12 +296,21 @@ export function compressSuiType(type: string): string {
       tok[0] = compressSuiAddress(tok[0]);
       const compressedName = tok.join("::");
       if (typeArgs.length > 0) {
-        return `${compressedName}<${typeArgs
-          .map((typeArg) => compressSuiType(typeArg))
-          .join(",")}>`;
+        return `${compressedName}<${typeArgs.map((typeArg) => compressSuiType(typeArg)).join(",")}>`;
       } else {
         return compressedName;
       }
     }
+  }
+}
+
+export function composeSuiType(
+  typeName: string,
+  ...typeArgs: string[]
+): string {
+  if (typeArgs.length > 0) {
+    return `${typeName}<${typeArgs.join(", ")}>`;
+  } else {
+    return typeName;
   }
 }

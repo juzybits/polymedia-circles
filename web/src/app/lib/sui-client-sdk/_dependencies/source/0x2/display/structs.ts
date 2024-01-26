@@ -1,44 +1,68 @@
-import { Encoding, bcsSource as bcs } from "../../../../_framework/bcs";
+import {
+  PhantomReified,
+  PhantomToTypeStr,
+  PhantomTypeArgument,
+  Reified,
+  ToField,
+  ToPhantomTypeArgument,
+  ToTypeStr,
+  assertFieldsWithTypesArgsMatch,
+  assertReifiedTypeArgsMatch,
+  decodeFromFields,
+  decodeFromFieldsWithTypes,
+  decodeFromJSONField,
+  extractType,
+  phantom,
+} from "../../../../_framework/reified";
 import {
   FieldsWithTypes,
-  Type,
+  composeSuiType,
   compressSuiType,
-  parseTypeName,
 } from "../../../../_framework/util";
+import { String } from "../../0x1/string/structs";
 import { ID, UID } from "../object/structs";
 import { VecMap } from "../vec-map/structs";
+import { bcs, fromB64 } from "@mysten/bcs";
 import { SuiClient, SuiParsedData } from "@mysten/sui.js/client";
 
 /* ============================== Display =============================== */
 
-bcs.registerStructType("0x2::display::Display<T>", {
-  id: `0x2::object::UID`,
-  fields: `0x2::vec_map::VecMap<0x1::string::String, 0x1::string::String>`,
-  version: `u16`,
-});
-
-export function isDisplay(type: Type): boolean {
+export function isDisplay(type: string): boolean {
   type = compressSuiType(type);
   return type.startsWith("0x2::display::Display<");
 }
 
-export interface DisplayFields {
-  id: string;
-  fields: VecMap<string, string>;
-  version: number;
+export interface DisplayFields<T extends PhantomTypeArgument> {
+  id: ToField<UID>;
+  fields: ToField<VecMap<String, String>>;
+  version: ToField<"u16">;
 }
 
-export class Display {
+export type DisplayReified<T extends PhantomTypeArgument> = Reified<
+  Display<T>,
+  DisplayFields<T>
+>;
+
+export class Display<T extends PhantomTypeArgument> {
   static readonly $typeName = "0x2::display::Display";
   static readonly $numTypeParams = 1;
 
-  readonly $typeArg: Type;
+  readonly $typeName = Display.$typeName;
 
-  readonly id: string;
-  readonly fields: VecMap<string, string>;
-  readonly version: number;
+  readonly $fullTypeName: `0x2::display::Display<${PhantomToTypeStr<T>}>`;
 
-  constructor(typeArg: Type, fields: DisplayFields) {
+  readonly $typeArg: string;
+
+  readonly id: ToField<UID>;
+  readonly fields: ToField<VecMap<String, String>>;
+  readonly version: ToField<"u16">;
+
+  private constructor(typeArg: string, fields: DisplayFields<T>) {
+    this.$fullTypeName = composeSuiType(
+      Display.$typeName,
+      typeArg,
+    ) as `0x2::display::Display<${PhantomToTypeStr<T>}>`;
+
     this.$typeArg = typeArg;
 
     this.id = fields.id;
@@ -46,42 +70,144 @@ export class Display {
     this.version = fields.version;
   }
 
-  static fromFields(typeArg: Type, fields: Record<string, any>): Display {
-    return new Display(typeArg, {
-      id: UID.fromFields(fields.id).id,
-      fields: VecMap.fromFields<string, string>(
-        [`0x1::string::String`, `0x1::string::String`],
-        fields.fields,
-      ),
-      version: fields.version,
+  static reified<T extends PhantomReified<PhantomTypeArgument>>(
+    T: T,
+  ): DisplayReified<ToPhantomTypeArgument<T>> {
+    return {
+      typeName: Display.$typeName,
+      fullTypeName: composeSuiType(
+        Display.$typeName,
+        ...[extractType(T)],
+      ) as `0x2::display::Display<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
+      typeArgs: [T],
+      fromFields: (fields: Record<string, any>) =>
+        Display.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        Display.fromFieldsWithTypes(T, item),
+      fromBcs: (data: Uint8Array) => Display.fromBcs(T, data),
+      bcs: Display.bcs,
+      fromJSONField: (field: any) => Display.fromJSONField(T, field),
+      fromJSON: (json: Record<string, any>) => Display.fromJSON(T, json),
+      fetch: async (client: SuiClient, id: string) =>
+        Display.fetch(client, T, id),
+      new: (fields: DisplayFields<ToPhantomTypeArgument<T>>) => {
+        return new Display(extractType(T), fields);
+      },
+      kind: "StructClassReified",
+    };
+  }
+
+  static get r() {
+    return Display.reified;
+  }
+
+  static phantom<T extends PhantomReified<PhantomTypeArgument>>(
+    T: T,
+  ): PhantomReified<ToTypeStr<Display<ToPhantomTypeArgument<T>>>> {
+    return phantom(Display.reified(T));
+  }
+  static get p() {
+    return Display.phantom;
+  }
+
+  static get bcs() {
+    return bcs.struct("Display", {
+      id: UID.bcs,
+      fields: VecMap.bcs(String.bcs, String.bcs),
+      version: bcs.u16(),
     });
   }
 
-  static fromFieldsWithTypes(item: FieldsWithTypes): Display {
+  static fromFields<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    fields: Record<string, any>,
+  ): Display<ToPhantomTypeArgument<T>> {
+    return Display.reified(typeArg).new({
+      id: decodeFromFields(UID.reified(), fields.id),
+      fields: decodeFromFields(
+        VecMap.reified(String.reified(), String.reified()),
+        fields.fields,
+      ),
+      version: decodeFromFields("u16", fields.version),
+    });
+  }
+
+  static fromFieldsWithTypes<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    item: FieldsWithTypes,
+  ): Display<ToPhantomTypeArgument<T>> {
     if (!isDisplay(item.type)) {
       throw new Error("not a Display type");
     }
-    const { typeArgs } = parseTypeName(item.type);
+    assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
-    return new Display(typeArgs[0], {
-      id: item.fields.id.id,
-      fields: VecMap.fromFieldsWithTypes<string, string>(item.fields.fields),
-      version: item.fields.version,
+    return Display.reified(typeArg).new({
+      id: decodeFromFieldsWithTypes(UID.reified(), item.fields.id),
+      fields: decodeFromFieldsWithTypes(
+        VecMap.reified(String.reified(), String.reified()),
+        item.fields.fields,
+      ),
+      version: decodeFromFieldsWithTypes("u16", item.fields.version),
     });
   }
 
-  static fromBcs(
-    typeArg: Type,
-    data: Uint8Array | string,
-    encoding?: Encoding,
-  ): Display {
-    return Display.fromFields(
-      typeArg,
-      bcs.de([Display.$typeName, typeArg], data, encoding),
-    );
+  static fromBcs<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    data: Uint8Array,
+  ): Display<ToPhantomTypeArgument<T>> {
+    return Display.fromFields(typeArg, Display.bcs.parse(data));
   }
 
-  static fromSuiParsedData(content: SuiParsedData) {
+  toJSONField() {
+    return {
+      id: this.id,
+      fields: this.fields.toJSONField(),
+      version: this.version,
+    };
+  }
+
+  toJSON() {
+    return {
+      $typeName: this.$typeName,
+      $typeArg: this.$typeArg,
+      ...this.toJSONField(),
+    };
+  }
+
+  static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    field: any,
+  ): Display<ToPhantomTypeArgument<T>> {
+    return Display.reified(typeArg).new({
+      id: decodeFromJSONField(UID.reified(), field.id),
+      fields: decodeFromJSONField(
+        VecMap.reified(String.reified(), String.reified()),
+        field.fields,
+      ),
+      version: decodeFromJSONField("u16", field.version),
+    });
+  }
+
+  static fromJSON<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    json: Record<string, any>,
+  ): Display<ToPhantomTypeArgument<T>> {
+    if (json.$typeName !== Display.$typeName) {
+      throw new Error("not a WithTwoGenerics json object");
+    }
+    assertReifiedTypeArgsMatch(
+      composeSuiType(Display.$typeName, extractType(typeArg)),
+      [json.$typeArg],
+      [typeArg],
+    );
+
+    return Display.fromJSONField(typeArg, json);
+  }
+
+  static fromSuiParsedData<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    content: SuiParsedData,
+  ): Display<ToPhantomTypeArgument<T>> {
     if (content.dataType !== "moveObject") {
       throw new Error("not an object");
     }
@@ -90,113 +216,258 @@ export class Display {
         `object at ${(content.fields as any).id} is not a Display object`,
       );
     }
-    return Display.fromFieldsWithTypes(content);
+    return Display.fromFieldsWithTypes(typeArg, content);
   }
 
-  static async fetch(client: SuiClient, id: string): Promise<Display> {
-    const res = await client.getObject({ id, options: { showContent: true } });
+  static async fetch<T extends PhantomReified<PhantomTypeArgument>>(
+    client: SuiClient,
+    typeArg: T,
+    id: string,
+  ): Promise<Display<ToPhantomTypeArgument<T>>> {
+    const res = await client.getObject({ id, options: { showBcs: true } });
     if (res.error) {
       throw new Error(
         `error fetching Display object at id ${id}: ${res.error.code}`,
       );
     }
     if (
-      res.data?.content?.dataType !== "moveObject" ||
-      !isDisplay(res.data.content.type)
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isDisplay(res.data.bcs.type)
     ) {
       throw new Error(`object at id ${id} is not a Display object`);
     }
-    return Display.fromFieldsWithTypes(res.data.content);
+    return Display.fromBcs(typeArg, fromB64(res.data.bcs.bcsBytes));
   }
 }
 
 /* ============================== DisplayCreated =============================== */
 
-bcs.registerStructType("0x2::display::DisplayCreated<T>", {
-  id: `0x2::object::ID`,
-});
-
-export function isDisplayCreated(type: Type): boolean {
+export function isDisplayCreated(type: string): boolean {
   type = compressSuiType(type);
   return type.startsWith("0x2::display::DisplayCreated<");
 }
 
-export interface DisplayCreatedFields {
-  id: string;
+export interface DisplayCreatedFields<T extends PhantomTypeArgument> {
+  id: ToField<ID>;
 }
 
-export class DisplayCreated {
+export type DisplayCreatedReified<T extends PhantomTypeArgument> = Reified<
+  DisplayCreated<T>,
+  DisplayCreatedFields<T>
+>;
+
+export class DisplayCreated<T extends PhantomTypeArgument> {
   static readonly $typeName = "0x2::display::DisplayCreated";
   static readonly $numTypeParams = 1;
 
-  readonly $typeArg: Type;
+  readonly $typeName = DisplayCreated.$typeName;
 
-  readonly id: string;
+  readonly $fullTypeName: `0x2::display::DisplayCreated<${PhantomToTypeStr<T>}>`;
 
-  constructor(typeArg: Type, id: string) {
+  readonly $typeArg: string;
+
+  readonly id: ToField<ID>;
+
+  private constructor(typeArg: string, fields: DisplayCreatedFields<T>) {
+    this.$fullTypeName = composeSuiType(
+      DisplayCreated.$typeName,
+      typeArg,
+    ) as `0x2::display::DisplayCreated<${PhantomToTypeStr<T>}>`;
+
     this.$typeArg = typeArg;
 
-    this.id = id;
+    this.id = fields.id;
   }
 
-  static fromFields(
-    typeArg: Type,
+  static reified<T extends PhantomReified<PhantomTypeArgument>>(
+    T: T,
+  ): DisplayCreatedReified<ToPhantomTypeArgument<T>> {
+    return {
+      typeName: DisplayCreated.$typeName,
+      fullTypeName: composeSuiType(
+        DisplayCreated.$typeName,
+        ...[extractType(T)],
+      ) as `0x2::display::DisplayCreated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
+      typeArgs: [T],
+      fromFields: (fields: Record<string, any>) =>
+        DisplayCreated.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        DisplayCreated.fromFieldsWithTypes(T, item),
+      fromBcs: (data: Uint8Array) => DisplayCreated.fromBcs(T, data),
+      bcs: DisplayCreated.bcs,
+      fromJSONField: (field: any) => DisplayCreated.fromJSONField(T, field),
+      fromJSON: (json: Record<string, any>) => DisplayCreated.fromJSON(T, json),
+      fetch: async (client: SuiClient, id: string) =>
+        DisplayCreated.fetch(client, T, id),
+      new: (fields: DisplayCreatedFields<ToPhantomTypeArgument<T>>) => {
+        return new DisplayCreated(extractType(T), fields);
+      },
+      kind: "StructClassReified",
+    };
+  }
+
+  static get r() {
+    return DisplayCreated.reified;
+  }
+
+  static phantom<T extends PhantomReified<PhantomTypeArgument>>(
+    T: T,
+  ): PhantomReified<ToTypeStr<DisplayCreated<ToPhantomTypeArgument<T>>>> {
+    return phantom(DisplayCreated.reified(T));
+  }
+  static get p() {
+    return DisplayCreated.phantom;
+  }
+
+  static get bcs() {
+    return bcs.struct("DisplayCreated", {
+      id: ID.bcs,
+    });
+  }
+
+  static fromFields<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
     fields: Record<string, any>,
-  ): DisplayCreated {
-    return new DisplayCreated(typeArg, ID.fromFields(fields.id).bytes);
+  ): DisplayCreated<ToPhantomTypeArgument<T>> {
+    return DisplayCreated.reified(typeArg).new({
+      id: decodeFromFields(ID.reified(), fields.id),
+    });
   }
 
-  static fromFieldsWithTypes(item: FieldsWithTypes): DisplayCreated {
+  static fromFieldsWithTypes<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    item: FieldsWithTypes,
+  ): DisplayCreated<ToPhantomTypeArgument<T>> {
     if (!isDisplayCreated(item.type)) {
       throw new Error("not a DisplayCreated type");
     }
-    const { typeArgs } = parseTypeName(item.type);
+    assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
-    return new DisplayCreated(typeArgs[0], item.fields.id);
+    return DisplayCreated.reified(typeArg).new({
+      id: decodeFromFieldsWithTypes(ID.reified(), item.fields.id),
+    });
   }
 
-  static fromBcs(
-    typeArg: Type,
-    data: Uint8Array | string,
-    encoding?: Encoding,
-  ): DisplayCreated {
-    return DisplayCreated.fromFields(
-      typeArg,
-      bcs.de([DisplayCreated.$typeName, typeArg], data, encoding),
+  static fromBcs<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    data: Uint8Array,
+  ): DisplayCreated<ToPhantomTypeArgument<T>> {
+    return DisplayCreated.fromFields(typeArg, DisplayCreated.bcs.parse(data));
+  }
+
+  toJSONField() {
+    return {
+      id: this.id,
+    };
+  }
+
+  toJSON() {
+    return {
+      $typeName: this.$typeName,
+      $typeArg: this.$typeArg,
+      ...this.toJSONField(),
+    };
+  }
+
+  static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    field: any,
+  ): DisplayCreated<ToPhantomTypeArgument<T>> {
+    return DisplayCreated.reified(typeArg).new({
+      id: decodeFromJSONField(ID.reified(), field.id),
+    });
+  }
+
+  static fromJSON<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    json: Record<string, any>,
+  ): DisplayCreated<ToPhantomTypeArgument<T>> {
+    if (json.$typeName !== DisplayCreated.$typeName) {
+      throw new Error("not a WithTwoGenerics json object");
+    }
+    assertReifiedTypeArgsMatch(
+      composeSuiType(DisplayCreated.$typeName, extractType(typeArg)),
+      [json.$typeArg],
+      [typeArg],
     );
+
+    return DisplayCreated.fromJSONField(typeArg, json);
+  }
+
+  static fromSuiParsedData<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    content: SuiParsedData,
+  ): DisplayCreated<ToPhantomTypeArgument<T>> {
+    if (content.dataType !== "moveObject") {
+      throw new Error("not an object");
+    }
+    if (!isDisplayCreated(content.type)) {
+      throw new Error(
+        `object at ${(content.fields as any).id} is not a DisplayCreated object`,
+      );
+    }
+    return DisplayCreated.fromFieldsWithTypes(typeArg, content);
+  }
+
+  static async fetch<T extends PhantomReified<PhantomTypeArgument>>(
+    client: SuiClient,
+    typeArg: T,
+    id: string,
+  ): Promise<DisplayCreated<ToPhantomTypeArgument<T>>> {
+    const res = await client.getObject({ id, options: { showBcs: true } });
+    if (res.error) {
+      throw new Error(
+        `error fetching DisplayCreated object at id ${id}: ${res.error.code}`,
+      );
+    }
+    if (
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isDisplayCreated(res.data.bcs.type)
+    ) {
+      throw new Error(`object at id ${id} is not a DisplayCreated object`);
+    }
+    return DisplayCreated.fromBcs(typeArg, fromB64(res.data.bcs.bcsBytes));
   }
 }
 
 /* ============================== VersionUpdated =============================== */
 
-bcs.registerStructType("0x2::display::VersionUpdated<T>", {
-  id: `0x2::object::ID`,
-  version: `u16`,
-  fields: `0x2::vec_map::VecMap<0x1::string::String, 0x1::string::String>`,
-});
-
-export function isVersionUpdated(type: Type): boolean {
+export function isVersionUpdated(type: string): boolean {
   type = compressSuiType(type);
   return type.startsWith("0x2::display::VersionUpdated<");
 }
 
-export interface VersionUpdatedFields {
-  id: string;
-  version: number;
-  fields: VecMap<string, string>;
+export interface VersionUpdatedFields<T extends PhantomTypeArgument> {
+  id: ToField<ID>;
+  version: ToField<"u16">;
+  fields: ToField<VecMap<String, String>>;
 }
 
-export class VersionUpdated {
+export type VersionUpdatedReified<T extends PhantomTypeArgument> = Reified<
+  VersionUpdated<T>,
+  VersionUpdatedFields<T>
+>;
+
+export class VersionUpdated<T extends PhantomTypeArgument> {
   static readonly $typeName = "0x2::display::VersionUpdated";
   static readonly $numTypeParams = 1;
 
-  readonly $typeArg: Type;
+  readonly $typeName = VersionUpdated.$typeName;
 
-  readonly id: string;
-  readonly version: number;
-  readonly fields: VecMap<string, string>;
+  readonly $fullTypeName: `0x2::display::VersionUpdated<${PhantomToTypeStr<T>}>`;
 
-  constructor(typeArg: Type, fields: VersionUpdatedFields) {
+  readonly $typeArg: string;
+
+  readonly id: ToField<ID>;
+  readonly version: ToField<"u16">;
+  readonly fields: ToField<VecMap<String, String>>;
+
+  private constructor(typeArg: string, fields: VersionUpdatedFields<T>) {
+    this.$fullTypeName = composeSuiType(
+      VersionUpdated.$typeName,
+      typeArg,
+    ) as `0x2::display::VersionUpdated<${PhantomToTypeStr<T>}>`;
+
     this.$typeArg = typeArg;
 
     this.id = fields.id;
@@ -204,41 +475,172 @@ export class VersionUpdated {
     this.fields = fields.fields;
   }
 
-  static fromFields(
-    typeArg: Type,
+  static reified<T extends PhantomReified<PhantomTypeArgument>>(
+    T: T,
+  ): VersionUpdatedReified<ToPhantomTypeArgument<T>> {
+    return {
+      typeName: VersionUpdated.$typeName,
+      fullTypeName: composeSuiType(
+        VersionUpdated.$typeName,
+        ...[extractType(T)],
+      ) as `0x2::display::VersionUpdated<${PhantomToTypeStr<ToPhantomTypeArgument<T>>}>`,
+      typeArgs: [T],
+      fromFields: (fields: Record<string, any>) =>
+        VersionUpdated.fromFields(T, fields),
+      fromFieldsWithTypes: (item: FieldsWithTypes) =>
+        VersionUpdated.fromFieldsWithTypes(T, item),
+      fromBcs: (data: Uint8Array) => VersionUpdated.fromBcs(T, data),
+      bcs: VersionUpdated.bcs,
+      fromJSONField: (field: any) => VersionUpdated.fromJSONField(T, field),
+      fromJSON: (json: Record<string, any>) => VersionUpdated.fromJSON(T, json),
+      fetch: async (client: SuiClient, id: string) =>
+        VersionUpdated.fetch(client, T, id),
+      new: (fields: VersionUpdatedFields<ToPhantomTypeArgument<T>>) => {
+        return new VersionUpdated(extractType(T), fields);
+      },
+      kind: "StructClassReified",
+    };
+  }
+
+  static get r() {
+    return VersionUpdated.reified;
+  }
+
+  static phantom<T extends PhantomReified<PhantomTypeArgument>>(
+    T: T,
+  ): PhantomReified<ToTypeStr<VersionUpdated<ToPhantomTypeArgument<T>>>> {
+    return phantom(VersionUpdated.reified(T));
+  }
+  static get p() {
+    return VersionUpdated.phantom;
+  }
+
+  static get bcs() {
+    return bcs.struct("VersionUpdated", {
+      id: ID.bcs,
+      version: bcs.u16(),
+      fields: VecMap.bcs(String.bcs, String.bcs),
+    });
+  }
+
+  static fromFields<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
     fields: Record<string, any>,
-  ): VersionUpdated {
-    return new VersionUpdated(typeArg, {
-      id: ID.fromFields(fields.id).bytes,
-      version: fields.version,
-      fields: VecMap.fromFields<string, string>(
-        [`0x1::string::String`, `0x1::string::String`],
+  ): VersionUpdated<ToPhantomTypeArgument<T>> {
+    return VersionUpdated.reified(typeArg).new({
+      id: decodeFromFields(ID.reified(), fields.id),
+      version: decodeFromFields("u16", fields.version),
+      fields: decodeFromFields(
+        VecMap.reified(String.reified(), String.reified()),
         fields.fields,
       ),
     });
   }
 
-  static fromFieldsWithTypes(item: FieldsWithTypes): VersionUpdated {
+  static fromFieldsWithTypes<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    item: FieldsWithTypes,
+  ): VersionUpdated<ToPhantomTypeArgument<T>> {
     if (!isVersionUpdated(item.type)) {
       throw new Error("not a VersionUpdated type");
     }
-    const { typeArgs } = parseTypeName(item.type);
+    assertFieldsWithTypesArgsMatch(item, [typeArg]);
 
-    return new VersionUpdated(typeArgs[0], {
-      id: item.fields.id,
-      version: item.fields.version,
-      fields: VecMap.fromFieldsWithTypes<string, string>(item.fields.fields),
+    return VersionUpdated.reified(typeArg).new({
+      id: decodeFromFieldsWithTypes(ID.reified(), item.fields.id),
+      version: decodeFromFieldsWithTypes("u16", item.fields.version),
+      fields: decodeFromFieldsWithTypes(
+        VecMap.reified(String.reified(), String.reified()),
+        item.fields.fields,
+      ),
     });
   }
 
-  static fromBcs(
-    typeArg: Type,
-    data: Uint8Array | string,
-    encoding?: Encoding,
-  ): VersionUpdated {
-    return VersionUpdated.fromFields(
-      typeArg,
-      bcs.de([VersionUpdated.$typeName, typeArg], data, encoding),
+  static fromBcs<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    data: Uint8Array,
+  ): VersionUpdated<ToPhantomTypeArgument<T>> {
+    return VersionUpdated.fromFields(typeArg, VersionUpdated.bcs.parse(data));
+  }
+
+  toJSONField() {
+    return {
+      id: this.id,
+      version: this.version,
+      fields: this.fields.toJSONField(),
+    };
+  }
+
+  toJSON() {
+    return {
+      $typeName: this.$typeName,
+      $typeArg: this.$typeArg,
+      ...this.toJSONField(),
+    };
+  }
+
+  static fromJSONField<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    field: any,
+  ): VersionUpdated<ToPhantomTypeArgument<T>> {
+    return VersionUpdated.reified(typeArg).new({
+      id: decodeFromJSONField(ID.reified(), field.id),
+      version: decodeFromJSONField("u16", field.version),
+      fields: decodeFromJSONField(
+        VecMap.reified(String.reified(), String.reified()),
+        field.fields,
+      ),
+    });
+  }
+
+  static fromJSON<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    json: Record<string, any>,
+  ): VersionUpdated<ToPhantomTypeArgument<T>> {
+    if (json.$typeName !== VersionUpdated.$typeName) {
+      throw new Error("not a WithTwoGenerics json object");
+    }
+    assertReifiedTypeArgsMatch(
+      composeSuiType(VersionUpdated.$typeName, extractType(typeArg)),
+      [json.$typeArg],
+      [typeArg],
     );
+
+    return VersionUpdated.fromJSONField(typeArg, json);
+  }
+
+  static fromSuiParsedData<T extends PhantomReified<PhantomTypeArgument>>(
+    typeArg: T,
+    content: SuiParsedData,
+  ): VersionUpdated<ToPhantomTypeArgument<T>> {
+    if (content.dataType !== "moveObject") {
+      throw new Error("not an object");
+    }
+    if (!isVersionUpdated(content.type)) {
+      throw new Error(
+        `object at ${(content.fields as any).id} is not a VersionUpdated object`,
+      );
+    }
+    return VersionUpdated.fromFieldsWithTypes(typeArg, content);
+  }
+
+  static async fetch<T extends PhantomReified<PhantomTypeArgument>>(
+    client: SuiClient,
+    typeArg: T,
+    id: string,
+  ): Promise<VersionUpdated<ToPhantomTypeArgument<T>>> {
+    const res = await client.getObject({ id, options: { showBcs: true } });
+    if (res.error) {
+      throw new Error(
+        `error fetching VersionUpdated object at id ${id}: ${res.error.code}`,
+      );
+    }
+    if (
+      res.data?.bcs?.dataType !== "moveObject" ||
+      !isVersionUpdated(res.data.bcs.type)
+    ) {
+      throw new Error(`object at id ${id} is not a VersionUpdated object`);
+    }
+    return VersionUpdated.fromBcs(typeArg, fromB64(res.data.bcs.bcsBytes));
   }
 }

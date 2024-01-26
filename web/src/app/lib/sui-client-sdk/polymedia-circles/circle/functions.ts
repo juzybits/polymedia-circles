@@ -24,9 +24,9 @@ export function new_(txb: TransactionBlock, args: NewArgs) {
   });
 }
 
-export function red(txb: TransactionBlock, self: ObjectArg) {
+export function blue(txb: TransactionBlock, self: ObjectArg) {
   return txb.moveCall({
-    target: `${PUBLISHED_AT}::circle::red`,
+    target: `${PUBLISHED_AT}::circle::blue`,
     arguments: [obj(txb, self)],
   });
 }
@@ -34,13 +34,6 @@ export function red(txb: TransactionBlock, self: ObjectArg) {
 export function green(txb: TransactionBlock, self: ObjectArg) {
   return txb.moveCall({
     target: `${PUBLISHED_AT}::circle::green`,
-    arguments: [obj(txb, self)],
-  });
-}
-
-export function blue(txb: TransactionBlock, self: ObjectArg) {
-  return txb.moveCall({
-    target: `${PUBLISHED_AT}::circle::blue`,
     arguments: [obj(txb, self)],
   });
 }
@@ -66,6 +59,13 @@ export function yAxis(txb: TransactionBlock, self: ObjectArg) {
   });
 }
 
+export function red(txb: TransactionBlock, self: ObjectArg) {
+  return txb.moveCall({
+    target: `${PUBLISHED_AT}::circle::red`,
+    arguments: [obj(txb, self)],
+  });
+}
+
 export function sortByRadiusDesc(
   txb: TransactionBlock,
   v: Array<ObjectArg> | TransactionArgument,
@@ -75,7 +75,7 @@ export function sortByRadiusDesc(
     arguments: [
       vector(
         txb,
-        `0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::circle::Circle`,
+        `0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle`,
         v,
       ),
     ],
@@ -98,7 +98,7 @@ export function vectorToSvg(
     arguments: [
       vector(
         txb,
-        `0xacbe5ab5d70076f911d539a10b371406f001c2ea1ceac1ee3ddfcad1e38c39b4::circle::Circle`,
+        `0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle`,
         circles,
       ),
     ],
