@@ -206,5 +206,5 @@ const A: React.FC<{
     href = '',
     target = '_blank',
 }) => {
-    return <a href={href} target={target} rel='noopener'>{text||href}</a>
+    return <a href={href} target={target} rel='noopener'>{text ?? href}</a>
 }

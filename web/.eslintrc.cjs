@@ -4,6 +4,7 @@ module.exports = {
     extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended-type-checked',
+        'plugin:@typescript-eslint/stylistic-type-checked',
         'plugin:react-hooks/recommended',
     ],
     ignorePatterns: ['dist', '.eslintrc.cjs', 'src/lib/sui-client-sdk'],
@@ -15,6 +16,7 @@ module.exports = {
             { allowConstantExport: true },
         ],
         '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
     parserOptions: {
         ecmaVersion: 'latest',

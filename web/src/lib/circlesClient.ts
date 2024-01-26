@@ -33,9 +33,7 @@ export const COLLECTION_MAINNET = '0x123';
 /* Types */
 
 export type ArtworkWithDisplay = Artwork & {
-    display: {
-        [key: string]: string;
-    };
+    display: Record<string, string>;
 };
 
 /**

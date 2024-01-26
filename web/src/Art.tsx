@@ -5,7 +5,7 @@ import { ArtworkWithDisplay } from './lib/circlesClient';
 
 export function Art()
 {
-    const artId: string = useParams().id || '';
+    const artId: string = useParams().id ?? '';
     const { circlesClient } = useOutletContext<AppContext>();
     const [ artwork, setArtwork ] = useState<ArtworkWithDisplay|null|undefined>(undefined);
 
