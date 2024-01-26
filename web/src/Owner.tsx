@@ -19,7 +19,7 @@ export const Owner: React.FC = () =>
             const artworks = await circlesClient.fetchArtworksByOwner(currentAccount.address);
             setArtworks(artworks);
         })();
-    }, [currentAccount]);
+    }, [currentAccount, circlesClient]);
 
     return <>
     <div id='owner-page'>

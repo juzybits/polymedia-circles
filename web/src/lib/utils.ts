@@ -1,8 +1,8 @@
 /* Various helpers */
 
-export function formatSui(num: BigInt): string {
+export function formatSui(num: bigint): string {
     return (Number(num)/1_000_000_000).toFixed(2) + ' SUI';
-};
+}
 
 export function isDev(): boolean {
     const isDev = localStorage.getItem('polymedia.isDev');

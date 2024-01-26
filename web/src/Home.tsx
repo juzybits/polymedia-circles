@@ -16,7 +16,7 @@ const HomeNew: React.FC = () =>
             const events = await circlesClient.fetchEvents();
             setEvents(events);
         })();
-    }, []);
+    }, [circlesClient]);
 
     return (
         <div id='home-page'>
@@ -87,7 +87,7 @@ export const Home: React.FC = () =>
             if (!layoutRef.current) {
                 return;
             }
-            for (let entry of entries) {
+            for (const entry of entries) {
                 addArtworkToContainer({
                     container: layoutRef.current,
                     canvasWidth: entry.contentRect.width,
@@ -103,13 +103,14 @@ export const Home: React.FC = () =>
             observer.observe(layoutRef.current);
 
         // Cleanup function
+        const refValue = layoutRef.current;
         return () => {
-            if (layoutRef.current) {
-                observer.unobserve(layoutRef.current);
-                removeArtworkFromContainer(layoutRef.current);
+            if (refValue) {
+                observer.unobserve(refValue);
+                removeArtworkFromContainer(refValue);
             }
         };
-    }, []);
+    }, [layoutRef]);
 
     return <>
     <div id='home-page-old'>

@@ -8,7 +8,7 @@ export const Mint: React.FC = () =>
 {
     const { currentAccount, /*signTransactionBlock*/ } = useWalletKit();
     const { /*circlesClient,*/ collection, openConnectModal } = useOutletContext<AppContext>();
-    const [ errorMsg, _setErrorMsg ] = useState<string|null>(null);
+    const [ errorMsg ] = useState<string|null>(null);
 
 
     const onClickMint = async () => {

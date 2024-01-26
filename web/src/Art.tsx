@@ -14,7 +14,7 @@ export function Art()
             const artwork = await circlesClient.fetchArtworkById(artId);
             setArtwork(artwork);
         })();
-    }, []);
+    }, [circlesClient, artId]);
 
     if (typeof artwork === 'undefined')
         return <h1>Loading...</h1>;

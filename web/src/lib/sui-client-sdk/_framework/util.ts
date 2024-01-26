@@ -7,7 +7,6 @@ import { bcs, ObjectArg as SuiObjectArg } from "@mysten/sui.js/bcs";
 import { BcsType } from "@mysten/bcs";
 
 export interface FieldsWithTypes {
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   fields: Record<string, any>;
   type: string;
 }
