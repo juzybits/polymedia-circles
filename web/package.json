@@ -13,13 +13,14 @@
     "type": "module",
     "keywords": [],
     "scripts": {
+        "build:sui-client-sdk": "tsc --build tsconfig.sui-client-sdk.json",
+        "build": "pnpm build:sui-client-sdk && tsc && vite build",
         "deploy-dev": "echo 'TODO'",
         "deploy-prod": "echo 'TODO'",
         "generate-sdk": "./sui-client-gen/generate-sdk.sh",
-        "serve": "vite",
-        "build": "tsc && vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "serve": "vite"
     },
     "dependencies": {
         "@mysten/bcs": "^0.10.1",
