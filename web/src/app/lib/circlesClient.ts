@@ -113,34 +113,12 @@ export class CirclesClient { // TODO: cache
     }
 
     public async fetchCollection(): Promise<Collection|null> {
-        return this.suiClient.getObject({
-            id: this.collectionId,
-            options: {
-                showContent: true,
-            },
-        })
-        .then((suiObjRes: SuiObjectResponse) => {
-            if (suiObjRes.error) {
-                console.warn('[CirclesClient.fetchCollection] response error:', suiObjRes.error);
-                return null;
-            }
-            if (suiObjRes.data?.content?.dataType !== 'moveObject') {
-                console.warn('[CirclesClient.fetchCollection] content missing:', suiObjRes);
-                return null;
-            }
-            if (!isCollection(suiObjRes.data.content.type)) {
-                console.warn('[CirclesClient.fetchCollection] not a collection:', suiObjRes);
-                return null;
-            }
-            return Collection.fromFieldsWithTypes({
-                fields: suiObjRes.data.content.fields,
-                type: suiObjRes.data.content.type,
-            });
-        })
-        .catch((error: any) => {
+        try {
+            return Collection.fetch(this.suiClient, this.collectionId);
+        } catch(error) {
             console.warn('[CirclesClient.fetchCollection] unexpected error:\n', error);
             return null;
-        });
+        }
     }
 
     public async fetchArtworkById(artId: string): Promise<ArtworkWithDisplay|null> {
