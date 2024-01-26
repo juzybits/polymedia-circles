@@ -59,7 +59,7 @@ export const App: React.FC = () =>
     return <>
         <ConnectModal
             open={showConnectModal}
-            onClose={() => setShowConnectModal(false)}
+            onClose={() => { setShowConnectModal(false); }}
         />
         <div ref={layoutRef} id='layout'>
             <Nav network={network} openConnectModal={openConnectModal} />

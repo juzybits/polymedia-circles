@@ -58,11 +58,9 @@ export class CirclesClient { // TODO: cache
         } else if (network === 'testnet') {
             this.packageId = PACKAGE_TESTNET;
             this.collectionId = COLLECTION_TESTNET;
-        } else if (network === 'mainnet') {
+        } else {
             this.packageId = PACKAGE_MAINNET;
             this.collectionId = COLLECTION_MAINNET;
-        } else {
-            throw new Error('Network not recognized: ' + String(network));
         }
     }
 
