@@ -1,12 +1,11 @@
 import { SuiEvent } from '@mysten/sui.js/client';
 import { NetworkName, makeSuiExplorerUrl, shortenSuiAddress } from '@polymedia/suits';
 import { useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
-import { addArtworkToContainer, removeArtworkFromContainer } from './lib/art/addArtworkToContainer';
-import { formatSui, isDev } from './lib/utils';
+import { formatSui } from './lib/utils';
 
-const HomeNew: React.FC = () =>
+export const Home: React.FC = () =>
 {
     const { circlesClient, collection, network } = useOutletContext<AppContext>();
     const [ events, setEvents ] = useState<SuiEvent[]|null|undefined>(undefined);
@@ -72,57 +71,3 @@ const LinkToExplorer: React.FC<{
         {shortenSuiAddress(objectId)}
     </a>
 };
-
-export const Home: React.FC = () =>
-{
-    if (isDev()) { return <HomeNew />; }
-
-    const { layoutRef } = useOutletContext<AppContext>();
-
-    useEffect(() =>
-    {
-        // Callback to handle resizing of the #home-page div
-        const observer = new ResizeObserver((entries) =>
-        {
-            if (!layoutRef.current) {
-                return;
-            }
-            for (const entry of entries) {
-                addArtworkToContainer({
-                    container: layoutRef.current,
-                    canvasWidth: entry.contentRect.width,
-                    canvasHeight: entry.contentRect.height,
-                    minCircles: 5,
-                    maxCircles: 5,
-                });
-            }
-        });
-
-        // Start observing the div
-        if (layoutRef.current)
-            observer.observe(layoutRef.current);
-
-        // Cleanup function
-        const refValue = layoutRef.current;
-        return () => {
-            if (refValue) {
-                observer.unobserve(refValue);
-                removeArtworkFromContainer(refValue);
-            }
-        };
-    }, [layoutRef]);
-
-    return <>
-    <div id='home-page-old'>
-        <div id='home-container'>
-            <div id='home-title'>
-                <h1>Circles.</h1>
-                <h2>by <a id='by_polymedia' href='https://polymedia.app/' target='_blank' rel='noopener'>Polymedia</a></h2>
-            </div>
-            <div id='home-buttons'>
-                <Link to='/faq' className='big-btn'>Read F.A.Q.</Link>
-            </div>
-        </div>
-    </div>
-    </>;
-}

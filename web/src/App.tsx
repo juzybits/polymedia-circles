@@ -8,7 +8,6 @@ import './App.less';
 import { Nav } from './Nav';
 import { CirclesClient } from './lib/circlesClient';
 import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';
-import { isDev } from './lib/utils';
 
 export type AppContext = {
     layoutRef: RefObject<HTMLDivElement>;
@@ -36,7 +35,6 @@ export const App: React.FC = () =>
             const circlesClient = new CirclesClient({network, suiClient});
             setCirclesClient(circlesClient);
 
-            if (!isDev()) { return; }
             const collection = await circlesClient.fetchCollection();
             setCollection(collection);
         })();

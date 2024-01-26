@@ -12,8 +12,6 @@ export const Nav: React.FC<{
     openConnectModal,
 }) =>
 {
-    if (!isDev()) return null;
-
     const { currentAccount, disconnect } = useWalletKit();
 
     const showNetworkSelector = isDev();
