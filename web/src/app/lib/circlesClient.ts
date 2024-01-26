@@ -106,7 +106,7 @@ export class CirclesClient { // TODO: cache
         .then((events: PaginatedEvents) => {
             return events.data;
         })
-        .catch((error: any) => {
+        .catch(error => {
             console.warn('[CirclesClient.fetchEvents] unexpected error:\n', error);
             return null;
         })
@@ -150,13 +150,13 @@ export class CirclesClient { // TODO: cache
                 fields: suiObjRes.data.content.fields,
                 type: suiObjRes.data.content.type,
             });
-            const artworkWithDisplay: ArtworkWithDisplay = {
-                ...artwork,
-                display: suiObjRes.data.display.data,
-            };
+            const artworkWithDisplay: ArtworkWithDisplay = Object.assign(
+                artwork,
+                { display: suiObjRes.data.display.data }
+            );
             return artworkWithDisplay;
         })
-        .catch((error: any) => {
+        .catch(error => {
             console.warn('[CirclesClient.fetchArtworkById] unexpected error:\n', error);
             return null;
         });
@@ -188,15 +188,15 @@ export class CirclesClient { // TODO: cache
                     fields: suiObjRes.data.content.fields,
                     type: suiObjRes.data.content.type,
                 });
-                const artworkWithDisplay: ArtworkWithDisplay = {
-                    ...artwork,
-                    display: suiObjRes.data.display.data,
-                };
+                const artworkWithDisplay: ArtworkWithDisplay = Object.assign(
+                    artwork,
+                    { display: suiObjRes.data.display.data }
+                );
                 artworks.push(artworkWithDisplay);
             }
             return artworks;
         })
-        .catch((error: any) => {
+        .catch(error => {
             console.warn('[CirclesClient.fetchArtworksByOwner] unexpected error:\n', error);
             return null;
         })
