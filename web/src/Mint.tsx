@@ -11,7 +11,7 @@ export const Mint: React.FC = () =>
     const [ errorMsg ] = useState<string|null>(null);
 
 
-    const onClickMint = async () => {
+    const onClickMint = () => {
         if (!currentAccount || !collection) {
             return;
         }
@@ -33,7 +33,7 @@ export const Mint: React.FC = () =>
         }
     };
 
-    const onClickConnect = async () => {
+    const onClickConnect = () => {
         openConnectModal();
     };
 

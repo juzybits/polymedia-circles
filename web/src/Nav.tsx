@@ -30,7 +30,7 @@ export const Nav: React.FC<{
                 LOG IN
             </div>
         :
-            <div className='nav-item gta' onClick={disconnect} style={{color: '#bfffbf'}}>
+            <div className='nav-item gta' onClick={void disconnect} style={{color: '#bfffbf'}}>
                 {shortenSuiAddress(currentAccount.address)}
             </div>
         }
