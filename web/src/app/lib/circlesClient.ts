@@ -113,12 +113,14 @@ export class CirclesClient { // TODO: cache
     }
 
     public async fetchCollection(): Promise<Collection|null> {
-        try {
-            return Collection.fetch(this.suiClient, this.collectionId);
-        } catch(error) {
+        return Collection.fetch(this.suiClient, this.collectionId)
+        .then(collection => {
+            return collection;
+        })
+        .catch(error => {
             console.warn('[CirclesClient.fetchCollection] unexpected error:\n', error);
             return null;
-        }
+        })
     }
 
     public async fetchArtworkById(artId: string): Promise<ArtworkWithDisplay|null> {
