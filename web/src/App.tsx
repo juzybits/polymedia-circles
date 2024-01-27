@@ -1,17 +1,39 @@
-import { ConnectModal, SuiClientProvider, WalletProvider, createNetworkConfig, useSuiClient } from '@mysten/dapp-kit';
+/* AppWrapRouter */
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Art } from './Art';
+import { Demo } from './Demo';
+import { FAQ } from './FAQ';
+import { Home } from './Home';
+import { Mint } from './Mint';
+import { NotFound } from './NotFound';
+import { Owner } from './Owner';
+
+export const AppWrapRouter: React.FC = () => {
+    return (
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<AppWrapSui />} >
+                <Route index element={<Home />} />
+                <Route path='faq' element={<FAQ />} />
+                <Route path='art/:id' element={<Art />} />
+                <Route path='mint' element={<Mint />} />
+                <Route path='owner' element={<Owner />} />
+                <Route path='demo' element={<Demo />} />
+                <Route path='*' element={<NotFound />} />
+            </Route>
+        </Routes>
+    </BrowserRouter>
+    );
+}
+
+/* AppWrapSui */
+
+import { SuiClientProvider, WalletProvider, createNetworkConfig } from '@mysten/dapp-kit';
 import '@mysten/dapp-kit/dist/index.css';
 import { getFullnodeUrl } from '@mysten/sui.js/client';
-import { NetworkName } from '@polymedia/suits';
 import { isLocalhost, loadNetwork } from '@polymedia/webutils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import './App.less';
-import { Nav } from './Nav';
-import { fetchCollection } from './lib/circlesClient';
-import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';
-
-/* AppWrap - Sui configuration */
 
 const { networkConfig, useNetworkVariable } = createNetworkConfig({
     localnet: {
@@ -47,8 +69,8 @@ const { networkConfig, useNetworkVariable } = createNetworkConfig({
 const queryClient = new QueryClient();
 const network = isLocalhost() ? loadNetwork() : 'mainnet';
 
-export const AppWrap: React.FC = () => {
-    return <>
+const AppWrapSui: React.FC = () => {
+    return (
     <QueryClientProvider client={queryClient}>
         <SuiClientProvider networks={networkConfig} network={network}>
             <WalletProvider>
@@ -56,10 +78,19 @@ export const AppWrap: React.FC = () => {
             </WalletProvider>
         </SuiClientProvider>
     </QueryClientProvider>
-    </>;
+    );
 }
 
-/* App - the actual app */
+/* App */
+
+import { ConnectModal, useSuiClient } from '@mysten/dapp-kit';
+import { NetworkName } from '@polymedia/suits';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import './App.less';
+import { Nav } from './Nav';
+import { fetchCollection } from './lib/circlesClient';
+import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';
 
 export type AppContext = {
     layoutRef: RefObject<HTMLDivElement>;
@@ -69,7 +100,7 @@ export type AppContext = {
     openConnectModal: () => void;
 };
 
-export const App: React.FC = () =>
+const App: React.FC = () =>
 {
     const suiClient = useSuiClient();
     const collectionId = useNetworkVariable('collectionId');
