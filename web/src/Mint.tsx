@@ -10,7 +10,6 @@ export const Mint: React.FC = () =>
     const { /*circlesClient,*/ collection, openConnectModal } = useOutletContext<AppContext>();
     const [ errorMsg ] = useState<string|null>(null);
 
-
     const onClickMint = () => {
         if (!currentAccount || !collection) {
             return;
