@@ -1,20 +1,20 @@
+import { useSuiClient } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
-import { useOutletContext, useParams } from 'react-router-dom';
-import { AppContext } from './App';
-import { ArtworkWithDisplay } from './lib/circlesClient';
+import { useParams } from 'react-router-dom';
+import { ArtworkWithDisplay, fetchArtworkById } from './lib/circlesClient';
 
 export function Art()
 {
+    const suiClient = useSuiClient();
     const artId: string = useParams().id ?? '';
-    const { circlesClient } = useOutletContext<AppContext>();
     const [ artwork, setArtwork ] = useState<ArtworkWithDisplay|null|undefined>(undefined);
 
     useEffect(() => {
         (async () => {
-            const artwork = await circlesClient.fetchArtworkById(artId);
+            const artwork = await fetchArtworkById(suiClient, artId);
             setArtwork(artwork);
         })();
-    }, [circlesClient, artId]);
+    }, [artId, suiClient]);
 
     if (typeof artwork === 'undefined')
         return <h1>Loading...</h1>;

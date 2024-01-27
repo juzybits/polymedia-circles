@@ -1,21 +1,25 @@
+import { useSuiClient } from '@mysten/dapp-kit';
 import { SuiEvent } from '@mysten/sui.js/client';
 import { NetworkName, makeSuiExplorerUrl, shortenSuiAddress } from '@polymedia/suits';
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
+import { fetchEvents } from './lib/circlesClient';
 import { formatSui } from './lib/utils';
 
 export const Home: React.FC = () =>
 {
-    const { circlesClient, collection, network } = useOutletContext<AppContext>();
+    const { collection, network, useNetworkVariable } = useOutletContext<AppContext>();
+    const suiClient = useSuiClient();
+    const packageId = useNetworkVariable('packageId');
     const [ events, setEvents ] = useState<SuiEvent[]|null|undefined>(undefined);
 
     useEffect(() => {
         (async () => {
-            const events = await circlesClient.fetchEvents();
+            const events = await fetchEvents(suiClient, packageId);
             setEvents(events);
         })();
-    }, [circlesClient]);
+    }, [packageId, suiClient]);
 
     return (
         <div id='home-page'>

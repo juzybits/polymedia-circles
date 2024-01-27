@@ -1,13 +1,12 @@
-import { useCurrentAccount } from '@mysten/dapp-kit';
+import { useCurrentAccount, useSuiClient } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
-import { AppContext } from './App';
-import { ArtworkWithDisplay } from './lib/circlesClient';
+import { Link } from 'react-router-dom';
+import { ArtworkWithDisplay, fetchArtworksByOwner } from './lib/circlesClient';
 
 export const Owner: React.FC = () =>
 {
+    const suiClient = useSuiClient();
     const currentAccount = useCurrentAccount();
-    const { circlesClient } = useOutletContext<AppContext>();
     const [artworks, setArtworks] = useState<ArtworkWithDisplay[]|null|undefined>(undefined);
 
     useEffect(() => {
@@ -16,10 +15,13 @@ export const Owner: React.FC = () =>
             return;
         }
         (async () => {
-            const artworks = await circlesClient.fetchArtworksByOwner(currentAccount.address);
+            const artworks = await fetchArtworksByOwner(
+                suiClient,
+                currentAccount.address,
+            );
             setArtworks(artworks);
         })();
-    }, [currentAccount, circlesClient]);
+    }, [currentAccount, suiClient]);
 
     return <>
     <div id='owner-page'>

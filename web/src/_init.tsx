@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { App } from './App';
+import { AppWrap } from './App';
 import { Art } from './Art';
 import { Demo } from './Demo';
 import { FAQ } from './FAQ';
@@ -12,9 +12,9 @@ import { Owner } from './Owner';
 ReactDOM
     .createRoot( document.getElementById('app') as Element )
     .render(
-        <BrowserRouter>
+    <BrowserRouter>
         <Routes>
-            <Route path='/' element={<App />} >
+            <Route path='/' element={<AppWrap />} >
                 <Route index element={<Home />} />
                 <Route path='faq' element={<FAQ />} />
                 <Route path='art/:id' element={<Art />} />
@@ -24,5 +24,5 @@ ReactDOM
                 <Route path='*' element={<NotFound />} />
             </Route>
         </Routes>
-        </BrowserRouter>
+    </BrowserRouter>
     );
