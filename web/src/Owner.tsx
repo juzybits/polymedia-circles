@@ -1,4 +1,4 @@
-import { useWalletKit } from '@mysten/wallet-kit';
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
@@ -6,7 +6,7 @@ import { ArtworkWithDisplay } from './lib/circlesClient';
 
 export const Owner: React.FC = () =>
 {
-    const { currentAccount } = useWalletKit();
+    const currentAccount = useCurrentAccount();
     const { circlesClient } = useOutletContext<AppContext>();
     const [artworks, setArtworks] = useState<ArtworkWithDisplay[]|null|undefined>(undefined);
 

@@ -1,8 +1,8 @@
-import { useWalletKit } from '@mysten/wallet-kit';
 import { NetworkSelector } from '@polymedia/react-components';
 import { NetworkName, shortenSuiAddress } from '@polymedia/suits';
 import { Link, useLocation } from 'react-router-dom';
 import { isDev } from './lib/utils';
+import { useCurrentAccount, useDisconnectWallet } from '@mysten/dapp-kit';
 
 export const Nav: React.FC<{
     network: NetworkName;
@@ -12,7 +12,8 @@ export const Nav: React.FC<{
     openConnectModal,
 }) =>
 {
-    const { currentAccount, disconnect } = useWalletKit();
+    const currentAccount = useCurrentAccount();
+    const { mutate: disconnect } = useDisconnectWallet();
 
     const showNetworkSelector = isDev();
 
@@ -30,7 +31,7 @@ export const Nav: React.FC<{
                 LOG IN
             </div>
         :
-            <div className='nav-item gta' onClick={void disconnect} style={{color: '#bfffbf'}}>
+            <div className='nav-item gta' onClick={() => {disconnect();}} style={{color: '#bfffbf'}}>
                 {shortenSuiAddress(currentAccount.address)}
             </div>
         }

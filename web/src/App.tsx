@@ -1,5 +1,5 @@
+import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui.js/client';
-import { ConnectModal } from '@mysten/wallet-kit';
 import { NetworkName } from '@polymedia/suits';
 import { getRpcConfig, isLocalhost, loadNetwork } from '@polymedia/webutils';
 import { RefObject, useEffect, useRef, useState } from 'react';
@@ -58,8 +58,9 @@ export const App: React.FC = () =>
 
     return <>
         <ConnectModal
+            trigger={<></>}
             open={showConnectModal}
-            onClose={() => { setShowConnectModal(false); }}
+            onOpenChange={isOpen => { setShowConnectModal(isOpen); }}
         />
         <div ref={layoutRef} id='layout'>
             <Nav network={network} openConnectModal={openConnectModal} />

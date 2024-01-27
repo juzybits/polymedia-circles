@@ -1,12 +1,12 @@
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import { useState } from 'react';
-import { useWalletKit } from '@mysten/wallet-kit';
 import { useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
 import { formatSui } from './lib/utils';
 
 export const Mint: React.FC = () =>
 {
-    const { currentAccount, /*signTransactionBlock*/ } = useWalletKit();
+    const currentAccount = useCurrentAccount();
     const { /*circlesClient,*/ collection, openConnectModal } = useOutletContext<AppContext>();
     const [ errorMsg ] = useState<string|null>(null);
 
@@ -14,8 +14,9 @@ export const Mint: React.FC = () =>
         if (!currentAccount || !collection) {
             return;
         }
+        console.log('TODO: call circlesClient.mintArtwork()');
+        /*
         try {
-            /*
             const res = await circlesClient.mintArtwork({
                 signTransactionBlock,
                 recipient: currentAccount.address,
@@ -26,10 +27,10 @@ export const Mint: React.FC = () =>
             } else {
                 console.warn('[onClickMint] transaction failure:', res);
             }
-            */
         } catch(error) {
             console.warn('[onClickMint] unexpected error:', error);
         }
+        */
     };
 
     const onClickConnect = () => {
