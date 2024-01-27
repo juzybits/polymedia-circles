@@ -85,7 +85,7 @@ const AppWrapSui: React.FC = () => {
 
 import { ConnectModal, useSuiClient } from '@mysten/dapp-kit';
 import { NetworkName } from '@polymedia/suits';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.less';
 import { Nav } from './Nav';
@@ -93,7 +93,6 @@ import { fetchCollection } from './lib/circlesClient';
 import { Collection } from './lib/sui-client-sdk/polymedia-circles/collection/structs';
 
 export type AppContext = {
-    layoutRef: RefObject<HTMLDivElement>;
     network: NetworkName;
     collection: Collection|null|undefined;
     useNetworkVariable: typeof useNetworkVariable;
@@ -104,7 +103,6 @@ const App: React.FC = () =>
 {
     const suiClient = useSuiClient();
     const collectionId = useNetworkVariable('collectionId');
-    const layoutRef = useRef<HTMLDivElement>(null);
     const [ collection, setCollection ] = useState<Collection|null|undefined>(undefined);
     const [ showConnectModal, setShowConnectModal ] = useState(false);
 
@@ -120,7 +118,6 @@ const App: React.FC = () =>
     };
 
     const appContext: AppContext = {
-        layoutRef,
         network,
         collection,
         useNetworkVariable,
@@ -133,7 +130,7 @@ const App: React.FC = () =>
             open={showConnectModal}
             onOpenChange={isOpen => { setShowConnectModal(isOpen); }}
         />
-        <div ref={layoutRef} id='layout'>
+        <div id='layout'>
             <Nav network={network} openConnectModal={openConnectModal} />
             <div id='page'>
                 <Outlet context={appContext} />
