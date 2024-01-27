@@ -8,36 +8,47 @@ import {
     SuiClient,
     SuiEvent,
     SuiObjectResponse,
+    SuiTransactionBlockResponse,
 } from '@mysten/sui.js/client';
+import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { Artwork, isArtwork } from './sui-client-sdk/polymedia-circles/artwork/structs';
 import { Collection } from './sui-client-sdk/polymedia-circles/collection/structs';
+import { mintArtwork as mintArtworkSdk } from './sui-client-sdk/polymedia-circles/controller/functions';
+import { useSignTransactionBlock } from '@mysten/dapp-kit';
 
 export type ArtworkWithDisplay = Artwork & {
     display: Record<string, string>;
 };
 
-/*
-export async function mintArtwork({ // TODO
+type UseSignTransactionBlockFunction = typeof useSignTransactionBlock;
+type UseSignTransactionBlockReturnType = ReturnType<UseSignTransactionBlockFunction>;
+type SignTransactionBlockType = UseSignTransactionBlockReturnType extends { mutateAsync: infer T } ? T : never;
+
+export async function mintArtwork({
+    suiClient,
     signTransactionBlock,
+    collectionId,
     recipient,
     price,
 }: {
-    signTransactionBlock: WalletKitCore['signTransactionBlock'],
+    suiClient: SuiClient,
+    signTransactionBlock: SignTransactionBlockType;
+    collectionId: string;
     recipient: string;
     price: number;
 }): Promise<SuiTransactionBlockResponse>
 {
     const txb = new TransactionBlock()
     const payCoin = txb.splitCoins(txb.gas, [price]);
-    const [artwork, change] = mintArtwork(txb, {
-        collection: this.collectionId,
+    const [artwork, change] = mintArtworkSdk(txb, {
+        collection: collectionId,
         payCoin,
     });
     txb.transferObjects([artwork, change], txb.pure(recipient));
     const signedTx = await signTransactionBlock({
         transactionBlock: txb,
     });
-    return this.suiClient.executeTransactionBlock({
+    return suiClient.executeTransactionBlock({
         transactionBlock: signedTx.transactionBlockBytes,
         signature: signedTx.signature,
         options: {
@@ -45,7 +56,6 @@ export async function mintArtwork({ // TODO
         },
     })
 }
-*/
 
 export async function fetchEvents(
     suiClient: SuiClient,

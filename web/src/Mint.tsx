@@ -1,24 +1,27 @@
-import { useCurrentAccount } from '@mysten/dapp-kit';
+import { useCurrentAccount, useSignTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { AppContext } from './App';
+import { mintArtwork } from './lib/circlesClient';
 import { formatSui } from './lib/utils';
 
 export const Mint: React.FC = () =>
 {
+    const { collection, openConnectModal } = useOutletContext<AppContext>();
+    const suiClient = useSuiClient();
+    const { mutateAsync: signTransactionBlock } = useSignTransactionBlock();
     const currentAccount = useCurrentAccount();
-    const { /*circlesClient,*/ collection, openConnectModal } = useOutletContext<AppContext>();
     const [ errorMsg ] = useState<string|null>(null);
 
-    const onClickMint = () => {
+    const onClickMint = async () => {
         if (!currentAccount || !collection) {
             return;
         }
-        console.log('TODO: call circlesClient.mintArtwork()');
-        /*
         try {
-            const res = await circlesClient.mintArtwork({
+            const res = await mintArtwork({
+                suiClient,
                 signTransactionBlock,
+                collectionId: collection.id,
                 recipient: currentAccount.address,
                 price: Number(collection.nextPrice), // MAYBE: send a little extra SUI to prevent race conditions
             });
@@ -30,7 +33,6 @@ export const Mint: React.FC = () =>
         } catch(error) {
             console.warn('[onClickMint] unexpected error:', error);
         }
-        */
     };
 
     const onClickConnect = () => {
@@ -49,7 +51,7 @@ export const Mint: React.FC = () =>
                     return 'Loading...';
                 if (collection === null)
                     return 'Error';
-                return <button className='big-btn' onClick={onClickMint}>Mint for {formatSui(collection.nextPrice)}</button>
+                return <button className='big-btn' onClick={() => {onClickMint()}}>Mint for {formatSui(collection.nextPrice)}</button>
             })()}
             <ErrorBox msg={errorMsg} />
         </div>
