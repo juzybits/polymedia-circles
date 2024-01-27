@@ -1,7 +1,9 @@
-import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit';
-import { SuiClient } from '@mysten/sui.js/client';
+import { ConnectModal, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
+import '@mysten/dapp-kit/dist/index.css';
+import { SuiClient, getFullnodeUrl } from '@mysten/sui.js/client';
 import { NetworkName } from '@polymedia/suits';
 import { getRpcConfig, isLocalhost, loadNetwork } from '@polymedia/webutils';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.less';
@@ -15,6 +17,14 @@ export type AppContext = {
     circlesClient: CirclesClient;
     collection: Collection|null|undefined;
     openConnectModal: () => void;
+};
+
+const queryClient = new QueryClient();
+const networks = {
+    localnet: { url: getFullnodeUrl('localnet') },
+    devnet: { url: getFullnodeUrl('devnet') },
+    testnet: { url: getFullnodeUrl('testnet') },
+    mainnet: { url: getFullnodeUrl('mainnet') },
 };
 
 export const App: React.FC = () =>
@@ -57,6 +67,9 @@ export const App: React.FC = () =>
     };
 
     return <>
+    <QueryClientProvider client={queryClient}>
+    <SuiClientProvider networks={networks} defaultNetwork='devnet'>
+    <WalletProvider>
         <ConnectModal
             trigger={<></>}
             open={showConnectModal}
@@ -68,5 +81,8 @@ export const App: React.FC = () =>
                 <Outlet context={appContext} />
             </div>
         </div>
+    </WalletProvider>
+    </SuiClientProvider>
+    </QueryClientProvider>
     </>;
 }
