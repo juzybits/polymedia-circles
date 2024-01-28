@@ -26,7 +26,6 @@
         "@mysten/bcs": "latest",
         "@mysten/dapp-kit": "latest",
         "@mysten/sui.js": "latest",
-        "@polymedia/react-components": "latest",
         "@polymedia/suits": "latest",
         "@polymedia/webutils": "latest",
         "@tanstack/react-query": "latest",
