@@ -1,8 +1,8 @@
-import { NetworkSelector } from '@polymedia/react-components';
 import { NetworkName, shortenSuiAddress } from '@polymedia/suits';
 import { Link, useLocation } from 'react-router-dom';
 import { isDev } from './lib/utils';
 import { useCurrentAccount, useDisconnectWallet } from '@mysten/dapp-kit';
+import { NetworkSelector } from '@polymedia/webutils';
 
 export const Nav: React.FC<{
     network: NetworkName;
@@ -36,7 +36,9 @@ export const Nav: React.FC<{
             </div>
         }
         {showNetworkSelector && <div className='nav-item gta'>
-            <NetworkSelector currentNetwork={network} />
+            <NetworkSelector currentNetwork={network} onSwitch={() => {
+                console.log('TODO: staying here!')
+            }} />
         </div>}
     </header>
     );

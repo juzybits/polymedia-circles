@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: try https://github.com/sentioxyz/typemove
+
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 SDK_PATH='./src/lib/sui-client-sdk'
 
