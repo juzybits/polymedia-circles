@@ -46,8 +46,8 @@ const { networkConfig, useNetworkVariable } = createNetworkConfig({
     devnet: {
         url: getFullnodeUrl('devnet'),
         variables: {
-            packageId: '0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092',
-            collectionId: '0xb3b8bd551facedf5df56deb379197c099232bc5df10e987fe8949657e883fb63',
+            packageId: '0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed',
+            collectionId: '0xb1e2599cf949cea05022b2852f57b296758791b8a8e36528990d371fea280119',
         },
     },
     testnet: {

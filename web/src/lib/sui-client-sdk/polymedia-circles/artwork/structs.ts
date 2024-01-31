@@ -28,7 +28,7 @@ export function isARTWORK(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::ARTWORK"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::ARTWORK"
   );
 }
 
@@ -40,12 +40,12 @@ export type ARTWORKReified = Reified<ARTWORK, ARTWORKFields>;
 
 export class ARTWORK {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::ARTWORK";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::ARTWORK";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = ARTWORK.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::ARTWORK";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::ARTWORK";
 
   readonly dummyField: ToField<"bool">;
 
@@ -61,7 +61,7 @@ export class ARTWORK {
       fullTypeName: composeSuiType(
         ARTWORK.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::ARTWORK",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::ARTWORK",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) => ARTWORK.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
@@ -174,7 +174,7 @@ export function isArtwork(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::Artwork"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::Artwork"
   );
 }
 
@@ -191,12 +191,12 @@ export type ArtworkReified = Reified<Artwork, ArtworkFields>;
 
 export class Artwork {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::Artwork";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::Artwork";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = Artwork.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::Artwork";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::Artwork";
 
   readonly id: ToField<UID>;
   readonly number: ToField<"u64">;
@@ -222,7 +222,7 @@ export class Artwork {
       fullTypeName: composeSuiType(
         Artwork.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::artwork::Artwork",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::artwork::Artwork",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) => Artwork.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
@@ -309,7 +309,7 @@ export class Artwork {
       number: this.number.toString(),
       backgroundColor: this.backgroundColor,
       circles: fieldToJSON<Vector<Circle>>(
-        `vector<0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle>`,
+        `vector<0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::circle::Circle>`,
         this.circles,
       ),
       svg: this.svg,

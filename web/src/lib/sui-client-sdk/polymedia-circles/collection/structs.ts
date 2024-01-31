@@ -26,7 +26,7 @@ export function isCOLLECTION(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::COLLECTION"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::COLLECTION"
   );
 }
 
@@ -38,12 +38,12 @@ export type COLLECTIONReified = Reified<COLLECTION, COLLECTIONFields>;
 
 export class COLLECTION {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::COLLECTION";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::COLLECTION";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = COLLECTION.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::COLLECTION";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::COLLECTION";
 
   readonly dummyField: ToField<"bool">;
 
@@ -59,7 +59,7 @@ export class COLLECTION {
       fullTypeName: composeSuiType(
         COLLECTION.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::COLLECTION",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::COLLECTION",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         COLLECTION.fromFields(fields),
@@ -174,7 +174,7 @@ export function isCollection(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::Collection"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::Collection"
   );
 }
 
@@ -191,12 +191,12 @@ export type CollectionReified = Reified<Collection, CollectionFields>;
 
 export class Collection {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::Collection";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::Collection";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = Collection.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::Collection";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::Collection";
 
   readonly id: ToField<UID>;
   readonly supply: ToField<"u64">;
@@ -222,7 +222,7 @@ export class Collection {
       fullTypeName: composeSuiType(
         Collection.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::collection::Collection",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::collection::Collection",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         Collection.fromFields(fields),

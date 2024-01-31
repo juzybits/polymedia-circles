@@ -23,7 +23,7 @@ export function isArtworkBlended(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBlended"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBlended"
   );
 }
 
@@ -41,12 +41,12 @@ export type ArtworkBlendedReified = Reified<
 
 export class ArtworkBlended {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBlended";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBlended";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = ArtworkBlended.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBlended";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBlended";
 
   readonly artworkAId: ToField<ID>;
   readonly artworkANumber: ToField<"u64">;
@@ -68,7 +68,7 @@ export class ArtworkBlended {
       fullTypeName: composeSuiType(
         ArtworkBlended.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBlended",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBlended",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         ArtworkBlended.fromFields(fields),
@@ -210,7 +210,7 @@ export function isArtworkBurned(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBurned"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBurned"
   );
 }
 
@@ -223,12 +223,12 @@ export type ArtworkBurnedReified = Reified<ArtworkBurned, ArtworkBurnedFields>;
 
 export class ArtworkBurned {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBurned";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBurned";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = ArtworkBurned.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBurned";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBurned";
 
   readonly artworkId: ToField<ID>;
   readonly artworkNumber: ToField<"u64">;
@@ -246,7 +246,7 @@ export class ArtworkBurned {
       fullTypeName: composeSuiType(
         ArtworkBurned.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkBurned",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkBurned",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         ArtworkBurned.fromFields(fields),
@@ -372,7 +372,7 @@ export function isArtworkFrozen(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkFrozen"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkFrozen"
   );
 }
 
@@ -385,12 +385,12 @@ export type ArtworkFrozenReified = Reified<ArtworkFrozen, ArtworkFrozenFields>;
 
 export class ArtworkFrozen {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkFrozen";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkFrozen";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = ArtworkFrozen.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkFrozen";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkFrozen";
 
   readonly artworkId: ToField<ID>;
   readonly artworkNumber: ToField<"u64">;
@@ -408,7 +408,7 @@ export class ArtworkFrozen {
       fullTypeName: composeSuiType(
         ArtworkFrozen.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkFrozen",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkFrozen",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         ArtworkFrozen.fromFields(fields),
@@ -534,7 +534,7 @@ export function isArtworkMinted(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkMinted"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkMinted"
   );
 }
 
@@ -547,12 +547,12 @@ export type ArtworkMintedReified = Reified<ArtworkMinted, ArtworkMintedFields>;
 
 export class ArtworkMinted {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkMinted";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkMinted";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = ArtworkMinted.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkMinted";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkMinted";
 
   readonly artworkId: ToField<ID>;
   readonly artworkNumber: ToField<"u64">;
@@ -570,7 +570,7 @@ export class ArtworkMinted {
       fullTypeName: composeSuiType(
         ArtworkMinted.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkMinted",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkMinted",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         ArtworkMinted.fromFields(fields),
@@ -696,7 +696,7 @@ export function isArtworkRecycled(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkRecycled"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkRecycled"
   );
 }
 
@@ -714,12 +714,12 @@ export type ArtworkRecycledReified = Reified<
 
 export class ArtworkRecycled {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkRecycled";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkRecycled";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = ArtworkRecycled.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkRecycled";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkRecycled";
 
   readonly oldArtworkId: ToField<ID>;
   readonly oldArtworkNumber: ToField<"u64">;
@@ -741,7 +741,7 @@ export class ArtworkRecycled {
       fullTypeName: composeSuiType(
         ArtworkRecycled.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::controller::ArtworkRecycled",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::controller::ArtworkRecycled",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) =>
         ArtworkRecycled.fromFields(fields),

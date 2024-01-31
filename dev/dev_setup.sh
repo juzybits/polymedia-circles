@@ -19,7 +19,7 @@ cd ./sui/
 sui client publish --gas-budget 700700700 | grep -v Display | grep -B3 ObjectType.*Collection
 
 echo -e "\n4) ----- Opening Move.toml and circlesClient.ts for manual edit -----\n"
-code ./Move.toml ../web/src/app/lib/circlesClient.ts
+code ./Move.toml ../web/src/App.tsx
 
 # echo "3) ----- Merging all gas coins"
 # sc pay-all-sui --gas-budget 1000000000 --recipient $(sc active-address) --input-coins $(sc gas | tail -n +3 | awk '{print $1}' | tr '\n' ' ')

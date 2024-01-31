@@ -22,7 +22,7 @@ export function isCircle(type: string): boolean {
   type = compressSuiType(type);
   return (
     type ===
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle"
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::circle::Circle"
   );
 }
 
@@ -39,12 +39,12 @@ export type CircleReified = Reified<Circle, CircleFields>;
 
 export class Circle {
   static readonly $typeName =
-    "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle";
+    "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::circle::Circle";
   static readonly $numTypeParams = 0;
 
   readonly $typeName = Circle.$typeName;
 
-  readonly $fullTypeName: "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle";
+  readonly $fullTypeName: "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::circle::Circle";
 
   readonly red: ToField<"u8">;
   readonly green: ToField<"u8">;
@@ -70,7 +70,7 @@ export class Circle {
       fullTypeName: composeSuiType(
         Circle.$typeName,
         ...[],
-      ) as "0x2879dbb3b3e6a7f65ae0ccead8e1b3474e7c773c490a6479e112a3d393da5092::circle::Circle",
+      ) as "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed::circle::Circle",
       typeArgs: [],
       fromFields: (fields: Record<string, any>) => Circle.fromFields(fields),
       fromFieldsWithTypes: (item: FieldsWithTypes) =>
