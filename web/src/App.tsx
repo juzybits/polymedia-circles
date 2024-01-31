@@ -67,14 +67,13 @@ const { networkConfig, useNetworkVariable } = createNetworkConfig({
 });
 
 const queryClient = new QueryClient();
-const network = isLocalhost() ? loadNetwork() : 'mainnet';
-
 const AppWrapSui: React.FC = () => {
+    const [network, setNetwork] = useState<NetworkName>(isLocalhost() ? loadNetwork() : 'mainnet');
     return (
     <QueryClientProvider client={queryClient}>
         <SuiClientProvider networks={networkConfig} network={network}>
             <WalletProvider>
-                <App />
+                <App network={network} setNetwork={setNetwork} />
             </WalletProvider>
         </SuiClientProvider>
     </QueryClientProvider>
@@ -99,7 +98,13 @@ export type AppContext = {
     openConnectModal: () => void;
 };
 
-const App: React.FC = () =>
+const App: React.FC<{
+    network: NetworkName,
+    setNetwork: React.Dispatch<React.SetStateAction<NetworkName>>,
+}> = ({
+    network,
+    setNetwork,
+}) =>
 {
     const suiClient = useSuiClient();
     const collectionId = useNetworkVariable('collectionId');
@@ -131,7 +136,7 @@ const App: React.FC = () =>
             onOpenChange={isOpen => { setShowConnectModal(isOpen); }}
         />
         <div id='layout'>
-            <Nav network={network} openConnectModal={openConnectModal} />
+            <Nav network={network} setNetwork={setNetwork} openConnectModal={openConnectModal} />
             <div id='page'>
                 <Outlet context={appContext} />
             </div>

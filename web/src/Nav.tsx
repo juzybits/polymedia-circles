@@ -7,9 +7,11 @@ import { NetworkSelector } from '@polymedia/webutils';
 export const Nav: React.FC<{
     network: NetworkName;
     openConnectModal: () => void;
+    setNetwork: React.Dispatch<React.SetStateAction<NetworkName>>,
 }> = ({
     network,
     openConnectModal,
+    setNetwork,
 }) =>
 {
     const currentAccount = useCurrentAccount();
@@ -36,8 +38,8 @@ export const Nav: React.FC<{
             </div>
         }
         {showNetworkSelector && <div className='nav-item gta'>
-            <NetworkSelector currentNetwork={network} onSwitch={() => {
-                console.log('TODO: staying here!')
+            <NetworkSelector currentNetwork={network} onSwitch={(newNetwork: NetworkName) => {
+                setNetwork(newNetwork);
             }} />
         </div>}
     </header>
