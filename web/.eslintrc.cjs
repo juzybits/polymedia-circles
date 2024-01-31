@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-    env: { browser: true, es2020: true },
+    env: { browser: true, es2021: true },
     extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/strict-type-checked',
@@ -23,7 +23,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        project: ['./tsconfig.json', './tsconfig.node.json'],
+        project: ['./tsconfig.json'],
         tsconfigRootDir: __dirname,
     },
     settings: {
