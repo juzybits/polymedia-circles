@@ -19,7 +19,7 @@ dependencies:
     version: 0.0.16
   '@polymedia/webutils':
     specifier: latest
-    version: 4.0.1(react-dom@18.2.0)(react@18.2.0)
+    version: 4.0.2(react-dom@18.2.0)(react@18.2.0)
   '@tanstack/react-query':
     specifier: latest
     version: 5.18.0(react@18.2.0)
@@ -471,8 +471,8 @@ packages:
       '@mysten/sui.js': 0.49.1
     dev: false
 
-  /@polymedia/webutils@4.0.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-C7RYyYaty1w1ZPm8JQU4Ki3eGIRgvm770L6dAbiHV1c0USPMcSzhQJqb5ShzRnJpGxcl934GxTyQkLeaU5/4Lw==}
+  /@polymedia/webutils@4.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-hbMm41CYS996/7bxSrFv6KF9oSKQI5toMqZ51AgMC8IIQS9GmqCeDC03NabsrsYq96w5HIbx+dPcArTzp/iKNw==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
