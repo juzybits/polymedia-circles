@@ -58,7 +58,7 @@ const { networkConfig, useNetworkVariable } = createNetworkConfig({
         },
     },
     mainnet: {
-        url: getFullnodeUrl('mainnet'), // TODO: await getRpcConfig({network, fetch: false})
+        url: 'https://rpc-mainnet.suiscan.xyz',
         variables: {
             packageId: '0x123',
             collectionId: '0x123',

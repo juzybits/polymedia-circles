@@ -229,47 +229,6 @@ a {
 
 /* Owner */
 
-/* Old homepage */
-
-#home-page-old { // TODO remove
-    #home-container {
-        height: 100svh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    @shadow-offset: 1.5px;
-    @shadow-blur: 1px;
-    @shadow-color: rgb(255 255 255 / 30%);
-    #home-title {
-        * {
-            color: black;
-            background: none;
-        }
-        margin: 1em 0 0.5em;
-        text-shadow:
-            0 -@shadow-offset @shadow-blur @shadow-color,
-            @shadow-offset 0 @shadow-blur @shadow-color,
-            0 @shadow-offset @shadow-blur @shadow-color,
-            -@shadow-offset 0 @shadow-blur @shadow-color;
-        h1 {
-            font-size: 4.5em;
-        }
-        h2 {
-            font-size: 1.2em;
-            margin-top: -0.9em;
-            #by_polymedia {
-                color: @text-color;
-            }
-        }
-    }
-    #home-buttons {
-        margin-top: 1em;
-    }
-}
-
 /* dev-only */
 
 #network-selector {
