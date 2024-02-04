@@ -10,7 +10,6 @@
         "type": "git",
         "url": "https://github.com/juzybits/polymedia-circles"
     },
-    "type": "module",
     "keywords": [],
     "scripts": {
         "build:sui-client-sdk": "tsc --build tsconfig.sui-client-sdk.json",
@@ -46,5 +45,6 @@
         "less": "latest",
         "typescript": "latest",
         "vite": "latest"
-    }
+    },
+    "type": "module"
 }
