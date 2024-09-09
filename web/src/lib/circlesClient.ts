@@ -38,7 +38,7 @@ export async function mintArtwork({
     price: number;
 }): Promise<SuiTransactionBlockResponse>
 {
-    const txb = new TransactionBlock()
+    const txb = new TransactionBlock();
     const payCoin = txb.splitCoins(txb.gas, [price]);
     const [artwork, change] = mintArtworkSdk(txb, {
         collection: collectionId,
@@ -54,7 +54,7 @@ export async function mintArtwork({
         options: {
             showEffects: true,
         },
-    })
+    });
 }
 
 export async function fetchEvents(

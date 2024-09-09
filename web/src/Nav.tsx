@@ -27,6 +27,7 @@ export const Nav: React.FC<{
         <Link to='/mint' className={'nav-item gta' + (path == '/mint' ? ' selected' : '')}>MINT</Link>
         <Link to='/owner' className={'nav-item gta' + (path == '/owner' ? ' selected' : '')}>OWNER</Link>
         <Link to='/faq' className={'nav-item gta' + (path == '/faq' ? ' selected' : '')}>FAQ</Link>
+        <Link to='/demo' className={'nav-item gta' + (path == '/demo' ? ' selected' : '')}>DEMO</Link>
         {
         !currentAccount ?
             <div className='nav-item gta' onClick={openConnectModal} style={{color: '#ffdcea'}}>

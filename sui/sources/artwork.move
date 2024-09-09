@@ -174,7 +174,7 @@ module polymedia_circles::artwork
     fun assert_starts_with(search: vector<u8>, str: &String)
     {
         let len = vector::length(&search);
-        assert!( utf8(search) == string::sub_string(str, 0, len) , 0 );
+        assert!( utf8(search) == string::substring(str, 0, len) , 0 );
     }
 
     #[test]

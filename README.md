@@ -1,19 +1,7 @@
 # Polymedia Circles
 
-![Polymedia Circles](./web/src/img/open-graph.webp)
+![Polymedia Circles](https://circles.polymedia.app/img/open-graph.webp)
 
-## Wallet support
+A dynamic art collection on Sui that is created and stored fully on-chain.
 
-Sui official: OK
-Ethos: OK
-Suiet: OK
-Martian: OK
-Nightly: OK
-Elli: OK
-
-## Explorer support
-
-Sui official: OK
-Suiscan: OK
-SuiVision: TODO (they are not on devnet)
-Ethos: OK
+Unfinished project.
