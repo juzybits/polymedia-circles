@@ -6,8 +6,8 @@ license = "CC-BY-SA-4.0"
 published-at = "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed" # devnet
 
 [dependencies]
-# Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "mainnet" }
-Sui = { local = "/Users/juzy/data/code/sui/crates/sui-framework/packages/sui-framework" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
+# Sui = { local = "../../../../sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
 polymedia_circles = "0xe2a84474f9df1eb2936ce89d85769ddb11afa7a45771b4d70d801e1e747196ed" # devnet
